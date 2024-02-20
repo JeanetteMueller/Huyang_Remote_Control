@@ -37,6 +37,7 @@
 IPAddress apIP(192, 168, 10, 1);
 
 #include <Arduino_GFX_Library.h>
+#include "src/classes/HuyangFace/HuyangFace.h"
 
 Arduino_DataBus *leftBus = new Arduino_HWSPI(0 /* DC */, 15 /* CS */);
 Arduino_GFX *leftEye = new Arduino_GC9A01(leftBus, 0 /* RST */);
@@ -44,62 +45,29 @@ Arduino_GFX *leftEye = new Arduino_GC9A01(leftBus, 0 /* RST */);
 Arduino_DataBus *rightBus = new Arduino_HWSPI(0 /* DC */, 16 /* CS */);
 Arduino_GFX *rightEye = new Arduino_GC9A01(rightBus, 0 /* RST */);
 
-#define tftDisplayWidth 240
-#define tftDisplayHeight 240
+HuyangFace *huyangFace = new HuyangFace(leftEye, rightEye);
 
-#define blinkDelay 1
-
-unsigned long currentMillis = 0;
-unsigned long previousMillis = 0;
-
-enum EyeState {
-  Open, Closed, Blink, Focus, Sad, Angry
-};
-
-enum Automatic {
-  AutomaticOn, AutomaticOff
-};
-
-EyeState leftEyeTargetState = Blink;
-EyeState rightEyeTargetState = Blink;
-
-EyeState leftEyeState = Closed;
-EyeState rightEyeState = Closed;
-
-uint32_t randomDuration = 2000;
-Automatic automaticState = AutomaticOn;
-
-#define tftColor(r, g, b) ((((r)&0xF8) << 8) | (((g)&0xFC) << 3) | ((b) >> 3))
-
-#define huyangEyeColor tftColor(255-255,255-221,255-34) //0xFD20
-#define huyangClosedEyeColor tftColor(255,255,255)
-
-#include "EyeFunctions.h"
-#include "Wifi.h"
-#include "WebServer.h"
+#include "src/wifi/Wifi.h"
+#include "src/webserver/WebServer.h"
 
 void setup() {
   Serial.begin(115200);  //Used only for debugging on arduino serial monitor
-  Serial.println(F("Huyang! v1.0"));
-
-  currentMillis = millis();
-  previousMillis = currentMillis;
+  Serial.println(F("Huyang! v1.2"));
 
   setupWifi();
 
   setupWebserver();
 
-  setupEyes();
+  huyangFace->setup();
 
   Serial.println(F("setup done"));
 }
 
 void loop() {
-  currentMillis = millis();
 
   loopWifi();
 
   loopWebserver();
 
-  loopEyes();
+  huyangFace->loop();
 }

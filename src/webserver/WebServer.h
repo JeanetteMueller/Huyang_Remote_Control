@@ -44,89 +44,75 @@ void setupWebserver() {
       String action = request->getParam(ActionStringOpen)->value();
 
       if (action == ActionTargetAll){
-        leftEyeTargetState = Open;
-        rightEyeTargetState = Open;
+        huyangFace->setEyesTo(HuyangFace::EyeState::Open);
       } else if(action == ActionTargetLeft) {
-        leftEyeTargetState = Open;
+        huyangFace->setLeftEyeTo(HuyangFace::EyeState::Open);
       } else if(action == ActionTargetRight) {
-        rightEyeTargetState = Open;
+        huyangFace->setRightEyeTo(HuyangFace::EyeState::Open);
       }
-      automaticState = AutomaticOff;
 
     } else if (request->hasParam(ActionStringClose)) {
       String action = request->getParam(ActionStringClose)->value();
 
       if (action == ActionTargetAll){
-        leftEyeTargetState = Closed;
-        rightEyeTargetState = Closed;
+        huyangFace->setEyesTo(HuyangFace::EyeState::Closed);
       }else if(action == ActionTargetLeft) {
-        leftEyeTargetState = Closed;
+        huyangFace->setLeftEyeTo(HuyangFace::EyeState::Closed);
       }else if(action == ActionTargetRight) {
-        rightEyeTargetState = Closed;
+        huyangFace->setRightEyeTo(HuyangFace::EyeState::Closed);
       }
-      automaticState = AutomaticOff;
 
     } else if (request->hasParam(ActionStringBlink)) {
       String action = request->getParam(ActionStringBlink)->value();
 
       if (action == ActionTargetAll){
-        leftEyeTargetState = Blink;
-        rightEyeTargetState = Blink;
+        huyangFace->setEyesTo(HuyangFace::EyeState::Blink);
       }else if(action == ActionTargetLeft) {
-        leftEyeTargetState = Blink;
+        huyangFace->setLeftEyeTo(HuyangFace::EyeState::Blink);
       }else if(action == ActionTargetRight) {
-        rightEyeTargetState = Blink;
+        huyangFace->setRightEyeTo(HuyangFace::EyeState::Blink);
       }
-      automaticState = AutomaticOff;
     } else if (request->hasParam(ActionStringFocus)) {
       String action = request->getParam(ActionStringFocus)->value();
 
       if (action == ActionTargetAll){
-        leftEyeTargetState = Focus;
-        rightEyeTargetState = Focus;
+        huyangFace->setEyesTo(HuyangFace::EyeState::Focus);
       }else if(action == ActionTargetLeft) {
-        leftEyeTargetState = Focus;
+        huyangFace->setLeftEyeTo(HuyangFace::EyeState::Focus);
       }else if(action == ActionTargetRight) {
-        rightEyeTargetState = Focus;
+        huyangFace->setRightEyeTo(HuyangFace::EyeState::Focus);
       }
-      automaticState = AutomaticOff;
     } else if (request->hasParam(ActionStringSad)) {
       String action = request->getParam(ActionStringSad)->value();
 
       if (action == ActionTargetAll){
-        leftEyeTargetState = Sad;
-        rightEyeTargetState = Sad;
+        huyangFace->setEyesTo(HuyangFace::EyeState::Sad);
       }else if(action == ActionTargetLeft) {
-        leftEyeTargetState = Sad;
+        huyangFace->setLeftEyeTo(HuyangFace::EyeState::Sad);
       }else if(action == ActionTargetRight) {
-        rightEyeTargetState = Sad;
+        huyangFace->setRightEyeTo(HuyangFace::EyeState::Sad);
       }
-      automaticState = AutomaticOff;
     } else if (request->hasParam(ActionStringAngry)) {
       String action = request->getParam(ActionStringAngry)->value();
 
       if (action == ActionTargetAll){
-        leftEyeTargetState = Angry;
-        rightEyeTargetState = Angry;
+        huyangFace->setEyesTo(HuyangFace::EyeState::Angry);
       }else if(action == ActionTargetLeft) {
-        leftEyeTargetState = Angry;
+        huyangFace->setLeftEyeTo(HuyangFace::EyeState::Angry);
       }else if(action == ActionTargetRight) {
-        rightEyeTargetState = Angry;
+        huyangFace->setRightEyeTo(HuyangFace::EyeState::Angry);
       }
-      automaticState = AutomaticOff;
     }
     
     if (request->hasParam(ActionStringAutomatic)) {
       String action = request->getParam(ActionStringAutomatic)->value();
 
       if (action == ActionStringAutomaticOn){
-        automaticState = AutomaticOn;
+        huyangFace->automatic = true;
       }else if (action == ActionStringAutomaticOff){
-        automaticState = AutomaticOff;
+        huyangFace->automatic = false;
       }
     }
-
-    randomDuration = 0;
 
     request->send(200, "text/html", getIndexPage());
   });
