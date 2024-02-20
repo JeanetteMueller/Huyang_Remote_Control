@@ -1,6 +1,7 @@
-# Huyang_Remote_Control
-Software for ESP8266 and ESP32 to control Huyang from DroidDivision via Browser/Mobile Device
-
+# Huyang Remote Control
+Software for ESP8266 and ESP32 to control Huyang from DroidDivision via Browser/Mobile Device.
+This Software runs on mostly any ESP32 and ESP826 together with two GC9A01 TFT Displays. 
+Inside the Folder /Wiring Diagrams you can find some Instructions how to connect two GC9A01 Displays to common Boards. 
 
 # HOW TO Get this running!!!
 
@@ -18,12 +19,11 @@ And the Port
 
 > #define ServerPort 80
 
-
 # Install Board Library
 1. Open "Tools" -> "Board ..." -> "Board Manager"
 2. Search for "esp"
 3. Install "esp32 by Espressif" OR "ESP8266 Boards (x.x.x)" to make your Board available
-4. Select "Tools" -> "Board" -> ... whatever you have. Maybe "NodeMCU 0.3 (ESP-12 Modul)", or "ESP32 Dev Modul"
+4. Select "Tools" -> "Board" -> ... whatever you have. Maybe "Generic ESP8266 Module", or "ESP32 Dev Modul"
 
 # Install Software Libraries
 1. Open "Tools" -> "Manage Libraries"
