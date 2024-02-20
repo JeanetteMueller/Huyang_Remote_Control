@@ -2,9 +2,6 @@
 void closeEyes(uint16_t color) {
   Serial.println(F("closeEyes"));
 
-  leftEyeOpen = false;
-  rightEyeOpen = false;
-
   for (uint16_t step = 0; step <= tftDisplayHeight / 2; step++) {
 
     leftEye->drawFastHLine(0, step, tftDisplayWidth, color);
@@ -35,8 +32,6 @@ void openEyes(uint16_t color) {
     }
     previousMillis = currentMillis;
   }
-  leftEyeOpen = true;
-  rightEyeOpen = true;
 }
 
 void focusEyes(uint16_t color) {
@@ -58,7 +53,7 @@ void focusEyes(uint16_t color) {
 
 void sadEyes(uint16_t color) {
   Serial.println(F("sadEyes"));
-  
+
   uint16_t length = tftDisplayHeight;
 
   for (uint16_t step = 0; step <= tftDisplayHeight; step++) {
@@ -76,7 +71,7 @@ void sadEyes(uint16_t color) {
 
 void angryEyes(uint16_t color) {
   Serial.println(F("angryEyes"));
-  
+
   uint16_t length = tftDisplayHeight;
 
   for (uint16_t step = 0; step <= tftDisplayHeight; step++) {
@@ -158,65 +153,85 @@ void sadEye(Arduino_GFX *eye, bool inner, uint16_t color) {
 }
 
 void openEyesLoop() {
-  if ((leftEyeState == Open || leftEyeState == Blink) && (rightEyeState == Open || rightEyeState == Blink)) {
-    openEyes(huyangEyeColor);
-  } else if (leftEyeState == Open || leftEyeState == Blink) {
-    openEye(leftEye, huyangEyeColor);
-    leftEyeOpen = true;
-  } else if (rightEyeState == Open || rightEyeState == Blink) {
-    openEye(rightEye, huyangEyeColor);
-    rightEyeOpen = true;
+  if ((leftEyeTargetState == Open || leftEyeTargetState == Blink) && (rightEyeTargetState == Open || rightEyeTargetState == Blink)) {
+    if (leftEyeState != Open && rightEyeState != Open) {
+      openEyes(huyangEyeColor);
+      leftEyeState = leftEyeTargetState;
+      rightEyeState = rightEyeTargetState;
+    } else if (leftEyeState != Open) {
+      openEye(leftEye, huyangEyeColor);
+      leftEyeState = leftEyeTargetState;
+    } else if (rightEyeState != Open) {
+      openEye(rightEye, huyangEyeColor);
+      rightEyeState = rightEyeTargetState;
+    }
   }
 }
 
 void closeEyesLoop() {
   if (currentMillis - previousMillis > randomDuration) {
-    if (leftEyeOpen && rightEyeOpen && (leftEyeState == Closed || leftEyeState == Blink) && (rightEyeState == Closed || rightEyeState == Blink)) {
-      closeEyes(huyangClosedEyeColor);
-    } else if (leftEyeOpen && (leftEyeState == Closed || leftEyeState == Blink)) {
-      closeEye(leftEye, huyangClosedEyeColor);
-      leftEyeOpen = false;
-    } else if (rightEyeOpen && (rightEyeState == Closed || rightEyeState == Blink)) {
-      closeEye(rightEye, huyangClosedEyeColor);
-      rightEyeOpen = false;
+
+    if ((leftEyeTargetState == Closed || leftEyeTargetState == Blink) || (rightEyeTargetState == Closed || rightEyeTargetState == Blink)) {
+      if (leftEyeState != Closed && rightEyeState != Closed) {
+        closeEyes(huyangClosedEyeColor);
+        leftEyeState = leftEyeTargetState;
+        rightEyeState = rightEyeTargetState;
+      } else if (leftEyeState != Closed) {
+        closeEye(leftEye, huyangClosedEyeColor);
+        leftEyeState = leftEyeTargetState;
+      } else if (rightEyeState != Closed) {
+        closeEye(rightEye, huyangClosedEyeColor);
+        rightEyeState = rightEyeTargetState;
+      }
     }
   }
 }
 
 void focusEyesLoop() {
-  if (leftEyeState == Focus || rightEyeState == Focus) {
-    if (leftEyeState == Focus && rightEyeState == Focus) {
+  if (leftEyeTargetState == Focus || rightEyeTargetState == Focus) {
+    if (leftEyeState != Focus && rightEyeState != Focus) {
       focusEyes(huyangClosedEyeColor);
+      leftEyeState = Focus;
+      rightEyeState = Focus;
     } else if (leftEyeState == Focus) {
       focusEye(leftEye, huyangClosedEyeColor);
-      leftEyeOpen = false;
+      leftEyeState = Focus;
     } else if (rightEyeState == Focus) {
       focusEye(rightEye, huyangClosedEyeColor);
-      rightEyeOpen = false;
+      rightEyeState = Focus;
     }
   }
 }
 
 void sadEyesLoop() {
-  if (leftEyeState == Sad || rightEyeState == Sad) {
-    if (leftEyeState == Sad && rightEyeState == Sad) {
+  if (leftEyeTargetState == Sad || rightEyeTargetState == Sad) {
+    if (leftEyeState != Sad && rightEyeState != Sad) {
       sadEyes(huyangClosedEyeColor);
+      leftEyeState = Sad;
+      rightEyeState = Sad;
     } else if (leftEyeState == Sad) {
       sadEye(leftEye, true, huyangClosedEyeColor);
+      leftEyeState = Sad;
     } else if (rightEyeState == Sad) {
       sadEye(rightEye, false, huyangClosedEyeColor);
+      rightEyeState = Sad;
     }
   }
 }
 
 void angryEyesLoop() {
-  if (leftEyeState == Angry || rightEyeState == Angry) {
-    if (leftEyeState == Angry && rightEyeState == Angry) {
+  if (leftEyeTargetState == Angry || rightEyeTargetState == Angry) {
+
+    if (leftEyeState != Angry && rightEyeState != Angry) {
       angryEyes(huyangClosedEyeColor);
-    } else if (leftEyeState == Angry) {
+      leftEyeState = Angry;
+      rightEyeState = Angry;
+    } else if (leftEyeState != Angry) {
       sadEye(leftEye, false, huyangClosedEyeColor);
-    } else if (rightEyeState == Angry) {
+      leftEyeState = Angry;
+    } else if (rightEyeState != Angry) {
       sadEye(rightEye, true, huyangClosedEyeColor);
+      rightEyeState = Angry;
     }
   }
 }
@@ -225,26 +240,22 @@ void setupEyes() {
   leftEye->begin();
   rightEye->begin();
 
-  closeEyes(huyangClosedEyeColor);
+  leftEye->fillScreen(huyangEyeColor);
+  rightEye->fillScreen(huyangEyeColor);
 
-  delay(1000);
-
-  openEyes(huyangEyeColor);
-
-  delay(2000);
+  delay(500);
 }
 
 void loopEyes() {
   closeEyesLoop();
 
   if (currentMillis - previousMillis > 100) {
-    if (!leftEyeOpen || !rightEyeOpen) {
-      openEyesLoop();
-    } else {
-      focusEyesLoop();
-      sadEyesLoop();
-      angryEyesLoop();
-    }
+
+    openEyesLoop();
+    focusEyesLoop();
+    sadEyesLoop();
+    angryEyesLoop();
+
 
     if (leftEyeState == Blink) {
       leftEyeState = Open;
@@ -256,8 +267,10 @@ void loopEyes() {
   }
 
   if (automaticState == AutomaticOn) {
-    randomDuration = random(4, 12 + 1) * 1000;
-    leftEyeState = Blink;
-    rightEyeState = Blink;
+    randomDuration = random(6, 12 + 1) * 1000;
+    leftEyeState = Open;
+    leftEyeTargetState = Blink;
+    rightEyeState = Open;
+    rightEyeTargetState = Blink;
   }
 }

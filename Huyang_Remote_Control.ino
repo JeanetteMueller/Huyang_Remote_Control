@@ -60,8 +60,8 @@ enum Automatic {
   AutomaticOn, AutomaticOff
 };
 
-bool leftEyeOpen = false;
-bool rightEyeOpen = false;
+EyeState leftEyeTargetState = Closed;
+EyeState rightEyeTargetState = Closed;
 
 EyeState leftEyeState = Closed;
 EyeState rightEyeState = Closed;
@@ -76,7 +76,7 @@ Automatic automaticState = AutomaticOn;
 
 #include "EyeFunctions.h"
 #include "Wifi.h"
-#include "Server.h"
+#include "WebServer.h"
 
 void setup() {
   Serial.begin(115200);  //Used only for debugging on arduino serial monitor
