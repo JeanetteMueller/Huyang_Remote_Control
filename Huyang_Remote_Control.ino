@@ -60,8 +60,8 @@ enum Automatic {
   AutomaticOn, AutomaticOff
 };
 
-EyeState leftEyeTargetState = Closed;
-EyeState rightEyeTargetState = Closed;
+EyeState leftEyeTargetState = Blink;
+EyeState rightEyeTargetState = Blink;
 
 EyeState leftEyeState = Closed;
 EyeState rightEyeState = Closed;
