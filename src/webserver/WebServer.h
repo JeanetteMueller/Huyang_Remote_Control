@@ -121,6 +121,3 @@ void setupWebserver() {
 
   server.begin();
 }
-
-void loopWebserver() {
-}

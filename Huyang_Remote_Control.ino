@@ -23,6 +23,7 @@
 // "Arduino GFX Library" -> Install "GFX Library for Arduino by Moon On Our Nation"
 // "ESPAsyncWebServer" -> Install "ESPAsyncWebServer by Iacamera"
 // "AsyncTCP" -> Install "AsyncTCP by dvarrel"
+// "Adafruit PWM Servo Driver" -> Install "Adafruit PWM Servo Driver Library" by Adafruit
 
 
 #include <Arduino.h>
@@ -37,7 +38,10 @@
 IPAddress apIP(192, 168, 10, 1);
 
 #include <Arduino_GFX_Library.h>
+#include <Adafruit_PWMServoDriver.h>
 #include "src/classes/HuyangFace/HuyangFace.h"
+#include "src/classes/HuyangBody/HuyangBody.h"
+#include "src/classes/HuyangNeck/HuyangNeck.h"
 
 Arduino_DataBus *leftBus = new Arduino_HWSPI(0 /* DC */, 15 /* CS */);
 Arduino_GFX *leftEye = new Arduino_GC9A01(leftBus, 0 /* RST */);
@@ -45,29 +49,34 @@ Arduino_GFX *leftEye = new Arduino_GC9A01(leftBus, 0 /* RST */);
 Arduino_DataBus *rightBus = new Arduino_HWSPI(0 /* DC */, 16 /* CS */);
 Arduino_GFX *rightEye = new Arduino_GC9A01(rightBus, 0 /* RST */);
 
+Adafruit_PWMServoDriver pwm_body = Adafruit_PWMServoDriver(0x40);
+
 HuyangFace *huyangFace = new HuyangFace(leftEye, rightEye);
+HuyangBody *huyangBody = new HuyangBody(pwm_body); 
+HuyangNeck *huyangNeck = new HuyangNeck(pwm_body);
 
 #include "src/wifi/Wifi.h"
 #include "src/webserver/WebServer.h"
 
 void setup() {
   Serial.begin(115200);  //Used only for debugging on arduino serial monitor
-  Serial.println(F("Huyang! v1.2"));
+  Serial.println(F("Huyang! v1.3"));
 
   setupWifi();
 
   setupWebserver();
 
   huyangFace->setup();
+  huyangBody->setup();
+  huyangNeck->setup();
 
   Serial.println(F("setup done"));
 }
 
 void loop() {
-
   loopWifi();
 
-  loopWebserver();
-
   huyangFace->loop();
+  huyangBody->loop();
+  huyangNeck->loop();
 }

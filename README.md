@@ -31,3 +31,26 @@ And the Port
 3. "Arduino GFX Library" -> Install "GFX Library for Arduino by Moon On Our Nation"
 4. "ESPAsyncWebServer" -> Install "ESPAsyncWebServer by Iacamera"
 5. "AsyncTCP" -> Install "AsyncTCP by dvarrel"
+
+
+# Changelog
+
+## 1.0 Inital Version
+* With Webserver
+* Control Eyes Open and Close
+* Eyes can Blink
+
+## 1.1 New Gestures 
+* Faster Blink
+* Sad Mood
+* Angry Mood
+* Focus Mood
+
+## 1.2 Refactoring
+* Bugfixing
+* All Face Moods controlled with one HuyangFace Class
+
+## 1.3 Whole Body preparations
+* New empty Class: HuyangBody will control Torso rotation, roll, tilt and yaw
+* New empty Class: HuyangNeck will control Head/Neck rotation, roll, tilt and yaw
+
