@@ -4,20 +4,8 @@ This Software runs on mostly any ESP32 and ESP826 together with two GC9A01 TFT D
 Inside the Folder /Wiring Diagrams you can find some Instructions how to connect two GC9A01 Displays to common Boards. 
 
 # HOW TO Get this running!!!
-
-To get this running, change the WifiSsid to whatever your wifi should be called this Wifi will be created by Huyang himself. Don' name this like your home Wifi.
-
-> #define WifiSsid "HuyangWifiControl" // <- change if needed
-
-set a custom passwort so not everyone can control your Huyang Droid
-
-> #define WifiPassword "<YOUR WIFI PASSWORD>"
-
-The Webserver is per default accessible via 192.168.10.1:80
-If you want to change this, change the line of this file with "IPAddress apIP" in the beginning. 
-And the Port
-
-> #define ServerPort 80
+Open "config.h" and edit the configuration as you need it.
+You can configure Huyang to be accessible via his own Wifi or let him connect to your home WiFi. 
 
 # Install Board Library
 1. Open "Tools" -> "Board ..." -> "Board Manager"
