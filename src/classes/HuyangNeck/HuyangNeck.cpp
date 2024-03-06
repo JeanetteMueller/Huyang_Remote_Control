@@ -34,30 +34,36 @@ void HuyangNeck::rotateServo(uint8_t servo, uint16_t degree)
 	// Serial.println(F("done"));
 }
 
-void HuyangNeck::tiltSideways(uint16_t degree)
+void HuyangNeck::updateNeckPosition()
 {
-}
-void HuyangNeck::tiltForward(uint16_t degree)
-{
-	currentTiltForward = degree;
-	uint16_t leftDegree = map(degree, 0, 100, 68, 10);
-	uint16_t rightDegree = map(degree, 0, 100, 32, 90);
+	currentTiltForward = _targetTiltForward;
+
+	uint16_t leftDegree = map(currentTiltForward, 0, 100, 65, 10);
+	uint16_t rightDegree = map(currentTiltForward, 0, 100, 35, 90);
 
 	rotateServo(pwm_pin_head_left, leftDegree);
 	rotateServo(pwm_pin_head_right, rightDegree);
 }
+void HuyangNeck::tiltSideways(int16_t degree)
+{
+	_targetTiltSideways = degree;
+	updateNeckPosition();
+}
+void HuyangNeck::tiltForward(uint16_t degree)
+{
+	_targetTiltForward = degree;
+	updateNeckPosition();
+}
 void HuyangNeck::rotate(int16_t degree)
 {
-	if (degree > 45)
-	{
-		degree = 45;
-	}
-	else if (degree < -45)
-	{
-		degree = -45;
-	}
+	int8_t min = -45;
+	int8_t max = 45;
+
+	degree = min(degree, max);
+	degree = max(degree, min);
+
 	currentRotate = degree;
-	uint16_t rotateDegree = map(degree, -45, 45, 0, 90);
+	uint16_t rotateDegree = map(degree, min, max, 5, 85);
 	rotateServo(pwm_pin_head_rotate, rotateDegree);
 }
 

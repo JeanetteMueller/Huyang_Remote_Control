@@ -28,45 +28,56 @@ AsyncWebServer server(ServerPort);
 #include "javascript.h"
 #include "form.h"
 
-//html always last
+// html always last
 #include "html.h"
 
-void notFound(AsyncWebServerRequest *request) {
+void notFound(AsyncWebServerRequest *request)
+{
   request->send(404, "text/plain", "Not found");
 }
 
-void postAction(AsyncWebServerRequest *request) {
+void postAction(AsyncWebServerRequest *request)
+{
   Serial.println("ACTION!");
 
   int params = request->params();
-  for (int i = 0; i < params; i++) {
-    AsyncWebParameter* p = request->getParam(i);
+  for (int i = 0; i < params; i++)
+  {
+    AsyncWebParameter *p = request->getParam(i);
     Serial.printf("POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
 
-    if (p->name() == "neckrotate") {
+    if (p->name() == "neckRotate")
+    {
       huyangNeck->rotate(atoi(p->value().c_str()));
     }
-  }
-  // request->send_P(200, "text/html", index_html);
 
+    if (p->name() == "neckTiltForward")
+    {
+      huyangNeck->tiltForward(atoi(p->value().c_str()));
+    }
+
+    if (p->name() == "neckTiltSideways")
+    {
+      huyangNeck->tiltSideways(atoi(p->value().c_str()));
+    }
+  }
   request->send(200, "text/html", getIndexPage());
 }
 
-
-void setupWebserver() {
+void setupWebserver()
+{
   server.on("/get", HTTP_POST, postAction);
   server.on("/", HTTP_POST, postAction);
 
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(200, "text/html", getIndexPage());
-  });
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
+            { request->send(200, "text/html", getIndexPage()); });
 
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(200, "text/html", getIndexPage());
-  });
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
+            { request->send(200, "text/html", getIndexPage()); });
 
   // Send a GET request to <IP>/get?message=<message>
-  server.on("/get", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/get", HTTP_GET, [](AsyncWebServerRequest *request)
+            {
     
     if (request->hasParam(ActionStringOpen)) {
       String action = request->getParam(ActionStringOpen)->value();
@@ -142,8 +153,7 @@ void setupWebserver() {
       }
     }
 
-    request->send(200, "text/html", getIndexPage());
-  });
+    request->send(200, "text/html", getIndexPage()); });
 
   server.onNotFound(notFound);
 

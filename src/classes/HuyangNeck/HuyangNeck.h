@@ -10,7 +10,7 @@ public:
     HuyangNeck(Adafruit_PWMServoDriver *pwm);
     void setup();
     void loop();
-    void tiltSideways(uint16_t degree);
+    void tiltSideways(int16_t degree);
     void tiltForward(uint16_t degree);
     void rotate(int16_t degree);
 
@@ -18,16 +18,15 @@ public:
     uint16_t currentTiltSideways = 0;
     uint16_t currentTiltForward = 0;
     int16_t currentRotate = 0;
+
 private:
     Adafruit_PWMServoDriver *_pwm;
 
     unsigned long _currentMillis = 0;
     unsigned long _previousMillis = 0;
 
-    // int16_t _centerTiltSideways = 50;
-    // int16_t _centerTiltFront_left = 20;
-    // int16_t _centerTiltFront_right = 100;
-    // int16_t _centerRotation = 35;
+    int16_t _targetTiltSideways = 0;
+    uint16_t _targetTiltForward = 0;
 
     void rotateServo(uint8_t servo, uint16_t degree);
 };
