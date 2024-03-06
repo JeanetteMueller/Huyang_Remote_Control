@@ -6,24 +6,45 @@
 #include <ESP8266WiFi.h>
 #endif
 
-
 bool isConnected = false;
 
-void setupWifi(){
-
-  WiFi.mode(WIFI_AP);
-  WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
-  WiFi.softAP(WifiSsid, WifiPassword, 1, false);
-
+void setupWifi()
+{
+  if (WiFiMode == 0)
+  {
+    WiFi.mode(WIFI_AP);
+    WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
+    WiFi.softAP(WifiSsid, WifiPassword, 1, false);
+  }
+  else
+  {
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(WifiSsid, WifiPassword);
+  }
 }
 
-void loopWifi() {
+void loopWifi()
+{
 
-  if (WiFi.status() == WL_CONNECTED) {
+  if (WiFiMode == 0)
+  {
+    if (WiFi.status() == WL_CONNECTED)
+    {
 
-    if (!isConnected) {
-      isConnected == true;
-      Serial.println(WiFi.localIP());
+      if (!isConnected)
+      {
+        isConnected == true;
+        Serial.println(WiFi.localIP());
+      }
+    }
+  }
+  else
+  {
+    Serial.print("Connecting to WiFi ..");
+    while (WiFi.status() != WL_CONNECTED)
+    {
+      Serial.print('.');
+      delay(500);
     }
   }
 }

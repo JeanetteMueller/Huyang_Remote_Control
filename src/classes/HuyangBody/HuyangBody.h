@@ -7,17 +7,17 @@
 class HuyangBody
 {
 public:
-    HuyangBody(Adafruit_PWMServoDriver pwm);
+    HuyangBody(Adafruit_PWMServoDriver *pwm);
     void setup();
     void loop();
-    void tiltSideways(int16_t degree);
-    void tiltForward(int16_t degree);
-    void rotate(int16_t degree);
+    void tiltSideways(uint16_t degree);
+    void tiltForward(uint16_t degree);
+    void rotate(uint16_t degree);
 
     void centerAll();
 
 private:
-    Adafruit_PWMServoDriver _pwm;
+    Adafruit_PWMServoDriver *_pwm;
 
     unsigned long _currentMillis = 0;
     unsigned long _previousMillis = 0;
