@@ -36,34 +36,60 @@ void HuyangNeck::rotateServo(uint8_t servo, uint16_t degree)
 
 void HuyangNeck::updateNeckPosition()
 {
-	currentTiltForward = _targetTiltForward;
+	uint16_t leftDegree = map(_targetTiltForward + _targetTiltSideways, 0, 100, 65, 10);
+	uint16_t rightDegree = map(_targetTiltForward - _targetTiltSideways, 0, 100, 35, 90);
 
-	uint16_t leftDegree = map(currentTiltForward, 0, 100, 65, 10);
-	uint16_t rightDegree = map(currentTiltForward, 0, 100, 35, 90);
+	uint16_t leftDegreeMin = 10;
+	uint16_t leftDegreeMax = 65;
+
+	uint16_t rightDegreeMin = 35;
+	uint16_t rightDegreeMax = 90;
+
+	leftDegree = min(leftDegree, leftDegreeMax);
+	leftDegree = max(leftDegree, leftDegreeMin);
+	
+	rightDegree = min(rightDegree, rightDegreeMax);
+	rightDegree = max(rightDegree, rightDegreeMin);
 
 	rotateServo(pwm_pin_head_left, leftDegree);
 	rotateServo(pwm_pin_head_right, rightDegree);
 }
 void HuyangNeck::tiltSideways(int16_t degree)
 {
+	int16_t minRotation = -20;
+	int16_t maxRotation = 20;
+
+	degree = min(degree, maxRotation);
+	degree = max(degree, minRotation);
+
 	_targetTiltSideways = degree;
+	currentTiltSideways = degree;
 	updateNeckPosition();
 }
 void HuyangNeck::tiltForward(uint16_t degree)
 {
+	uint16_t minRotation = 0;
+	uint16_t maxRotation = 100;
+
+	degree = min(degree, maxRotation);
+	degree = max(degree, minRotation);
+
 	_targetTiltForward = degree;
+	currentTiltForward = degree;
 	updateNeckPosition();
 }
 void HuyangNeck::rotate(int16_t degree)
 {
-	int8_t min = -45;
-	int8_t max = 45;
+	int16_t minRotation = -45;
+	int16_t maxRotation = 45;
 
-	degree = min(degree, max);
-	degree = max(degree, min);
+	degree = min(degree, maxRotation);
+	degree = max(degree, minRotation);
+
+	_targetRotate = degree;
 
 	currentRotate = degree;
-	uint16_t rotateDegree = map(degree, min, max, 5, 85);
+	uint16_t rotateDegree = map(degree, minRotation, maxRotation, 5, 85);
 	rotateServo(pwm_pin_head_rotate, rotateDegree);
 }
 

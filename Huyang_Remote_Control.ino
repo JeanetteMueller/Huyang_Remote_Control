@@ -7,7 +7,4 @@
 
 #include "src/definitions.h"
 
-#include "src/wifi/Wifi.h"
-#include "src/webserver/WebServer.h"
-
 #include "src/system.h"

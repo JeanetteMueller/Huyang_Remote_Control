@@ -6,7 +6,7 @@ Rotate
 Pitch
 <input name="neckTiltForward" type="range" min="0" max="100" value="###neckTiltForward###" class="slider" onchange="HuyangNeckForm.submit()">
 Sideways tilt
-<input name="neckTiltSideways" type="range" min="-45" max="45" value="###neckTiltSideways###" class="slider" onchange="HuyangNeckForm.submit()">
+<input name="neckTiltSideways" type="range" min="-20" max="20" value="###neckTiltSideways###" class="slider" onchange="HuyangNeckForm.submit()">
 </div>
 </form>
 )===="; 
