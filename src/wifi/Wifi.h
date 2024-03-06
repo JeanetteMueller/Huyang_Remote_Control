@@ -40,11 +40,25 @@ void loopWifi()
   }
   else
   {
-    Serial.print("Connecting to WiFi ..");
-    while (WiFi.status() != WL_CONNECTED)
+    if (WiFi.status() == WL_CONNECTED)
     {
-      Serial.print('.');
-      delay(500);
+      // Serial.println(WiFi.localIP());
+    }
+    else
+    {
+      int intRetry = 0;
+      Serial.print("Connecting to WiFi ..");
+      while (WiFi.status() != WL_CONNECTED && (intRetry < 50))
+      {
+        Serial.print('.');
+        intRetry++;
+        delay(500);
+      }
+
+      if (WiFi.status() == WL_CONNECTED)
+      {
+        Serial.println(WiFi.localIP());
+      }
     }
   }
 }

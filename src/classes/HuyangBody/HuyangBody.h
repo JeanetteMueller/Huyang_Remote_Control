@@ -25,7 +25,6 @@ private:
     int16_t _centerTiltSideways = 50;
     int16_t _centerTiltFront_left = 20;
     int16_t _centerTiltFront_right = 100;
-    int16_t _centerRotation = 35;
 
     void rotateServo(uint8_t servo, uint16_t degree);
 };

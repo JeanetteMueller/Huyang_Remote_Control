@@ -14,6 +14,10 @@ public:
     void tiltForward(uint16_t degree);
     void rotate(int16_t degree);
 
+    uint8_t step = 0;
+    uint16_t currentTiltSideways = 0;
+    uint16_t currentTiltForward = 0;
+    int16_t currentRotate = 0;
 private:
     Adafruit_PWMServoDriver *_pwm;
 

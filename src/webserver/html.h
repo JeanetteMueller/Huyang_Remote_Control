@@ -64,7 +64,14 @@ String getIndexPage() {
 
   s += prepareEyeHtml(ActionTargetLeft);
   s += prepareEyeHtml(ActionTargetRight);
+  s += "</div>";
+  
+  s += "<div id=\"container\">";
 
+  String formResult = form;
+  formResult.replace("###neckrotate###", String(huyangNeck->currentRotate));
+  
+  s += formResult;
   s += "</div>";
 
   return getBaseHtml(s);
