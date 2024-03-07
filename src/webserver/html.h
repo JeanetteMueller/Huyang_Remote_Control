@@ -69,9 +69,9 @@ String getIndexPage() {
   s += "<div id=\"container\">";
 
   String formResult = form;
-  formResult.replace("###neckRotate###", String(huyangNeck->currentRotate));
-  formResult.replace("###neckTiltForward###", String(huyangNeck->currentTiltForward));
-  formResult.replace("###neckTiltSideways###", String(huyangNeck->currentTiltSideways));
+  formResult.replace("###neckRotate###", String(huyangNeck->targetRotate));
+  formResult.replace("###neckTiltForward###", String(huyangNeck->targetTiltForward));
+  formResult.replace("###neckTiltSideways###", String(huyangNeck->targetTiltSideways));
 
   s += formResult;
   s += "</div>";

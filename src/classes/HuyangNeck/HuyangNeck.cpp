@@ -34,62 +34,135 @@ void HuyangNeck::rotateServo(uint8_t servo, uint16_t degree)
 	// Serial.println(F("done"));
 }
 
+int16_t HuyangNeck::easeInAndOut(int16_t current, int16_t target)
+{
+	int16_t result = target;
+
+	if (current != target)
+	{
+		int16_t maxSpeedRange = getMaxSpeedRange(easeInAndOutSpeed, easeInAndOutSpeedRamp);
+
+		Serial.print(F("easeInAndOut from "));
+		Serial.print(current);
+		Serial.print(F(" to "));
+		Serial.print(target);
+		Serial.print(F("     with speed "));
+		Serial.print(easeInAndOutSpeed);
+		Serial.print(F("     maxSpeedRange "));
+		Serial.print(maxSpeedRange);
+		Serial.print(F(":        "));
+
+		if (current < target)
+		{
+			result = current + easeInAndOutSpeed;
+			if (result > target)
+			{
+				result = target;
+			}
+
+			if (target - (current + easeInAndOutSpeed) < maxSpeedRange)
+			{
+				Serial.print(F(" Speed DOWN "));
+				easeInAndOutSpeed = easeInAndOutSpeed - easeInAndOutSpeedRamp;
+			}
+			else if (target - (current + result) > maxSpeedRange)
+			{
+				Serial.print(F(" Speed UP "));
+				easeInAndOutSpeed = easeInAndOutSpeed + easeInAndOutSpeedRamp;
+			}
+			else
+			{
+				Serial.print(F(" Speed NO CHANGE "));
+			}
+
+			if (easeInAndOutSpeed < easeInAndOutMinSpeed) {
+				easeInAndOutSpeed = easeInAndOutMinSpeed;
+			}else if (easeInAndOutSpeed > easeInAndOutMaxSpeed) {
+				easeInAndOutSpeed = easeInAndOutMaxSpeed;
+			}
+			// Serial.println(F(""));
+			// Serial.print(F(" new easeInAndOutSpeed "));
+			// Serial.println(easeInAndOutSpeed);
+		}
+		else if (current > target)
+		{
+			result = current - easeInAndOutSpeed;
+			if (result < target)
+			{
+				result = target;
+			}
+		}
+
+		Serial.print(F(":        "));
+		Serial.println(result);
+	}else{
+		easeInAndOutSpeed = easeInAndOutMinSpeed;
+	}
+
+	return result;
+}
+
+int16_t HuyangNeck::getMaxSpeedRange(int16_t speed, int16_t step)
+{
+	int16_t result = 0;
+
+	for (int16_t i = 0; i < speed; i = i + step)
+	{
+		result = result + speed;
+		result = result - i;
+	}
+	return result;
+}
+
 void HuyangNeck::updateNeckPosition()
 {
-	uint16_t leftDegree = map(_targetTiltForward + _targetTiltSideways, 0, 100, 65, 10);
-	uint16_t rightDegree = map(_targetTiltForward - _targetTiltSideways, 0, 100, 35, 90);
+	uint16_t leftDegree = map(targetTiltForward + targetTiltSideways, 0, 100, 65, 10);
+	uint16_t rightDegree = map(targetTiltForward - targetTiltSideways, 0, 100, 35, 90);
 
-	uint16_t leftDegreeMin = 10;
-	uint16_t leftDegreeMax = 65;
+	leftDegree = min(leftDegree, uint16_t(65));
+	leftDegree = max(leftDegree, uint16_t(10));
 
-	uint16_t rightDegreeMin = 35;
-	uint16_t rightDegreeMax = 90;
-
-	leftDegree = min(leftDegree, leftDegreeMax);
-	leftDegree = max(leftDegree, leftDegreeMin);
-	
-	rightDegree = min(rightDegree, rightDegreeMax);
-	rightDegree = max(rightDegree, rightDegreeMin);
+	rightDegree = min(rightDegree, uint16_t(90));
+	rightDegree = max(rightDegree, uint16_t(35));
 
 	rotateServo(pwm_pin_head_left, leftDegree);
 	rotateServo(pwm_pin_head_right, rightDegree);
 }
 void HuyangNeck::tiltSideways(int16_t degree)
 {
-	int16_t minRotation = -20;
-	int16_t maxRotation = 20;
+	degree = min(degree, _maxTiltSideways);
+	degree = max(degree, _minTiltSideways);
 
-	degree = min(degree, maxRotation);
-	degree = max(degree, minRotation);
-
-	_targetTiltSideways = degree;
+	targetTiltSideways = degree;
 	currentTiltSideways = degree;
-	updateNeckPosition();
+
+	easeInAndOutSpeed = easeInAndOutMinSpeed;
 }
 void HuyangNeck::tiltForward(uint16_t degree)
 {
-	uint16_t minRotation = 0;
-	uint16_t maxRotation = 100;
+	degree = min(degree, _maxTiltForward);
+	degree = max(degree, _minTiltForward);
 
-	degree = min(degree, maxRotation);
-	degree = max(degree, minRotation);
-
-	_targetTiltForward = degree;
+	targetTiltForward = degree;
 	currentTiltForward = degree;
-	updateNeckPosition();
+
+	easeInAndOutSpeed = easeInAndOutMinSpeed;
 }
 void HuyangNeck::rotate(int16_t degree)
 {
-	int16_t minRotation = -45;
-	int16_t maxRotation = 45;
+	degree = min(degree, _maxRotation);
+	degree = max(degree, _minRotation);
 
-	degree = min(degree, maxRotation);
-	degree = max(degree, minRotation);
+	targetRotate = degree;
 
-	_targetRotate = degree;
+	easeInAndOutSpeed = easeInAndOutMinSpeed;
+}
 
-	currentRotate = degree;
-	uint16_t rotateDegree = map(degree, minRotation, maxRotation, 5, 85);
+void HuyangNeck::updateCurrentRotate()
+{
+	currentRotate = easeInAndOut(currentRotate, targetRotate);
+
+	uint16_t rotateDegree = map(currentRotate, _minRotation, _maxRotation, 5, 85);
 	rotateServo(pwm_pin_head_rotate, rotateDegree);
 }
 
@@ -102,6 +175,14 @@ void HuyangNeck::setup()
 void HuyangNeck::loop()
 {
 	_currentMillis = millis();
+	if (_currentMillis - _previousMillis > 50)
+	{
+		_previousMillis = _currentMillis;
+
+		updateNeckPosition();
+
+		updateCurrentRotate();
+	}
 
 	// if (_currentMillis - _previousMillis >= 2000)
 	// {
