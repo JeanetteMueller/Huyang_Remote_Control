@@ -1,6 +1,8 @@
 #include "HuyangNeck.h"
 #include <Adafruit_PWMServoDriver.h>
 
+#include "../easing.h"
+
 // Servo Parameters
 #define HuyangNeck_SERVOMIN 150	 // This is the 'minimum' pulse length count (out of 4096)
 #define HuyangNeck_SERVOMAX 595	 // This is the 'maximum' pulse length count (out of 4096)
@@ -34,83 +36,49 @@ void HuyangNeck::rotateServo(uint8_t servo, uint16_t degree)
 	// Serial.println(F("done"));
 }
 
-int16_t HuyangNeck::easeInAndOut(int16_t current, int16_t target)
+double HuyangNeck::easeInAndOut(double start, double current, double target, double percentage)
 {
-	int16_t result = target;
+	double result = target;
 
 	if (current != target)
 	{
-		int16_t maxSpeedRange = getMaxSpeedRange(easeInAndOutSpeed, easeInAndOutSpeedRamp);
-
 		Serial.print(F("easeInAndOut from "));
-		Serial.print(current);
+		Serial.print(start);
 		Serial.print(F(" to "));
 		Serial.print(target);
-		Serial.print(F("     with speed "));
-		Serial.print(easeInAndOutSpeed);
-		Serial.print(F("     maxSpeedRange "));
-		Serial.print(maxSpeedRange);
-		Serial.print(F(":        "));
+		Serial.print(F(":  current "));
+		Serial.print(current);
+
+		auto easingFunction = getEasingFunction(EaseInOutQuad);
+		double easeInOut = easingFunction(percentage);
 
 		if (current < target)
 		{
-			result = current + easeInAndOutSpeed;
+			double subTarget = (target - start);
+
+			result = start + (subTarget * easeInOut);
+
 			if (result > target)
 			{
 				result = target;
 			}
-
-			if (target - (current + easeInAndOutSpeed) < maxSpeedRange)
-			{
-				Serial.print(F(" Speed DOWN "));
-				easeInAndOutSpeed = easeInAndOutSpeed - easeInAndOutSpeedRamp;
-			}
-			else if (target - (current + result) > maxSpeedRange)
-			{
-				Serial.print(F(" Speed UP "));
-				easeInAndOutSpeed = easeInAndOutSpeed + easeInAndOutSpeedRamp;
-			}
-			else
-			{
-				Serial.print(F(" Speed NO CHANGE "));
-			}
-
-			if (easeInAndOutSpeed < easeInAndOutMinSpeed) {
-				easeInAndOutSpeed = easeInAndOutMinSpeed;
-			}else if (easeInAndOutSpeed > easeInAndOutMaxSpeed) {
-				easeInAndOutSpeed = easeInAndOutMaxSpeed;
-			}
-			// Serial.println(F(""));
-			// Serial.print(F(" new easeInAndOutSpeed "));
-			// Serial.println(easeInAndOutSpeed);
 		}
 		else if (current > target)
 		{
-			result = current - easeInAndOutSpeed;
+			double subTarget = (start - target);
+
+			result = start - (subTarget * easeInOut);
+
 			if (result < target)
 			{
 				result = target;
 			}
 		}
 
-		Serial.print(F(":        "));
-		Serial.println(result);
-	}else{
-		easeInAndOutSpeed = easeInAndOutMinSpeed;
+		Serial.print(F(":   "));
+		Serial.print(result);
 	}
 
-	return result;
-}
-
-int16_t HuyangNeck::getMaxSpeedRange(int16_t speed, int16_t step)
-{
-	int16_t result = 0;
-
-	for (int16_t i = 0; i < speed; i = i + step)
-	{
-		result = result + speed;
-		result = result - i;
-	}
 	return result;
 }
 
@@ -135,8 +103,6 @@ void HuyangNeck::tiltSideways(int16_t degree)
 
 	targetTiltSideways = degree;
 	currentTiltSideways = degree;
-
-	easeInAndOutSpeed = easeInAndOutMinSpeed;
 }
 void HuyangNeck::tiltForward(uint16_t degree)
 {
@@ -145,25 +111,40 @@ void HuyangNeck::tiltForward(uint16_t degree)
 
 	targetTiltForward = degree;
 	currentTiltForward = degree;
-
-	easeInAndOutSpeed = easeInAndOutMinSpeed;
 }
-void HuyangNeck::rotate(int16_t degree)
+void HuyangNeck::rotate(double degree)
 {
 	degree = min(degree, _maxRotation);
 	degree = max(degree, _minRotation);
 
+	_startRotate = currentRotate;
 	targetRotate = degree;
-
-	easeInAndOutSpeed = easeInAndOutMinSpeed;
+	_rotationPercentage = 0;
 }
 
 void HuyangNeck::updateCurrentRotate()
 {
-	currentRotate = easeInAndOut(currentRotate, targetRotate);
+	if (_rotationPercentage < 1.0)
+	{
+		currentRotate = easeInAndOut(_startRotate, currentRotate, targetRotate, _rotationPercentage);
 
-	uint16_t rotateDegree = map(currentRotate, _minRotation, _maxRotation, 5, 85);
-	rotateServo(pwm_pin_head_rotate, rotateDegree);
+		uint16_t rotateDegree = map(currentRotate, _minRotation, _maxRotation, 10, 90);
+		rotateServo(pwm_pin_head_rotate, rotateDegree);
+
+		Serial.print(F("     rotationPercentage: "));
+		Serial.println(_rotationPercentage);
+
+		if (targetRotate >= _startRotate)
+		{
+			_rotationPercentage += 1.0 / ((targetRotate - _startRotate) * 1.5);
+		}
+		else if (targetRotate < _startRotate) 
+		{
+			_rotationPercentage += 1.0 / ((_startRotate - targetRotate) * 1.5);
+		}
+
+		// _rotationPercentage += 0.02;
+	}
 }
 
 void HuyangNeck::setup()
@@ -175,7 +156,7 @@ void HuyangNeck::setup()
 void HuyangNeck::loop()
 {
 	_currentMillis = millis();
-	if (_currentMillis - _previousMillis > 50)
+	if (_currentMillis - _previousMillis > 10)
 	{
 		_previousMillis = _currentMillis;
 
@@ -183,47 +164,4 @@ void HuyangNeck::loop()
 
 		updateCurrentRotate();
 	}
-
-	// if (_currentMillis - _previousMillis >= 2000)
-	// {
-	// 	step++;
-	// 	_previousMillis = _currentMillis;
-	// }
-
-	// if (step == 1)
-	// {
-	// 	//centered
-	// 	rotate(0);
-
-	// 	// //unten
-	// 	tiltForward(0);
-	// 	// // rotateServo(pwm_pin_head_left, 	70);
-	// 	// // rotateServo(pwm_pin_head_right, 30);
-	// }
-	// else if (step == 2)
-	// {
-	// 	// //oben
-	// 	tiltForward(100);
-	// 	// // rotateServo(pwm_pin_head_left, 	10);
-	// 	// // rotateServo(pwm_pin_head_right, 90);
-	// }
-	// else if (step == 3)
-	// {
-	// 	// //unten
-	// 	tiltForward(0);
-	// 	// // rotateServo(pwm_pin_head_left, 	70);
-	// 	// // rotateServo(pwm_pin_head_right, 30);
-	// }
-	// else if (step == 4)
-	// {
-	// 	// rechts
-	// 	rotate(20);
-	// }
-	// else if (step == 5)
-	// {
-	// 	// links
-	// 	rotate(-20);
-
-	// 	step = 0;
-	// }
 }
