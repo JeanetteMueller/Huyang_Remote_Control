@@ -21,7 +21,7 @@ public:
 
     int16_t targetTiltSideways = 0;
     uint16_t targetTiltForward = 0;
-    double startRotate = 0;
+
     double targetRotate = 0;
 
 private:
@@ -31,14 +31,15 @@ private:
     unsigned long _previousMillis = 0;
 
     int16_t _minTiltSideways = -40;
-	int16_t _maxTiltSideways = 40;
+    int16_t _maxTiltSideways = 40;
 
     uint16_t _minTiltForward = 0;
-	uint16_t _maxTiltForward = 100;
+    uint16_t _maxTiltForward = 100;
 
     double _minRotation = -45;
-	double _maxRotation = 45;
+    double _maxRotation = 45;
 
+    double _startRotate = 0;
     double _rotationPercentage = 1.0;
 
     void rotateServo(uint8_t servo, uint16_t degree);
