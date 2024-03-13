@@ -17,7 +17,7 @@ public:
     uint8_t step = 0;
     int16_t currentTiltSideways = 0;
     uint16_t currentTiltForward = 0;
-    double currentRotate = 0;
+    
 
     int16_t targetTiltSideways = 0;
     uint16_t targetTiltForward = 0;
@@ -30,15 +30,15 @@ private:
     unsigned long _currentMillis = 0;
     unsigned long _previousMillis = 0;
 
-    int16_t _minTiltSideways = -40;
-    int16_t _maxTiltSideways = 40;
+    int16_t _minTiltSideways = -25;
+    int16_t _maxTiltSideways = 25;
 
     uint16_t _minTiltForward = 0;
     uint16_t _maxTiltForward = 100;
 
+    double _currentRotate = 0;
     double _minRotation = -45;
     double _maxRotation = 45;
-
     double _startRotate = 0;
     double _rotationPercentage = 1.0;
 

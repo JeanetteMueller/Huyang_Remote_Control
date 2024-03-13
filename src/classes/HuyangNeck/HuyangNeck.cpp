@@ -117,7 +117,7 @@ void HuyangNeck::rotate(double degree)
 	degree = min(degree, _maxRotation);
 	degree = max(degree, _minRotation);
 
-	_startRotate = currentRotate;
+	_startRotate = _currentRotate;
 	targetRotate = degree;
 	_rotationPercentage = 0;
 }
@@ -126,9 +126,9 @@ void HuyangNeck::updateCurrentRotate()
 {
 	if (_rotationPercentage < 1.0)
 	{
-		currentRotate = easeInAndOut(_startRotate, currentRotate, targetRotate, _rotationPercentage);
+		_currentRotate = easeInAndOut(_startRotate, _currentRotate, targetRotate, _rotationPercentage);
 
-		uint16_t rotateDegree = map(currentRotate, _minRotation, _maxRotation, 10, 90);
+		uint16_t rotateDegree = map(_currentRotate, _minRotation, _maxRotation, 0, 110);
 		rotateServo(pwm_pin_head_rotate, rotateDegree);
 
 		Serial.print(F("     rotationPercentage: "));
@@ -136,11 +136,11 @@ void HuyangNeck::updateCurrentRotate()
 
 		if (targetRotate >= _startRotate)
 		{
-			_rotationPercentage += 1.0 / ((targetRotate - _startRotate) * 1.5);
+			_rotationPercentage += 1.0 / ((targetRotate - _startRotate) * 0.5);
 		}
 		else if (targetRotate < _startRotate) 
 		{
-			_rotationPercentage += 1.0 / ((_startRotate - targetRotate) * 1.5);
+			_rotationPercentage += 1.0 / ((_startRotate - targetRotate) * 0.5);
 		}
 
 		// _rotationPercentage += 0.02;
@@ -156,7 +156,7 @@ void HuyangNeck::setup()
 void HuyangNeck::loop()
 {
 	_currentMillis = millis();
-	if (_currentMillis - _previousMillis > 10)
+	if (_currentMillis - _previousMillis >= 20)
 	{
 		_previousMillis = _currentMillis;
 
