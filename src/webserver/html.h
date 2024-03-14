@@ -42,7 +42,7 @@ String getIndexPage() {
   s += "text-align:center;";
   s += "\">";
 
-  if (huyangFace->automatic == true) {
+  if (huyangFace->automatic == true && huyangNeck->automatic == true) {
     s += "<a href=\"/get?" + ActionStringAutomatic + "=" + ActionStringAutomaticOff + "\" class=\"button\">Auto is ON</a>";
   }else{
     s += "<a href=\"/get?" + ActionStringAutomatic + "=" + ActionStringAutomaticOn + "\" class=\"button\">Auto is OFF</a>";

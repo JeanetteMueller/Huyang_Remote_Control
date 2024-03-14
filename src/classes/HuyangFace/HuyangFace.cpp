@@ -368,6 +368,10 @@ void HuyangFace::loop()
 {
 	_currentMillis = millis();
 
+	if (_previousMillis > _currentMillis) {
+		_previousMillis = _currentMillis;
+	}
+
 	closeEyesLoop();
 
 	if (_currentMillis - _previousMillis > 100)

@@ -48,16 +48,19 @@ void postAction(AsyncWebServerRequest *request)
 
     if (p->name() == "neckRotate")
     {
+      huyangNeck->automatic = false;
       huyangNeck->rotate(atoi(p->value().c_str()));
     }
 
     if (p->name() == "neckTiltForward")
     {
+      huyangNeck->automatic = false;
       huyangNeck->tiltForward(atoi(p->value().c_str()));
     }
 
     if (p->name() == "neckTiltSideways")
     {
+      huyangNeck->automatic = false;
       huyangNeck->tiltSideways(atoi(p->value().c_str()));
     }
   }
@@ -148,8 +151,10 @@ void setupWebserver()
 
       if (action == ActionStringAutomaticOn){
         huyangFace->automatic = true;
+        huyangNeck->automatic = true;
       }else if (action == ActionStringAutomaticOff){
         huyangFace->automatic = false;
+        huyangNeck->automatic = false;
       }
     }
 

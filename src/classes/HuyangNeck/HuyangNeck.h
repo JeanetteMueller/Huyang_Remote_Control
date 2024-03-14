@@ -10,18 +10,14 @@ public:
     HuyangNeck(Adafruit_PWMServoDriver *pwm);
     void setup();
     void loop();
-    void tiltSideways(int16_t degree);
-    void tiltForward(uint16_t degree);
-    void rotate(double degree);
+    void tiltSideways(double degree);
+    void tiltForward(double degree, double duration = 0);
+    void rotate(double degree, double duration = 0);
 
-    uint8_t step = 0;
-    int16_t currentTiltSideways = 0;
-    uint16_t currentTiltForward = 0;
-    
+    bool automatic = true;
 
-    int16_t targetTiltSideways = 0;
-    uint16_t targetTiltForward = 0;
-
+    double targetTiltSideways = 0;
+    double targetTiltForward = 0;
     double targetRotate = 0;
 
 private:
@@ -30,26 +26,37 @@ private:
     unsigned long _currentMillis = 0;
     unsigned long _previousMillis = 0;
 
-    int16_t _minTiltSideways = -25;
-    int16_t _maxTiltSideways = 25;
+    unsigned long _randomDoRotate = 0;
+    unsigned long _randomDoTiltForward = 0;
 
-    uint16_t _minTiltForward = 0;
-    uint16_t _maxTiltForward = 100;
+    double _currentTiltSideways = 0;
+    double _minTiltSideways = -25;
+    double _maxTiltSideways = 25;
+    double _startTiltSideways = 0;
+    double _tiltSidewaysPercentage = 1.0;
+
+    double _currentTiltForward = 0;
+    double _minTiltForward = 0;
+    double _maxTiltForward = 90;
+    double _startTiltForward = 0;
+    double _tiltForwardDuration = 0;
+    unsigned long _tiltForwardStartMillis = 0;
 
     double _currentRotate = 0;
     double _minRotation = -45;
     double _maxRotation = 45;
     double _startRotate = 0;
-    double _rotationPercentage = 1.0;
+    double _rotationDuration = 0;
+    unsigned long _rotationStartMillis = 0;
 
-    void rotateServo(uint8_t servo, uint16_t degree);
+    void rotateServo(uint8_t servo, double degree);
     void updateNeckPosition();
     void updateCurrentRotate();
-    // int16_t easeInAndOutSpeed = 1;
-    // int16_t easeInAndOutMinSpeed = 1;
-    // int16_t easeInAndOutMaxSpeed = 5;
     double easeInAndOut(double start, double current, double target, double percentage);
     int16_t getMaxSpeedRange(int16_t speed, int16_t step);
+
+    void doRandomRotate();
+	void doRandomTiltForward();
 };
 
 #endif

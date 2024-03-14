@@ -17,7 +17,7 @@ HuyangNeck::HuyangNeck(Adafruit_PWMServoDriver *pwm)
 	_pwm = pwm;
 }
 
-void HuyangNeck::rotateServo(uint8_t servo, uint16_t degree)
+void HuyangNeck::rotateServo(uint8_t servo, double degree)
 {
 	// Serial.println(F("HuyangNeck rotateServo create pulselength"));
 
@@ -40,14 +40,19 @@ double HuyangNeck::easeInAndOut(double start, double current, double target, dou
 {
 	double result = target;
 
+	if (percentage > 1.0)
+	{
+		percentage = 1.0;
+	}
+
 	if (current != target)
 	{
-		Serial.print(F("easeInAndOut from "));
-		Serial.print(start);
-		Serial.print(F(" to "));
-		Serial.print(target);
-		Serial.print(F(":  current "));
-		Serial.print(current);
+		// Serial.print(F("easeInAndOut from "));
+		// Serial.print(start);
+		// Serial.print(F(" to "));
+		// Serial.print(target);
+		// Serial.print(F(":  current "));
+		// Serial.print(current);
 
 		auto easingFunction = getEasingFunction(EaseInOutQuad);
 		double easeInOut = easingFunction(percentage);
@@ -75,8 +80,8 @@ double HuyangNeck::easeInAndOut(double start, double current, double target, dou
 			}
 		}
 
-		Serial.print(F(":   "));
-		Serial.print(result);
+		// Serial.print(F(":   "));
+		// Serial.print(result);
 	}
 
 	return result;
@@ -84,8 +89,20 @@ double HuyangNeck::easeInAndOut(double start, double current, double target, dou
 
 void HuyangNeck::updateNeckPosition()
 {
-	uint16_t leftDegree = map(targetTiltForward + targetTiltSideways, 0, 100, 65, 10);
-	uint16_t rightDegree = map(targetTiltForward - targetTiltSideways, 0, 100, 35, 90);
+	if (_currentTiltForward != targetTiltForward)
+	{	
+		double tiltForwardPercentage = (_currentMillis - _tiltForwardStartMillis) / _tiltForwardDuration;
+		_currentTiltForward = easeInAndOut(_startTiltForward, _currentTiltForward, targetTiltForward, tiltForwardPercentage);
+	}
+
+	if (_tiltSidewaysPercentage < 1.0)
+	{
+		_currentTiltSideways = easeInAndOut(_startTiltSideways, _currentTiltSideways, targetTiltSideways, _tiltSidewaysPercentage);
+		_tiltSidewaysPercentage += 0.06;
+	}
+
+	uint16_t leftDegree = map(_currentTiltForward + _currentTiltSideways, 0, 100, 65, 10);
+	uint16_t rightDegree = map(_currentTiltForward - _currentTiltSideways, 0, 100, 35, 90);
 
 	leftDegree = min(leftDegree, uint16_t(65));
 	leftDegree = max(leftDegree, uint16_t(10));
@@ -96,54 +113,73 @@ void HuyangNeck::updateNeckPosition()
 	rotateServo(pwm_pin_head_left, leftDegree);
 	rotateServo(pwm_pin_head_right, rightDegree);
 }
-void HuyangNeck::tiltSideways(int16_t degree)
+void HuyangNeck::tiltSideways(double degree)
 {
 	degree = min(degree, _maxTiltSideways);
 	degree = max(degree, _minTiltSideways);
 
+	_startTiltSideways = _currentTiltSideways;
 	targetTiltSideways = degree;
-	currentTiltSideways = degree;
+	_tiltSidewaysPercentage = 0.0;
 }
-void HuyangNeck::tiltForward(uint16_t degree)
+void HuyangNeck::tiltForward(double degree, double duration)
 {
 	degree = min(degree, _maxTiltForward);
 	degree = max(degree, _minTiltForward);
 
+	if (duration == 0)
+	{	
+		double way = 0;
+		if (degree > _currentTiltForward) {
+			way = degree - _currentTiltForward;
+		}
+		else
+		{
+			way = _currentTiltForward - degree;
+		}
+
+		duration = way * 16; 
+	}
+
+	_startTiltForward = _currentTiltForward;
 	targetTiltForward = degree;
-	currentTiltForward = degree;
+	_tiltForwardDuration = duration;
+	_tiltForwardStartMillis = _currentMillis;
 }
-void HuyangNeck::rotate(double degree)
+void HuyangNeck::rotate(double degree, double duration)
 {
 	degree = min(degree, _maxRotation);
 	degree = max(degree, _minRotation);
 
+	if (duration == 0)
+	{	
+		double way = 0;
+		if (degree > _currentRotate) {
+			way = degree - _currentRotate;
+		}
+		else
+		{
+			way = _currentRotate - degree;
+		}
+
+		duration = way * 16; 
+	}
+
 	_startRotate = _currentRotate;
 	targetRotate = degree;
-	_rotationPercentage = 0;
+	_rotationDuration = duration;
+	_rotationStartMillis = _currentMillis;
 }
 
 void HuyangNeck::updateCurrentRotate()
 {
-	if (_rotationPercentage < 1.0)
+	if (_currentRotate != targetRotate)
 	{
-		_currentRotate = easeInAndOut(_startRotate, _currentRotate, targetRotate, _rotationPercentage);
-
+		double percentage = (_currentMillis - _rotationStartMillis) / _rotationDuration;
+		_currentRotate = easeInAndOut(_startRotate, _currentRotate, targetRotate, percentage);
+		
 		uint16_t rotateDegree = map(_currentRotate, _minRotation, _maxRotation, 0, 110);
 		rotateServo(pwm_pin_head_rotate, rotateDegree);
-
-		Serial.print(F("     rotationPercentage: "));
-		Serial.println(_rotationPercentage);
-
-		if (targetRotate >= _startRotate)
-		{
-			_rotationPercentage += 1.0 / ((targetRotate - _startRotate) * 0.5);
-		}
-		else if (targetRotate < _startRotate) 
-		{
-			_rotationPercentage += 1.0 / ((_startRotate - targetRotate) * 0.5);
-		}
-
-		// _rotationPercentage += 0.02;
 	}
 }
 
@@ -151,6 +187,48 @@ void HuyangNeck::setup()
 {
 	rotate(0);
 	tiltForward(0);
+}
+
+void HuyangNeck::doRandomRotate() 
+{
+	if (_randomDoRotate == 0)
+		{
+			_randomDoRotate = _currentMillis + 2000 + (random(6, 12 + 1) * 1000);
+		}
+
+		if (_currentMillis > _randomDoRotate)
+		{
+			_randomDoRotate = 0;
+
+			if (_currentRotate > 0)
+			{
+				rotate(-(random(2, 35)), random(2, 6 + 1) * 1000);
+			}
+			else
+			{
+				rotate(random(2, 35), random(2, 6 + 1) * 1000);
+			}
+		}
+}
+
+void HuyangNeck::doRandomTiltForward() 
+{
+	if (_randomDoTiltForward == 0)
+		{
+			_randomDoTiltForward = _currentMillis + 2500 + (random(6, 12 + 1) * 1050);
+		}
+
+		if (_currentMillis > _randomDoTiltForward)
+		{
+			_randomDoTiltForward = 0;
+
+			double workArea = _maxTiltForward - _minTiltForward;
+			double center = workArea / 2;
+
+			double randomArea = workArea / 3;
+
+			tiltForward(random(center-randomArea, center+randomArea+1), random(3, 6 + 1) * 1000);
+		}
 }
 
 void HuyangNeck::loop()
@@ -163,5 +241,12 @@ void HuyangNeck::loop()
 		updateNeckPosition();
 
 		updateCurrentRotate();
+	}
+
+	if (automatic == true)
+	{
+		doRandomRotate();
+
+		doRandomTiltForward();
 	}
 }
