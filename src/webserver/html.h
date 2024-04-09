@@ -1,5 +1,6 @@
 
-String prepareEyeHtml(String name) {
+String prepareEyeHtml(String name)
+{
   String s = "";
 
   s += "<div class=\"eyeContainer\">";
@@ -23,7 +24,8 @@ String prepareEyeHtml(String name) {
   return s;
 }
 
-String getBaseHtml(String body) {
+String getBaseHtml(String body)
+{
   String html = baseHtml;
   html.replace("###STYLES###", styles);
   html.replace("###JAVASCRIPT###", javascript);
@@ -31,7 +33,8 @@ String getBaseHtml(String body) {
   return html;
 }
 
-String getIndexPage() {
+String getIndexPage()
+{
 
   String s = "";
   s += "<div id=\"container\">";
@@ -42,9 +45,12 @@ String getIndexPage() {
   s += "text-align:center;";
   s += "\">";
 
-  if (huyangFace->automatic == true && huyangNeck->automatic == true) {
+  if (huyangFace->automatic == true && huyangNeck->automatic == true)
+  {
     s += "<a href=\"/get?" + ActionStringAutomatic + "=" + ActionStringAutomaticOff + "\" class=\"button\">Auto is ON</a>";
-  }else{
+  }
+  else
+  {
     s += "<a href=\"/get?" + ActionStringAutomatic + "=" + ActionStringAutomaticOn + "\" class=\"button\">Auto is OFF</a>";
   }
 
@@ -63,18 +69,27 @@ String getIndexPage() {
   s += "</div>";
 
   s += prepareEyeHtml(ActionTargetLeft);
+  s += "<div class=\"joystickContainer\"><div id=\"joyDiv\" class=\"joystick\"></div>";
+  s += "<div class=\"hidden\">";
+  s += "Pos X:<input id=\"joy1PosX\" type=\"text\" /> ";
+  s += "Pos Y:<input id=\"joy1PosY\" type=\"text\" /><br />";
+  s += "Rel X :<input id=\"joy1RelX\" type=\"text\" /> ";
+  s += "Rel Y :<input id=\"joy1RelY\" type=\"text\" />";
+  s += "</div>";
+  s += "</div>";
   s += prepareEyeHtml(ActionTargetRight);
   s += "</div>";
-  
+
   s += "<div id=\"container\">";
 
   String formResult = form;
-  formResult.replace("###neckRotate###", String(huyangNeck->targetRotate));
-  formResult.replace("###neckTiltForward###", String(huyangNeck->targetTiltForward));
   formResult.replace("###neckTiltSideways###", String(huyangNeck->targetTiltSideways));
 
   s += formResult;
   s += "</div>";
+
+
+
 
   return getBaseHtml(s);
 }

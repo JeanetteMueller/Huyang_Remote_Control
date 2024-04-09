@@ -7,6 +7,7 @@
 #endif
 
 #include <ESPAsyncWebServer.h>
+#include <ArduinoJson.h>
 
 AsyncWebServer server(ServerPort);
 
@@ -46,18 +47,6 @@ void postAction(AsyncWebServerRequest *request)
     AsyncWebParameter *p = request->getParam(i);
     Serial.printf("POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
 
-    if (p->name() == "neckRotate")
-    {
-      huyangNeck->automatic = false;
-      huyangNeck->rotate(atoi(p->value().c_str()));
-    }
-
-    if (p->name() == "neckTiltForward")
-    {
-      huyangNeck->automatic = false;
-      huyangNeck->tiltForward(atoi(p->value().c_str()));
-    }
-
     if (p->name() == "neckTiltSideways")
     {
       huyangNeck->automatic = false;
@@ -67,16 +56,55 @@ void postAction(AsyncWebServerRequest *request)
   request->send(200, "text/html", getIndexPage());
 }
 
+void apiPostAction(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total)
+{
+    Serial.println("apiPostAction!");
+
+    JsonDocument json;
+    deserializeJson(json, data, len);
+  
+    int16_t joy1_x = json["joy1"]["x"];
+    int16_t joy1_y = json["joy1"]["y"];
+    Serial.print("post: joy1: ");
+    Serial.print(joy1_x);
+    Serial.print(" - ");
+    Serial.println(joy1_y);
+
+    huyangNeck->automatic = false;
+    huyangNeck->rotate(joy1_x);
+    huyangNeck->tiltForward(joy1_y);
+
+    String result;
+    serializeJson(json, result);
+
+    request->send(200, "application/json", result);
+}
+
 void setupWebserver()
 {
+  server.on(
+        "/api/post.json", HTTP_POST, [&](AsyncWebServerRequest *request) {}, nullptr, [&](AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total)
+        { apiPostAction(request, data, len, index, total); });
   server.on("/get", HTTP_POST, postAction);
   server.on("/", HTTP_POST, postAction);
 
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(200, "text/html", getIndexPage()); });
 
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-            { request->send(200, "text/html", getIndexPage()); });
+  server.on("/javascript.js", HTTP_GET, [&](AsyncWebServerRequest *request)
+             {
+                    AsyncResponseStream *response = request->beginResponseStream("text/javascript");
+                    response->print(javascript);
+
+                    request->send(response); });
+  server.on("/joystick.js", HTTP_GET, [&](AsyncWebServerRequest *request)
+             {
+                    AsyncResponseStream *response = request->beginResponseStream("text/javascript");
+                    response->print(javascript_joystick_1);
+
+                    // response->print("console.log('javascript javascript_joystick loaded');");
+
+                    request->send(response); });
 
   // Send a GET request to <IP>/get?message=<message>
   server.on("/get", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -164,3 +192,4 @@ void setupWebserver()
 
   server.begin();
 }
+
