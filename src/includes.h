@@ -12,3 +12,5 @@
 #include "classes/HuyangFace/HuyangFace.h"
 #include "classes/HuyangBody/HuyangBody.h"
 #include "classes/HuyangNeck/HuyangNeck.h"
+
+#include "classes/WebServer/WebServer.h"

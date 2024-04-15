@@ -1,0 +1,69 @@
+const char indexHtml[] = R"====(
+
+
+<div id="container">
+  <div style="display: block;width:100%;text-align:center;">
+  <a href="" class="button">Auto is OFF</a>
+   | 
+  <a href="#" class="button" onClick="sendEyeUpdate('all', 'open');">OPEN</a> 
+  <a href="#" class="button" onClick="sendEyeUpdate('all', 'close');">CLOSE</a>
+  <a href="#" class="button" onClick="sendEyeUpdate('all', 'blink');">BLINK</a>
+  <a href="#" class="button" onClick="sendEyeUpdate('all', 'focus');">FOCUS</a>
+  <a href="#" class="button" onClick="sendEyeUpdate('all', 'sad');">SAD</a>
+  <a href="#" class="button" onClick="sendEyeUpdate('all', 'angry');">ANGRY</a>
+   | 
+  <a href="/settings.html">Settings</a>
+  </div>
+
+  <div class="eyeContainer">
+  <div class="eye" onClick="sendEyeUpdate('left', 'blink');">
+    <h5 style="padding: 34px 0 0 0;">BLINK</h5>
+  </div>
+  <a href="#" class="button" onClick="sendEyeUpdate('left', 'close');">CLOSE</a> 
+  <a href="#" class="button" onClick="sendEyeUpdate('left', 'open');">OPEN</a> 
+  <br />
+  <a href="#" class="button" onClick="sendEyeUpdate('left', 'focus');">FOCUS</a> 
+  <a href="#" class="button" onClick="sendEyeUpdate('left', 'sad');">SAD</a> 
+  <a href="#" class="button" onClick="sendEyeUpdate('left', 'angry');">ANGRY</a>
+  </div>
+  
+  <div class="joystickContainer">
+    <div id="joyDiv" class="joystick">
+  </div>
+  <div class="hidden">
+  Pos X:<input id="joy1PosX" type="text" /> 
+  Pos Y:<input id="joy1PosY" type="text" /><br />
+  Rel X :<input id="joy1RelX" type="text" /> 
+  Rel Y :<input id="joy1RelY" type="text" />
+  </div>
+  </div>
+
+  <div class="eyeContainer">
+  <div class="eye" onClick="sendEyeUpdate('right', 'blink');">
+    <h5 style="padding: 34px 0 0 0;">BLINK</h5>
+  </div>
+  <a href="#" class="button" onClick="sendEyeUpdate('right', 'close');">CLOSE</a> 
+  <a href="#" class="button" onClick="sendEyeUpdate('right', 'open');">OPEN</a> 
+  <br />
+  <a href="#" class="button" onClick="sendEyeUpdate('right', 'focus');">FOCUS</a> 
+  <a href="#" class="button" onClick="sendEyeUpdate('right', 'sad');">SAD</a> 
+  <a href="#" class="button" onClick="sendEyeUpdate('right', 'angry');">ANGRY</a>
+
+  </div>
+  </div>
+
+  <div id="container">
+	<div class="slidecontainer">
+        Sideways tilt
+        <input name="neckTiltSideways" type="range" min="-25" max="25" value="###neckTiltSideways###" class="slider" onChange="sendFormularUpdate()">
+    </div>
+  </div>
+
+<script>
+    window.onload = function () {
+        console.log('Dokument geladen');
+        systemInit();
+    }
+</script>
+
+)====";

@@ -25,8 +25,7 @@ void setup()
   pwm->setOscillatorFrequency(27000000);
   pwm->setPWMFreq(60);
 
-
-  setupWebserver();
+  webserver->start();
 
   huyangFace->setup();
   huyangBody->setup();
@@ -39,7 +38,18 @@ void loop()
 {
   wifi->loop();
 
+
   huyangFace->loop();
-  huyangBody->loop();
+
+  huyangNeck->rotate(webserver->neckRotate);
+  huyangNeck->tiltForward(webserver->neckTiltForward);
+  huyangNeck->tiltSideways(webserver->neckTiltSideways);
   huyangNeck->loop();
+
+
+  huyangBody->rotate(webserver->bodyRotate);
+  huyangBody->tiltForward(webserver->bodyTiltForward);
+  huyangBody->tiltSideways(webserver->bodyTiltSideways);
+  huyangBody->loop();
+  
 }
