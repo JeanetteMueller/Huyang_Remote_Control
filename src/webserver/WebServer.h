@@ -9,7 +9,7 @@
 #include <ESPAsyncWebServer.h>
 #include <ArduinoJson.h>
 
-AsyncWebServer server(ServerPort);
+AsyncWebServer server(WebServerPort);
 
 #define ActionStringOpen String("open")
 #define ActionStringClose String("close")
