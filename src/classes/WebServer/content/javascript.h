@@ -29,17 +29,6 @@ function sendEyeUpdate(position, action) {
     sendData(data);
 }
 
-function sendFormularUpdate() {
-    const data = { 
-        neck: {
-            rotate: joy1RelX.value,
-            tiltForward: joy1RelY.value
-        }
-    };
-
-    sendData(data);
-}
-
 function changeAutomatic(newState) {
     const data = { 
         automatic: newState
@@ -55,7 +44,7 @@ function sendData(data) {
         console.log("Result from Server: ");
         console.log(json);
 
-        if (json.face.automatic == true)  {
+        if (json.automatic == true)  {
             document.getElementById("button_automatic").innerHTML = "Auto is ON";
         }else{
             document.getElementById("button_automatic").innerHTML = "Auto is OFF";
@@ -63,35 +52,48 @@ function sendData(data) {
     });
 }
 
+function sendNeckUpdate() {
+
+    const data = {
+        neck: {
+            rotate: Joy1.GetX(),
+            tiltForward: Joy1.GetY(),
+            tiltSideways: document.getElementById("slider_neckTiltSideways").value
+        }
+    };
+    sendData(data);
+}
+
 function getServerData() {
     const data = {};
     sendData(data);
 }
-
+var Joy1;
 function systemInit() {
-
     console.log("systemInit started");
 
-    
     getServerData();
 
-    /*
-    var joy1PosX = document.getElementById("joy1PosX");
-    var joy1PosY = document.getElementById("joy1PosY");
-    var joy1RelX = document.getElementById("joy1RelX");
-    var joy1RelY = document.getElementById("joy1RelY");
-
-    var Joy1 = new JoyStick('joyDiv', {
+    Joy1 = new JoyStick('joyDiv', {
         "autoReturnToCenter": true
     }, function(stickData) {
-        joy1PosX.value = stickData.xPosition;
-        joy1PosY.value = stickData.yPosition;
-        joy1RelX.value = stickData.x;
-        joy1RelY.value = stickData.y;
-
-        sendFormularUpdate();
+        console.log("joystick action");
+        sendNeckUpdate();
     });
-    */
+
+    // setInterval(function(){ 
+    //     // x.value=Joy1.GetX(); 
+    //     console.log("update joystick values");
+
+    //     const data = { 
+    //         neck: {
+    //             rotate: Joy1.GetX(),
+    //             tiltForward: Joy1.GetY()
+    //         }
+    //     };
+    //     sendData(data);
+
+    //     }, 1000);
 }
 
 )====";

@@ -29,17 +29,16 @@ public:
         settingsPage
     };
 
-    bool faceAutomaticAnimations = true;
+    bool automaticAnimations = true;
+    
     const char *leftEye;
     const char *rightEye;
     const char *allEyes;
 
-    bool neckAutomaticAnimations = true;
     int16_t neckRotate = 0;
     int16_t neckTiltForward = 0;
     int16_t neckTiltSideways = 0;
 
-    bool bodyAutomaticAnimations = true;
     int16_t bodyRotate = 0;
     int16_t bodyTiltForward = 0;
     int16_t bodyTiltSideways = 0;

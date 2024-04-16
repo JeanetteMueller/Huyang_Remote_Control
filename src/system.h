@@ -38,7 +38,7 @@ void loop()
 {
     wifi->loop();
 
-    huyangFace->automatic = webserver->faceAutomaticAnimations;
+    huyangFace->automatic = webserver->automaticAnimations;
 
     if (NULL != webserver->allEyes)
     {
@@ -70,13 +70,13 @@ void loop()
 
     huyangFace->loop();
 
-    huyangNeck->automatic = webserver->neckAutomaticAnimations;
+    huyangNeck->automatic = webserver->automaticAnimations;
     huyangNeck->rotate(webserver->neckRotate);
     huyangNeck->tiltForward(webserver->neckTiltForward);
     huyangNeck->tiltSideways(webserver->neckTiltSideways);
     huyangNeck->loop();
 
-    huyangBody->automatic = webserver->bodyAutomaticAnimations;
+    huyangBody->automatic = webserver->automaticAnimations;
     huyangBody->rotate(webserver->bodyRotate);
     huyangBody->tiltForward(webserver->bodyTiltForward);
     huyangBody->tiltSideways(webserver->bodyTiltSideways);

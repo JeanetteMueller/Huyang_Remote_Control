@@ -62,9 +62,7 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
 
     if (!json["automatic"].isNull())
     {
-        faceAutomaticAnimations = json["automatic"];
-        neckAutomaticAnimations = json["automatic"];
-        bodyAutomaticAnimations = json["automatic"];
+        automaticAnimations = json["automatic"];
 
         Serial.print("post: automatic: ");
         Serial.println(json["automatic"] ? "true" : "false");
@@ -75,7 +73,7 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
         if (!json["face"]["all"].isNull())
         {
             allEyes = json["face"]["all"];
-            faceAutomaticAnimations = false;
+            automaticAnimations = false;
             Serial.print("post: allEyes: ");
             Serial.println(allEyes);
         }
@@ -84,14 +82,14 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
             if (!json["face"]["left"].isNull())
             {
                 leftEye = json["face"]["left"];
-                faceAutomaticAnimations = false;
+                automaticAnimations = false;
                 Serial.print("post: leftEye: ");
                 Serial.println(leftEye);
             }
             if (!json["face"]["right"].isNull())
             {
                 rightEye = json["face"]["right"];
-                faceAutomaticAnimations = false;
+                automaticAnimations = false;
                 Serial.print("post: rightEye: ");
                 Serial.println(rightEye);
             }
@@ -103,17 +101,26 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
         if (!json["neck"]["rotate"].isNull())
         {
             neckRotate = json["neck"]["rotate"];
-            neckAutomaticAnimations = false;
+            automaticAnimations = false;
             Serial.print("post: headRotate: ");
             Serial.println(neckRotate);
         }
         if (!json["neck"]["tiltForward"].isNull())
         {
             neckTiltForward = json["neck"]["tiltForward"];
-            neckAutomaticAnimations = false;
-            Serial.print("post: headTiltForward: ");
+            automaticAnimations = false;
+            Serial.print("post: neckTiltForward: ");
             Serial.println(neckTiltForward);
         }
+        if (!json["neck"]["tiltSideways"].isNull())
+        {
+            neckTiltSideways = json["neck"]["tiltSideways"];
+            automaticAnimations = false;
+            Serial.print("post: neckTiltSideways: ");
+            Serial.println(neckTiltSideways);
+        }
+
+        
     }
 
     if (!json["body"].isNull())
@@ -121,21 +128,22 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
         if (!json["body"]["rotate"].isNull())
         {
             bodyRotate = json["body"]["rotate"];
-            bodyAutomaticAnimations = false;
+            automaticAnimations = false;
             Serial.print("post: bodyRotate: ");
             Serial.println(bodyRotate);
         }
         if (!json["body"]["tiltForward"].isNull())
         {
             bodyTiltForward = json["body"]["tiltForward"];
-            bodyAutomaticAnimations = false;
+            automaticAnimations = false;
             Serial.print("post: bodyTiltForward: ");
             Serial.println(bodyTiltForward);
         }
     }
 
     JsonDocument r = JsonDocument();
-    r["face"]["automatic"] = faceAutomaticAnimations;
+    r["automatic"] = automaticAnimations;
+
     if (NULL != allEyes)
     {
         r["face"]["eyes"]["all"] = allEyes;
@@ -149,12 +157,10 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
         r["face"]["eyes"]["right"] = rightEye;
     }
 
-    r["neck"]["automatic"] = neckAutomaticAnimations;
     r["neck"]["rotate"] = neckRotate;
     r["neck"]["tiltForward"] = neckTiltForward;
     r["neck"]["tiltSideways"] = neckTiltSideways;
 
-    r["body"]["automatic"] = bodyAutomaticAnimations;
     r["body"]["rotate"] = bodyRotate;
     r["body"]["tiltForward"] = bodyTiltForward;
     r["body"]["tiltSideways"] = bodyTiltSideways;

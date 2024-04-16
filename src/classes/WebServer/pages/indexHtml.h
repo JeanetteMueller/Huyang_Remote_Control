@@ -28,14 +28,7 @@ const char indexHtml[] = R"====(
   </div>
   
   <div class="joystickContainer">
-    <div id="joyDiv" class="joystick">
-  </div>
-  <div class="hidden">
-  Pos X:<input id="joy1PosX" type="text" /> 
-  Pos Y:<input id="joy1PosY" type="text" /><br />
-  Rel X :<input id="joy1RelX" type="text" /> 
-  Rel Y :<input id="joy1RelY" type="text" />
-  </div>
+    <div id="joyDiv" class="joystick"></div>
   </div>
 
   <div class="eyeContainer">
@@ -55,7 +48,7 @@ const char indexHtml[] = R"====(
   <div id="container">
 	<div class="slidecontainer">
         Sideways tilt
-        <input name="neckTiltSideways" type="range" min="-25" max="25" value="###neckTiltSideways###" class="slider" onChange="sendFormularUpdate()">
+        <input id="slider_neckTiltSideways" type="range" min="-25" max="25" value="###neckTiltSideways###" class="slider" onChange="sendNeckUpdate()">
     </div>
   </div>
 
