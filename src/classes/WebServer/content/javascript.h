@@ -63,9 +63,17 @@ function sendData(data) {
     });
 }
 
+function getServerData() {
+    const data = {};
+    sendData(data);
+}
+
 function systemInit() {
 
     console.log("systemInit started");
+
+    
+    getServerData();
 
     /*
     var joy1PosX = document.getElementById("joy1PosX");

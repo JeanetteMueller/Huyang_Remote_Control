@@ -198,10 +198,6 @@ String WebServer::getPage(Page page, AsyncWebServerRequest *request)
     case indexPage:
         getBaseHtml(indexHtml, html);
 
-        html.replace("###faceAutomaticAnimations###", faceAutomaticAnimations ? "ON" : "OFF");
-
-        // html.replace("###neckTiltSideways###", neckTiltSideways);
-
         break;
     case settingsPage:
         getBaseHtml(settingsHtml, html);

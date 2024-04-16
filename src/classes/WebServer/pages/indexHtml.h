@@ -3,7 +3,7 @@ const char indexHtml[] = R"====(
 
 <div id="container">
   <div style="display: block;width:100%;text-align:center;">
-  <a href="#" id="button_automatic" class="button" onClick="changeAutomatic(true);">Auto is ###faceAutomaticAnimations###</a>
+  <a href="#" id="button_automatic" class="button" onClick="changeAutomatic(true);">Auto is UNKNOWN</a>
    | 
   <a href="#" class="button" onClick="sendEyeUpdate('all', 'open');">OPEN</a> 
   <a href="#" class="button" onClick="sendEyeUpdate('all', 'close');">CLOSE</a>
