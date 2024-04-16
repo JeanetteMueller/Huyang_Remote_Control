@@ -21,3 +21,11 @@
 
 ## 1.4 New Filestructure
 * All System Files under /src for better updateability
+
+## 1.5 New Wifi Manager
+* Switch wo custom Hotspot when no wifi accessable
+
+## 1.6 Javascript actions
+* Send All Eye Actions as Javascript Post
+* New Joystick to move the Head
+* New Slider for Head Sidways Tilt
