@@ -1,28 +1,27 @@
 // Install Libraries
 // Please read the "README.md"
 
-
 // Huyang Wifi Modes 
-// 0 = creates his own wifi with the following Data
-// 1 = connects to a existing wifi with the following credentials
-#define WiFiMode 0
+// WifiModeHotspot = creates his own wifi with the following Data
+// WifiModeNetwork = connects to a existing wifi with the following credentials
+// #define WiFiDefaultMode JxWifiManager::WifiModeHotspot
+#define WiFiDefaultMode JxWifiManager::WifiModeNetwork
 
 // To get this running, change the WifiSsid to whatever your wifi should be called
 // this Wifi will be created by Huyang himself. Don' name this like your home Wifi.
-#define WifiSsid "HuyangWifiControl" // <- change if needed
-
+#define WifiSsidOfHotspot "HuyangWifiControl" // <- change if needed
 // set a custom passwort so not everyone can control your Huyang Droid
-#define WifiPassword "<YOUR WIFI PASSWORD>"
+#define WifiPasswordHotspot "<YOUR WIFI PASSWORD>"
 
 
-
-// ONLY if the Huyang Wifi Mode is 0:
-// The Webserver is per default accessible via 192.168.10.1
-IPAddress apIP(192, 168, 10, 1);
-#define ServerPort 80
-// If you change the Port to something different than 80, like 301
-// Huyang will be accessible via 192.168.10.1:301
+// Connect to your local Wifi. If not Accessible Huyang will create Hotspot 
+#define WifiSsidConnectTo "Yavin4" // <- change if needed
+#define WifiPasswordConnectTo "1234567890"
+ 
 
 // ONLY if the Huyang Wifi Mode is 1:
-// Conenct to your Wifi Router and check the connected Devices to get his IP Adress
-// When connected wia USB, the console will write down the current IP Adress 3 times on bootup
+// Connect to your Wifi Router and check the connected Devices to get his IP Adress
+// When connected via USB, the console will write down the current IP Adress every 5 seconds.
+
+
+#define WebServerPort 80

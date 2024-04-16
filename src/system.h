@@ -1,30 +1,84 @@
-#include "wifi/Wifi.h"
-#include "webserver/WebServer.h"
 
+void setup()
+{
+    Serial.begin(115200); // Used only for debugging on arduino serial monitor
+    Serial.println("Huyang! v1.6");
 
-void setup() {
-  Serial.begin(115200);  //Used only for debugging on arduino serial monitor
-  Serial.println(F("Huyang! v1.5"));
+    wifi->currentMode = WiFiDefaultMode;
 
-  pwm->begin();
-  pwm->setOscillatorFrequency(27000000);
-  pwm->setPWMFreq(60);
+    // Wifi Settings
+    wifi->host = IPAddress(192, 168, 10, 1);
+    wifi->subnetMask = IPAddress(255, 255, 255, 0);
+    wifi->currentMode = JxWifiManager::WifiModeNetwork;
 
-  setupWifi();
+    // Hotspot
+    wifi->hotspot_Ssid = WifiSsidOfHotspot;
+    wifi->hotspot_Password = WifiPasswordHotspot;
 
-  setupWebserver();
+    // use Local Wifi
+    wifi->network_Ssid = WifiSsidConnectTo; // <- change if needed
+    wifi->network_Password = WifiPasswordConnectTo;
 
-  huyangFace->setup();
-  huyangBody->setup();
-  huyangNeck->setup();
+    wifi->setup();
 
-  Serial.println(F("setup done"));
+    webserver->start();
+
+    pwm->begin();
+    pwm->setOscillatorFrequency(27000000);
+    pwm->setPWMFreq(60);
+
+    huyangFace->setup();
+    huyangBody->setup();
+    huyangNeck->setup();
+
+    Serial.println("setup done");
 }
 
-void loop() {
-  loopWifi();
+void loop()
+{
+    wifi->loop();
 
-  huyangFace->loop();
-  huyangBody->loop();
-  huyangNeck->loop();
+    huyangFace->automatic = webserver->automaticAnimations;
+
+    if (NULL != webserver->allEyes)
+    {
+        Serial.println("update both eyes");
+        HuyangFace::EyeState newState = huyangFace->getStateFrom(webserver->allEyes);
+        huyangFace->setEyesTo(newState);
+        webserver->allEyes = NULL;
+    }
+    else
+    {
+        if (NULL != webserver->leftEye)
+        {
+            Serial.println("update left eye");
+            HuyangFace::EyeState newState = huyangFace->getStateFrom(webserver->leftEye);
+            huyangFace->setLeftEyeTo(newState);
+            webserver->leftEye = NULL;
+        }
+
+        if (NULL != webserver->rightEye)
+        {
+            Serial.println("update right eye");
+            HuyangFace::EyeState newState = huyangFace->getStateFrom(webserver->rightEye);
+            huyangFace->setRightEyeTo(newState);
+            webserver->rightEye = NULL;
+        }
+    }
+
+    
+
+    huyangFace->loop();
+
+    huyangNeck->automatic = webserver->automaticAnimations;
+    huyangNeck->rotate(webserver->neckRotate);
+    huyangNeck->tiltForward(webserver->neckTiltForward);
+    huyangNeck->tiltSideways(webserver->neckTiltSideways);
+    huyangNeck->loop();
+
+    huyangBody->automatic = webserver->automaticAnimations;
+    huyangBody->rotate(webserver->bodyRotate);
+    huyangBody->tiltForward(webserver->bodyTiltForward);
+    huyangBody->tiltSideways(webserver->bodyTiltSideways);
+    huyangBody->loop();
 }

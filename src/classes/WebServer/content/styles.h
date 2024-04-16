@@ -1,4 +1,4 @@
-const String styles = R"====(
+const char styles[] = R"====(
 
 body { 
 	font-family: 'Helvetica', 'Arial', sans-serif; 
@@ -39,7 +39,7 @@ h5 {
 
 .eyeContainer {
   margin:auto;
-  min-width:48%;
+  min-width:30%;
   text-align:center;
   background-color: #333;
   border-radius: 10px;
@@ -95,6 +95,25 @@ h5 {
   height: 25px; /* Slider handle height */
   background: #04AA6D; /* Green background */
   cursor: pointer; /* Cursor on hover */
+}
+
+.joystickContainer {
+  min-width:30%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.joystick {
+  display: inline-block;
+  width:280px;
+  height:280px;
+  margin:0px;
+}
+
+.hidden {
+  display: none;
 }
 
 )====";

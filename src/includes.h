@@ -7,6 +7,10 @@
 #endif
 
 #include <Arduino_GFX_Library.h>
+#include "submodules/JxWifiManager/JxWifiManager.h"
+
 #include "classes/HuyangFace/HuyangFace.h"
 #include "classes/HuyangBody/HuyangBody.h"
 #include "classes/HuyangNeck/HuyangNeck.h"
+
+#include "classes/WebServer/WebServer.h"
