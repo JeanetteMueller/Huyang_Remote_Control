@@ -21,7 +21,7 @@ function sendEyeUpdate(position, action) {
     console.log(action);
 
     data = {
-        eye: {}
+        face: {}
     };
 
     data["face"][position] = action;

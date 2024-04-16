@@ -11,13 +11,6 @@ const char baseHtml[] = R"====(
 </head>
 <body>
 ###BODY###
-
-<script>
-    window.onload = function () {
-        console.log('Dokument geladen');
-        systemInit();
-    }
-</script>
 </body>
 </html>
 )===="; 

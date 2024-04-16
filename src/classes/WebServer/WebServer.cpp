@@ -3,6 +3,8 @@
 WebServer::WebServer(uint32_t port)
 {
     _server = new AsyncWebServer(port);
+
+
 }
 
 void WebServer::start()
@@ -59,6 +61,13 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
 
     JsonDocument json;
     deserializeJson(json, data, len);
+
+    if (!json["automatic"].isNull())
+    {
+        automaticAnimations = json["automatic"];
+        Serial.print("post: automaticAnimations: ");
+        Serial.println(automaticAnimations ? "true" : "false");
+    }
 
     if (!json["face"].isNull())
     {
@@ -117,8 +126,28 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
         }
     }
 
+    JsonDocument r = JsonDocument();
+    r["face"] = JsonDocument();
+    r["face"]["automatic"] = automaticAnimations;
+    r["face"]["eyes"]["left"] = leftEye;
+    r["face"]["eyes"]["right"] = rightEye;
+    
+    r["neck"]["rotate"] = neckRotate;
+    r["neck"]["tiltForward"] = neckTiltForward;
+    r["neck"]["tiltSideways"] = neckTiltSideways;
+
+    r["body"]["rotate"] = bodyRotate;
+    r["body"]["tiltForward"] = bodyTiltForward;
+    r["body"]["tiltSideways"] = bodyTiltSideways;
+
+    //     "neck": {
+    //         "rotate": neckRotate,
+    //         "tiltForward": neckTiltForward
+    //     }
+    // };
+
     String result;
-    serializeJson(json, result);
+    serializeJson(r, result);
 
     request->send(200, "application/json", result);
 }

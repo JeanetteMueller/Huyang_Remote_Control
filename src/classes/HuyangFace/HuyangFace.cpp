@@ -2,24 +2,42 @@
 #include "HuyangFace.h"
 #include <Arduino_GFX_Library.h>
 
+HuyangFace::EyeState HuyangFace::getStateFrom(String stateString)
+{
+	return HuyangFace::EyeState::Open;
+}
+
 void HuyangFace::setEyesTo(EyeState newState)
 {
-	_leftEyeTargetState = newState;
-	_rightEyeTargetState = newState;
-	automatic = false;
-	_randomDuration = 0;
+	if (_leftEyeLastSelectedState != newState && _rightEyeLastSelectedState != newState)
+	{
+		_leftEyeLastSelectedState = newState;
+		_rightEyeLastSelectedState = newState;
+		_leftEyeTargetState = newState;
+		_rightEyeTargetState = newState;
+		automatic = false;
+		_randomDuration = 0;
+	}
 }
 void HuyangFace::setLeftEyeTo(EyeState newState)
 {
-	_leftEyeTargetState = newState;
-	automatic = false;
-	_randomDuration = 0;
+	if (_leftEyeLastSelectedState != newState)
+	{
+		_leftEyeLastSelectedState = newState;
+		_leftEyeTargetState = newState;
+		automatic = false;
+		_randomDuration = 0;
+	}
 }
 void HuyangFace::setRightEyeTo(EyeState newState)
 {
-	_rightEyeTargetState = newState;
-	automatic = false;
-	_randomDuration = 0;
+	if (_leftEyeLastSelectedState != newState)
+	{
+		_rightEyeLastSelectedState = newState;
+		_rightEyeTargetState = newState;
+		automatic = false;
+		_randomDuration = 0;
+	}
 }
 
 void HuyangFace::openEyesLoop()
@@ -59,7 +77,7 @@ void HuyangFace::openEyesLoop()
 
 void HuyangFace::openEyes(uint16_t color)
 {
-	Serial.println(F("openEyes"));
+	Serial.println("openEyes");
 
 	for (uint16_t step = 0; step <= _tftDisplayHeight / 2; step++)
 	{
@@ -78,9 +96,9 @@ void HuyangFace::openEyes(uint16_t color)
 	}
 }
 
-void HuyangFace::openEye(Arduino_GFX * eye, uint16_t color)
+void HuyangFace::openEye(Arduino_GFX *eye, uint16_t color)
 {
-	Serial.println(F("openEye"));
+	Serial.println("openEye");
 
 	for (uint16_t step = 0; step <= _tftDisplayHeight / 2; step++)
 	{
@@ -127,7 +145,7 @@ void HuyangFace::closeEyesLoop()
 
 void HuyangFace::closeEyes(uint16_t color)
 {
-	Serial.println(F("closeEyes"));
+	Serial.println("closeEyes");
 
 	for (uint16_t step = 0; step <= _tftDisplayHeight / 2; step++)
 	{
@@ -145,9 +163,9 @@ void HuyangFace::closeEyes(uint16_t color)
 	}
 }
 
-void HuyangFace::closeEye(Arduino_GFX * eye, uint16_t color)
+void HuyangFace::closeEye(Arduino_GFX *eye, uint16_t color)
 {
-	Serial.println(F("closeEye"));
+	Serial.println("closeEye");
 	for (uint16_t step = 0; step <= _tftDisplayHeight / 2; step++)
 	{
 		eye->drawFastHLine(0, step, _tftDisplayWidth, color);
@@ -190,7 +208,7 @@ void HuyangFace::focusEyesLoop()
 
 void HuyangFace::focusEyes(uint16_t color)
 {
-	Serial.println(F("focusEyes"));
+	Serial.println("focusEyes");
 
 	for (uint16_t step = 0; step <= ((_tftDisplayHeight / 2) / 6 * 4); step++)
 	{
@@ -207,9 +225,9 @@ void HuyangFace::focusEyes(uint16_t color)
 		_previousMillis = _currentMillis;
 	}
 }
-void HuyangFace::focusEye(Arduino_GFX * eye, uint16_t color)
+void HuyangFace::focusEye(Arduino_GFX *eye, uint16_t color)
 {
-	Serial.println(F("focusEye"));
+	Serial.println("focusEye");
 
 	for (uint16_t step = 0; step <= ((_tftDisplayHeight / 2) / 6 * 4); step++)
 	{
@@ -253,7 +271,7 @@ void HuyangFace::sadEyesLoop()
 
 void HuyangFace::sadEyes(uint16_t color)
 {
-	Serial.println(F("sadEyes"));
+	Serial.println("sadEyes");
 
 	uint16_t length = _tftDisplayHeight;
 
@@ -270,9 +288,9 @@ void HuyangFace::sadEyes(uint16_t color)
 		_previousMillis = _currentMillis;
 	}
 }
-void HuyangFace::sadEye(Arduino_GFX * eye, bool inner, uint16_t color)
+void HuyangFace::sadEye(Arduino_GFX *eye, bool inner, uint16_t color)
 {
-	Serial.println(F("sadEye"));
+	Serial.println("sadEye");
 	uint16_t length = _tftDisplayHeight;
 	uint16_t left = 0;
 
@@ -325,7 +343,7 @@ void HuyangFace::angryEyesLoop()
 
 void HuyangFace::angryEyes(uint16_t color)
 {
-	Serial.println(F("angryEyes"));
+	Serial.println("angryEyes");
 
 	uint16_t length = _tftDisplayHeight;
 
@@ -344,7 +362,7 @@ void HuyangFace::angryEyes(uint16_t color)
 	}
 }
 
-HuyangFace::HuyangFace(Arduino_GFX * left, Arduino_GFX * right)
+HuyangFace::HuyangFace(Arduino_GFX *left, Arduino_GFX *right)
 {
 	_leftEye = left;
 	_rightEye = right;
@@ -368,7 +386,8 @@ void HuyangFace::loop()
 {
 	_currentMillis = millis();
 
-	if (_previousMillis > _currentMillis) {
+	if (_previousMillis > _currentMillis)
+	{
 		_previousMillis = _currentMillis;
 	}
 

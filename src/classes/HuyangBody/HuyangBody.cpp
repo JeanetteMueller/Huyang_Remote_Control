@@ -19,15 +19,15 @@ HuyangBody::HuyangBody(Adafruit_PWMServoDriver *pwm) {
 void HuyangBody::rotateServo(uint8_t servo, uint16_t degree) {
 	uint16_t pulselength = map(degree, 0, 180, HuyangBody_SERVOMIN, HuyangBody_SERVOMAX);      //  Calibrate the positive range (see below)
 	/*
-	Serial.print(F("rotateServoToDegree Servo: "));
+	Serial.print("rotateServoToDegree Servo: ");
 	Serial.print(servo);
-	Serial.print(F(" to Degree: "));
+	Serial.print(" to Degree: ");
 	Serial.print(degree);
-	Serial.print(F(" with Pulselength: "));
+	Serial.print(" with Pulselength: ");
 	Serial.println(pulselength);
 	*/
 	_pwm->setPWM(servo, 0, pulselength);
-	// Serial.println(F("done"));
+	// Serial.println("done");
 }
 
 void HuyangBody::tiltSideways(uint16_t degree) {
@@ -57,7 +57,7 @@ void HuyangBody::setup()
 
 void HuyangBody::loop()
 {
-	// Serial.println(F("HuyangBody loop"));
+	// Serial.println("HuyangBody loop");
 
 	_currentMillis = millis();
 

@@ -30,6 +30,8 @@ public:
 	void setLeftEyeTo(EyeState newState);
 	void setRightEyeTo(EyeState newState);
 
+	EyeState getStateFrom(String stateString);
+
 private:
 	Arduino_GFX *_leftEye;
 	Arduino_GFX *_rightEye;
@@ -41,6 +43,9 @@ private:
 
 	uint16_t _huyangEyeColor = tftColor(255 - 255, 255 - 221, 255 - 34); // 0xFD20
 	uint16_t _huyangClosedEyeColor = tftColor(255, 255, 255);
+
+	EyeState _leftEyeLastSelectedState = Blink;
+	EyeState _rightEyeLastSelectedState = Blink;
 
 	EyeState _leftEyeTargetState = Blink;
 	EyeState _rightEyeTargetState = Blink;

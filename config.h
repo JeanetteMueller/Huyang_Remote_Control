@@ -2,8 +2,8 @@
 // Please read the "README.md"
 
 // Huyang Wifi Modes 
-// 0 = creates his own wifi with the following Data
-// 1 = connects to a existing wifi with the following credentials
+// WifiModeHotspot = creates his own wifi with the following Data
+// WifiModeNetwork = connects to a existing wifi with the following credentials
 // #define WiFiDefaultMode JxWifiManager::WifiModeHotspot
 #define WiFiDefaultMode JxWifiManager::WifiModeNetwork
 

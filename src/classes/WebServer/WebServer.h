@@ -29,8 +29,7 @@ public:
         settingsPage
     };
 
-    int16_t joy1_x = 0;
-    int16_t joy1_y = 0;
+    bool automaticAnimations = true;
 
     const char * leftEye;
     const char * rightEye;

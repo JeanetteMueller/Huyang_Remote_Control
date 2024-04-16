@@ -19,21 +19,21 @@ HuyangNeck::HuyangNeck(Adafruit_PWMServoDriver *pwm)
 
 void HuyangNeck::rotateServo(uint8_t servo, double degree)
 {
-	// Serial.println(F("HuyangNeck rotateServo create pulselength"));
+	// Serial.println("HuyangNeck rotateServo create pulselength");
 
 	uint16_t pulselength = map(degree, 0, 180, HuyangNeck_SERVOMIN, HuyangNeck_SERVOMAX); //  Calibrate the positive range (see below)
 
-	// Serial.print(F("rotateServoToDegree Servo: "));
+	// Serial.print("rotateServoToDegree Servo: ");
 	// Serial.print(servo);
-	// Serial.print(F(" to Degree: "));
+	// Serial.print(" to Degree: ");
 	// Serial.print(degree);
-	// Serial.print(F(" with Pulselength: "));
+	// Serial.print(" with Pulselength: ");
 	// Serial.println(pulselength);
 
-	// Serial.println(F("HuyangNeck rotateServo set PWM"));
+	// Serial.println("HuyangNeck rotateServo set PWM");
 
 	_pwm->setPWM(servo, 0, pulselength);
-	// Serial.println(F("done"));
+	// Serial.println("done");
 }
 
 double HuyangNeck::easeInAndOut(double start, double current, double target, double percentage)
@@ -47,11 +47,11 @@ double HuyangNeck::easeInAndOut(double start, double current, double target, dou
 
 	if (current != target)
 	{
-		// Serial.print(F("easeInAndOut from "));
+		// Serial.print("easeInAndOut from ");
 		// Serial.print(start);
-		// Serial.print(F(" to "));
+		// Serial.print(" to ");
 		// Serial.print(target);
-		// Serial.print(F(":  current "));
+		// Serial.print(":  current ");
 		// Serial.print(current);
 
 		auto easingFunction = getEasingFunction(EaseInOutQuad);
@@ -80,7 +80,7 @@ double HuyangNeck::easeInAndOut(double start, double current, double target, dou
 			}
 		}
 
-		// Serial.print(F(":   "));
+		// Serial.print(":   ");
 		// Serial.print(result);
 	}
 
