@@ -1,5 +1,9 @@
 const char javascript[] = R"====(
 
+var Joy1;
+var lastX = 0;
+var lastY = 0;
+
 async function postData(url = "", data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
@@ -68,7 +72,7 @@ function getServerData() {
     const data = {};
     sendData(data);
 }
-var Joy1;
+
 function systemInit() {
     console.log("systemInit started");
 
@@ -77,8 +81,16 @@ function systemInit() {
     Joy1 = new JoyStick('joyDiv', {
         "autoReturnToCenter": true
     }, function(stickData) {
-        console.log("joystick action");
-        sendNeckUpdate();
+
+        if (lastX != Joy1.GetX() || lastY != Joy1.GetY()) {
+            console.log("joystick action");
+
+            lastX = Joy1.GetX();
+            lastY = Joy1.GetY();
+
+            sendNeckUpdate();
+        }
+        
     });
 
     // setInterval(function(){ 
