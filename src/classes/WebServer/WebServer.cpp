@@ -3,8 +3,6 @@
 WebServer::WebServer(uint32_t port)
 {
     _server = new AsyncWebServer(port);
-
-
 }
 
 void WebServer::start()
@@ -64,9 +62,12 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
 
     if (!json["automatic"].isNull())
     {
-        automaticAnimations = json["automatic"];
-        Serial.print("post: automaticAnimations: ");
-        Serial.println(automaticAnimations ? "true" : "false");
+        faceAutomaticAnimations = json["automatic"];
+        neckAutomaticAnimations = json["automatic"];
+        bodyAutomaticAnimations = json["automatic"];
+
+        Serial.print("post: automatic: ");
+        Serial.println(json["automatic"] ? "true" : "false");
     }
 
     if (!json["face"].isNull())
@@ -74,6 +75,7 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
         if (!json["face"]["all"].isNull())
         {
             allEyes = json["face"]["all"];
+            faceAutomaticAnimations = false;
             Serial.print("post: allEyes: ");
             Serial.println(allEyes);
         }
@@ -82,12 +84,14 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
             if (!json["face"]["left"].isNull())
             {
                 leftEye = json["face"]["left"];
+                faceAutomaticAnimations = false;
                 Serial.print("post: leftEye: ");
                 Serial.println(leftEye);
             }
             if (!json["face"]["right"].isNull())
             {
                 rightEye = json["face"]["right"];
+                faceAutomaticAnimations = false;
                 Serial.print("post: rightEye: ");
                 Serial.println(rightEye);
             }
@@ -99,12 +103,14 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
         if (!json["neck"]["rotate"].isNull())
         {
             neckRotate = json["neck"]["rotate"];
+            neckAutomaticAnimations = false;
             Serial.print("post: headRotate: ");
             Serial.println(neckRotate);
         }
         if (!json["neck"]["tiltForward"].isNull())
         {
             neckTiltForward = json["neck"]["tiltForward"];
+            neckAutomaticAnimations = false;
             Serial.print("post: headTiltForward: ");
             Serial.println(neckTiltForward);
         }
@@ -115,36 +121,43 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
         if (!json["body"]["rotate"].isNull())
         {
             bodyRotate = json["body"]["rotate"];
+            bodyAutomaticAnimations = false;
             Serial.print("post: bodyRotate: ");
             Serial.println(bodyRotate);
         }
         if (!json["body"]["tiltForward"].isNull())
         {
             bodyTiltForward = json["body"]["tiltForward"];
+            bodyAutomaticAnimations = false;
             Serial.print("post: bodyTiltForward: ");
             Serial.println(bodyTiltForward);
         }
     }
 
     JsonDocument r = JsonDocument();
-    r["face"] = JsonDocument();
-    r["face"]["automatic"] = automaticAnimations;
-    r["face"]["eyes"]["left"] = leftEye;
-    r["face"]["eyes"]["right"] = rightEye;
-    
+    r["face"]["automatic"] = faceAutomaticAnimations;
+    if (NULL != allEyes)
+    {
+        r["face"]["eyes"]["all"] = allEyes;
+    }
+    if (NULL != leftEye)
+    {
+        r["face"]["eyes"]["left"] = leftEye;
+    }
+    if (NULL != rightEye)
+    {
+        r["face"]["eyes"]["right"] = rightEye;
+    }
+
+    r["neck"]["automatic"] = neckAutomaticAnimations;
     r["neck"]["rotate"] = neckRotate;
     r["neck"]["tiltForward"] = neckTiltForward;
     r["neck"]["tiltSideways"] = neckTiltSideways;
 
+    r["body"]["automatic"] = bodyAutomaticAnimations;
     r["body"]["rotate"] = bodyRotate;
     r["body"]["tiltForward"] = bodyTiltForward;
     r["body"]["tiltSideways"] = bodyTiltSideways;
-
-    //     "neck": {
-    //         "rotate": neckRotate,
-    //         "tiltForward": neckTiltForward
-    //     }
-    // };
 
     String result;
     serializeJson(r, result);
@@ -184,6 +197,11 @@ String WebServer::getPage(Page page, AsyncWebServerRequest *request)
     {
     case indexPage:
         getBaseHtml(indexHtml, html);
+
+        html.replace("###faceAutomaticAnimations###", faceAutomaticAnimations ? "ON" : "OFF");
+
+        // html.replace("###neckTiltSideways###", neckTiltSideways);
+
         break;
     case settingsPage:
         getBaseHtml(settingsHtml, html);

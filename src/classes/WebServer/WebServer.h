@@ -29,16 +29,17 @@ public:
         settingsPage
     };
 
-    bool automaticAnimations = true;
+    bool faceAutomaticAnimations = true;
+    const char *leftEye;
+    const char *rightEye;
+    const char *allEyes;
 
-    const char * leftEye;
-    const char * rightEye;
-    const char * allEyes;
-
+    bool neckAutomaticAnimations = true;
     int16_t neckRotate = 0;
     int16_t neckTiltForward = 0;
     int16_t neckTiltSideways = 0;
 
+    bool bodyAutomaticAnimations = true;
     int16_t bodyRotate = 0;
     int16_t bodyTiltForward = 0;
     int16_t bodyTiltSideways = 0;
@@ -50,10 +51,10 @@ private:
     AsyncWebServer *_server;
     String html;
 
-    void getBaseHtml(const String & body, String &target);
+    void getBaseHtml(const String &body, String &target);
     String getPage(Page page, AsyncWebServerRequest *request);
 
-    void apiPostAction(AsyncWebServerRequest *request, uint8_t* data, size_t len, size_t index, size_t total);
+    void apiPostAction(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total);
     void postAction(AsyncWebServerRequest *request);
 
     void notFound(AsyncWebServerRequest *request);

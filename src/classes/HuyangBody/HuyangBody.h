@@ -10,6 +10,9 @@ public:
     HuyangBody(Adafruit_PWMServoDriver *pwm);
     void setup();
     void loop();
+
+    bool automatic = true;
+    
     void tiltSideways(uint16_t degree);
     void tiltForward(uint16_t degree);
     void rotate(uint16_t degree);

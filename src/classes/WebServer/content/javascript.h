@@ -4,7 +4,7 @@ async function postData(url = "", data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
     method: "POST",
-    mode: "cors", // no-cors, *cors, same-origin
+    mode: "no-cors", // no-cors, *cors, same-origin
     cache: "no-cache",
     headers: {
       "Content-Type": "application/json"
@@ -12,7 +12,7 @@ async function postData(url = "", data = {}) {
     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(data), // body data type must match "Content-Type" header
   });
-  return response.json(); 
+  return response.json();
 }
 
 function sendEyeUpdate(position, action) {
@@ -40,16 +40,33 @@ function sendFormularUpdate() {
     sendData(data);
 }
 
-function sendData(data) {
+function changeAutomatic(newState) {
+    const data = { 
+        automatic: newState
+    };
 
+    sendData(data);
+}
+
+function sendData(data) {
     console.log(data);
 
-    postData("/api/post.json", data).then((result) => {
-        console.log(result); // JSON data parsed by `result.json()` call
+    postData("/api/post.json", data).then(json => {
+        console.log("Result from Server: ");
+        console.log(json);
+
+        if (json.face.automatic == true)  {
+            document.getElementById("button_automatic").innerHTML = "Auto is ON";
+        }else{
+            document.getElementById("button_automatic").innerHTML = "Auto is OFF";
+        }
     });
 }
 
 function systemInit() {
+
+    console.log("systemInit started");
+
     /*
     var joy1PosX = document.getElementById("joy1PosX");
     var joy1PosY = document.getElementById("joy1PosY");

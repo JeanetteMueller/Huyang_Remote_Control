@@ -38,7 +38,7 @@ void loop()
 {
     wifi->loop();
 
-    huyangFace->automatic = webserver->automaticAnimations;
+    huyangFace->automatic = webserver->faceAutomaticAnimations;
 
     if (NULL != webserver->allEyes)
     {
@@ -46,7 +46,6 @@ void loop()
         HuyangFace::EyeState newState = huyangFace->getStateFrom(webserver->allEyes);
         huyangFace->setEyesTo(newState);
         webserver->allEyes = NULL;
-        webserver->automaticAnimations = huyangFace->automatic;
     }
     else
     {
@@ -56,7 +55,6 @@ void loop()
             HuyangFace::EyeState newState = huyangFace->getStateFrom(webserver->leftEye);
             huyangFace->setLeftEyeTo(newState);
             webserver->leftEye = NULL;
-            webserver->automaticAnimations = huyangFace->automatic;
         }
 
         if (NULL != webserver->rightEye)
@@ -65,7 +63,6 @@ void loop()
             HuyangFace::EyeState newState = huyangFace->getStateFrom(webserver->rightEye);
             huyangFace->setRightEyeTo(newState);
             webserver->rightEye = NULL;
-            webserver->automaticAnimations = huyangFace->automatic;
         }
     }
 
@@ -73,11 +70,13 @@ void loop()
 
     huyangFace->loop();
 
+    huyangNeck->automatic = webserver->neckAutomaticAnimations;
     huyangNeck->rotate(webserver->neckRotate);
     huyangNeck->tiltForward(webserver->neckTiltForward);
     huyangNeck->tiltSideways(webserver->neckTiltSideways);
     huyangNeck->loop();
 
+    huyangBody->automatic = webserver->bodyAutomaticAnimations;
     huyangBody->rotate(webserver->bodyRotate);
     huyangBody->tiltForward(webserver->bodyTiltForward);
     huyangBody->tiltSideways(webserver->bodyTiltSideways);
