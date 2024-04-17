@@ -6,9 +6,11 @@ const char indexHtml[] = R"====(
   <a href="/settings.html" class="button">Settings</a>
 </div>
 
-<h3>Face</h3>
 <hr>
+<h4>Face</h4>
+
 <div class="menuContainer">
+  Both: 
   <a href="#" class="button" onClick="sendEyeUpdate('all', 'open');">OPEN</a> 
   <a href="#" class="button" onClick="sendEyeUpdate('all', 'close');">CLOSE</a>
   <a href="#" class="button" onClick="sendEyeUpdate('all', 'blink');">BLINK</a>
@@ -37,11 +39,10 @@ const char indexHtml[] = R"====(
   <a href="#" class="button" onClick="sendEyeUpdate('right', 'focus');">FOCUS</a> 
   <a href="#" class="button" onClick="sendEyeUpdate('right', 'sad');">SAD</a> 
   <a href="#" class="button" onClick="sendEyeUpdate('right', 'angry');">ANGRY</a>
-
 </div>
 
 <hr>
-<h3>Neck</h3>
+<h4>Neck</h4>
 
 <div class="joystickContainer">
     <div id="joyNeck" class="joystick"></div>
@@ -52,7 +53,7 @@ const char indexHtml[] = R"====(
 </div>
 
 <hr>
-<h3>Body</h3>
+<h4>Body</h4>
 
 <div class="joystickContainer">
     <div id="joyBody" class="joystick"></div>
@@ -70,6 +71,6 @@ const char indexHtml[] = R"====(
 </script>
 
 <hr>
-Made with Love by Jeanette M&uuml;ller
+Made with &#9829; by Jeanette M&uuml;ller
 
 )====";

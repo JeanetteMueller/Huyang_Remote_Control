@@ -5,6 +5,7 @@ body {
 	font-size: 16pt; 
 	background-color: #000; 
 	color: #fff;
+  text-align:center;
 }
 
 #container { 
@@ -59,11 +60,10 @@ h5 {
 }
 
 
-//Slider
-
 .slidecontainer {
   width: 100%;
   text-align:center;
+  font-size: 12pt; 
 }
 
 /* The slider itself */
