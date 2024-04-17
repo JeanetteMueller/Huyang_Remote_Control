@@ -15,6 +15,7 @@
 
 #include "content/styles.h"
 #include "content/javascript.h"
+#include "content/joystick.h"
 #include "content/baseHtml.h"
 
 #include "pages/indexHtml.h"

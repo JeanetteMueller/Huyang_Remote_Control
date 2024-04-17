@@ -139,6 +139,13 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
             Serial.print("post: bodyTiltForward: ");
             Serial.println(bodyTiltForward);
         }
+        if (!json["body"]["tiltSideways"].isNull())
+        {
+            bodyTiltSideways = json["body"]["tiltSideways"];
+            automaticAnimations = false;
+            Serial.print("post: bodyTiltSideways: ");
+            Serial.println(bodyTiltSideways);
+        }
     }
 
     JsonDocument r = JsonDocument();

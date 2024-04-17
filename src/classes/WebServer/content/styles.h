@@ -37,13 +37,16 @@ h5 {
 	color: #000;
 }
 
-.eyeContainer {
-  margin:auto;
-  min-width:30%;
+.menuContainer {
+  style="display: block;
+  width:100%;
   text-align:center;
-  background-color: #333;
-  border-radius: 10px;
-  border: 5px solid #000;
+}
+
+.eyeContainer {
+  width:50%;
+  text-align:center;
+  float:left;
 }
 
 .eye {
@@ -59,7 +62,8 @@ h5 {
 //Slider
 
 .slidecontainer {
-  width: 100%; /* Width of the outside container */
+  width: 100%;
+  text-align:center;
 }
 
 /* The slider itself */
@@ -67,12 +71,14 @@ h5 {
   -webkit-appearance: none;  /* Override default CSS styles */
   appearance: none;
   width: 100%; /* Full-width */
-  height: 25px; /* Specified height */
-  background: #d3d3d3; /* Grey background */
+  height: 50px; /* Specified height */
+  background: #333; /* Grey background */
   outline: none; /* Remove outline */
   opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
   -webkit-transition: .2s; /* 0.2 seconds transition on hover */
   transition: opacity .2s;
+  text-align: center;
+  border-radius: 25px; 
 }
 
 /* Mouse-over effects */
@@ -84,17 +90,19 @@ h5 {
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none; /* Override default look */
   appearance: none;
-  width: 25px; /* Set a specific slider handle width */
-  height: 25px; /* Slider handle height */
-  background: #04AA6D; /* Green background */
+  width: 50px; /* Set a specific slider handle width */
+  height: 50px; /* Slider handle height */
+  background: #fd2; /* Marker background */
   cursor: pointer; /* Cursor on hover */
+  border-radius: 25px; 
 }
 
 .slider::-moz-range-thumb {
-  width: 25px; /* Set a specific slider handle width */
-  height: 25px; /* Slider handle height */
-  background: #04AA6D; /* Green background */
+  width: 50px; /* Set a specific slider handle width */
+  height: 50px; /* Slider handle height */
+  background: #fd2; /* Marker background */
   cursor: pointer; /* Cursor on hover */
+  border-radius: 20px;
 }
 
 .joystickContainer {
@@ -107,9 +115,10 @@ h5 {
 }
 .joystick {
   display: inline-block;
-  width:280px;
-  height:280px;
+  width:250px;
+  height:250px;
   margin:0px;
+  cursor: pointer; /* Cursor on hover */
 }
 
 .hidden {

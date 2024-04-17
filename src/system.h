@@ -2,7 +2,7 @@
 void setup()
 {
     Serial.begin(115200); // Used only for debugging on arduino serial monitor
-    Serial.println("Huyang! v1.6");
+    Serial.println("Huyang! v1.7 by Jeanette Müller");
 
     wifi->currentMode = WiFiDefaultMode;
 
