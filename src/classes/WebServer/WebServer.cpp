@@ -119,8 +119,6 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
             Serial.print("post: neckTiltSideways: ");
             Serial.println(neckTiltSideways);
         }
-
-        
     }
 
     if (!json["body"].isNull())
@@ -210,6 +208,10 @@ String WebServer::getPage(Page page, AsyncWebServerRequest *request)
     {
     case indexPage:
         getBaseHtml(indexHtml, html);
+
+        html.replace("###FACE###", indexHtml_face);
+        html.replace("###NECK###", indexHtml_neck);
+        html.replace("###BODY###", indexHtml_body);
 
         break;
     case settingsPage:

@@ -2,7 +2,7 @@ const char styles[] = R"====(
 
 body { 
 	font-family: 'Helvetica', 'Arial', sans-serif; 
-	font-size: 16pt; 
+	font-size: 30pt; 
 	background-color: #000; 
 	color: #fff;
   text-align:center;
@@ -20,23 +20,16 @@ a:link, a:visited, a:active {
 .button { 
 	background-color: #333; 
 	display: inline-block; 
-	padding: 5px; 
-	margin: 5px; 
+	padding: 10px; 
+	margin: 10px; 
 	color: #fff; 
 	text-decoration: none; 
 	border-radius: 5px;
 }
 
-h5 { 
-	font-family: 'Helvetica', 'Arial', sans-serif; 
-	font-size: 22pt; 
-	display: flex; 
-	align-items: center; 
-	justify-content: center; 
-	width:100%;
-	text-align:center; 
-	color: #000;
-}
+h4 {
+  margin: 0;
+} 
 
 .menuContainer {
   style="display: block;
@@ -53,17 +46,33 @@ h5 {
 .eye {
   display: block;
   margin:auto;
-  width:100px;height: 100px;
+  width:200px; height: 200px;
   text-align:center;
-  border-radius: 50px;
+  border-radius: 100px;
   background-color: #fd2;
 }
 
+.eye > h5 {
+  font-family: 'Helvetica', 'Arial', sans-serif; 
+	font-size: 40pt; 
+	display: flex; 
+	align-items: center; 
+	justify-content: center; 
+	width: 100%;
+	text-align:center; 
+  margin: 0;
+  padding: 70px 0 0 0;
+  color: black;
+}
 
 .slidecontainer {
   width: 100%;
   text-align:center;
   font-size: 12pt; 
+}
+
+.selected {
+  background-color: #f00 !important;
 }
 
 /* The slider itself */
@@ -106,18 +115,15 @@ h5 {
 }
 
 .joystickContainer {
-  min-width:30%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
 }
 .joystick {
   display: inline-block;
-  width:250px;
-  height:250px;
+  width:400px;
+  height:400px;
   margin:0px;
+  padding: 0;
   cursor: pointer; /* Cursor on hover */
 }
 

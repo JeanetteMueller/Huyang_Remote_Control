@@ -9,10 +9,6 @@ var JoyBodyX = 0;
 var JoyBodyY = 0;
 
 function sendEyeUpdate(position, action) {
-    console.log(position);
-    console.log(" eye do action: ");
-    console.log(action);
-
     data = {
         face: {}
     };
@@ -67,6 +63,21 @@ async function postData(url = "", data = {}) {
   });
   return response.json();
 }
+
+var automatic = true;
+
+var face_eyes_all = 'unknown';
+var face_eyes_left = 'unknown';
+var face_eyes_right = 'unknown';
+
+var neck_rotate = 0;
+var neck_tiltForward = 0;
+var neck_tiltSideways = 0;
+
+var body_rotate = 0;
+var body_tiltForward = 0;
+var body_tiltSideways = 0;
+
 function sendData(data) {
     console.log(data);
 
@@ -74,12 +85,100 @@ function sendData(data) {
         console.log("Result from Server: ");
         console.log(json);
 
-        if (json.automatic == true)  {
-            document.getElementById("button_automatic").innerHTML = "Auto is ON";
-        }else{
-            document.getElementById("button_automatic").innerHTML = "Auto is OFF";
+        automatic = json.automatic;
+
+        if (json.face != null) {
+            if (json.face.eyes.all != null) {
+                face_eyes_all = json.face.eyes.all;
+                face_eyes_left = face_eyes_all;
+                face_eyes_right = face_eyes_all;
+            }
+            if (json.face.eyes.left != null) {
+                face_eyes_left = json.face.eyes.left;
+            }
+            if (json.face.eyes.right != null) {
+                face_eyes_right = json.face.eyes.right;
+            }
         }
+
+        if (json.neck != null) {
+            neck_rotate = json.neck.rotate;
+            neck_tiltForward = json.neck.tiltForward;
+            neck_tiltSideways = json.neck.tiltSideways;
+        }
+
+        if (json.body != null) {
+            body_rotate = json.body.rotate;
+            body_tiltForward = json.body.tiltForward;
+            body_tiltSideways = json.body.tiltSideways;
+        }
+
+        updateUserInterface();
     });
+}
+
+function updateUserInterface() {
+    if (automatic == true)  {
+        document.getElementById("button_automatic").innerHTML = "Auto is ON";
+    }else{
+        document.getElementById("button_automatic").innerHTML = "Auto is OFF";
+    }
+
+    console.log("face_eyes_all " + face_eyes_all);
+    console.log("face_eyes_left " + face_eyes_left);
+    console.log("face_eyes_right " + face_eyes_right);
+
+    document.getElementById("eye_left_open").classList.remove("selected");
+    document.getElementById("eye_left_close").classList.remove("selected");
+    document.getElementById("eye_left_blink").classList.remove("selected");
+    document.getElementById("eye_left_focus").classList.remove("selected");
+    document.getElementById("eye_left_sad").classList.remove("selected");
+    document.getElementById("eye_left_angry").classList.remove("selected");
+
+    document.getElementById("eye_right_open").classList.remove("selected");
+    document.getElementById("eye_right_close").classList.remove("selected");
+    document.getElementById("eye_right_blink").classList.remove("selected");
+    document.getElementById("eye_right_focus").classList.remove("selected");
+    document.getElementById("eye_right_sad").classList.remove("selected");
+    document.getElementById("eye_right_angry").classList.remove("selected");
+
+    if (face_eyes_left == "open") {
+        document.getElementById("eye_left_open").classList.add("selected");
+    } else if (face_eyes_left == "close") {
+        document.getElementById("eye_left_close").classList.add("selected");
+    } else if (face_eyes_left == "blink") {
+        document.getElementById("eye_left_blink").classList.add("selected");
+    } else if (face_eyes_left == "focus") {
+        document.getElementById("eye_left_focus").classList.add("selected");
+    } else if (face_eyes_left == "sad") {
+        document.getElementById("eye_left_sad").classList.add("selected");
+    } else if (face_eyes_left == "angry") {
+        document.getElementById("eye_left_angry").classList.add("selected");
+    }
+
+    if (face_eyes_right == "open") {
+        document.getElementById("eye_right_open").classList.add("selected");
+    } else if (face_eyes_right == "close") {
+        document.getElementById("eye_right_close").classList.add("selected");
+    } else if (face_eyes_right == "blink") {
+        document.getElementById("eye_right_blink").classList.add("selected");
+    } else if (face_eyes_right == "focus") {
+        document.getElementById("eye_right_focus").classList.add("selected");
+    } else if (face_eyes_right == "sad") {
+        document.getElementById("eye_right_sad").classList.add("selected");
+    } else if (face_eyes_right == "angry") {
+        document.getElementById("eye_right_angry").classList.add("selected");
+    }
+
+
+
+    console.log("neck_rotate " + neck_rotate);
+    console.log("neck_tiltForward " + neck_tiltForward);
+    console.log("neck_tiltSideways " + neck_tiltSideways);
+
+    console.log("body_rotate " + body_rotate);
+    console.log("body_tiltForward " + body_tiltForward);
+    console.log("body_tiltSideways " + body_tiltSideways);
 }
 
 function getServerData() {
