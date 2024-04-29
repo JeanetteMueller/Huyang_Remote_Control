@@ -101,15 +101,14 @@ function systemInit() {
         "externalStrokeColor": "#b90"
     }, function(stickData) {
 
-        if (JoyNeckX != JoyNeck.GetX() || JoyNeckY != JoyNeck.GetY()) {
+        if (JoyNeckX != stickData.x || JoyNeckY != stickData.y) {
             console.log("joystick JoyNeck action");
 
-            JoyNeckX = JoyNeck.GetX();
-            JoyNeckY = JoyNeck.GetY();
+            JoyNeckX = stickData.x;
+            JoyNeckY = stickData.y;
 
             sendNeckUpdate();
         }
-        
     });
 
     JoyBody = new JoyStick('joyBody', {
@@ -121,15 +120,14 @@ function systemInit() {
         "externalStrokeColor": "#b90"
     }, function(stickData) {
 
-        if (JoyBodyX != JoyBody.GetX() || JoyBodyY != JoyBody.GetY()) {
-            console.log("joystick action");
+        if (JoyBodyX != stickData.x || JoyBodyY != stickData.y) {
+            console.log("joystick JoyBody action");
 
-            JoyBodyX = JoyBody.GetX();
-            JoyBodyY = JoyBody.GetY();
+            JoyBodyX = stickData.x;
+            JoyBodyY = stickData.y;
 
             sendBodyUpdate();
         }
-        
     });
 }
 
