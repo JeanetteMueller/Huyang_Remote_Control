@@ -63,11 +63,33 @@ const char indexHtml[] = R"====(
   <input id="slider_bodyTiltSideways" type="range" min="-25" max="25" value="0" class="slider" onInput="sendBodyUpdate()">
 </div>
 
-<script>
-    window.onload = function () {
-        console.log('Dokument geladen');
-        systemInit();
-    }
+
+<script language="javascript">
+  window.onload = function(){
+
+    loadJoystick();
+  }
+
+  function loadJoystick() {
+    var newScript = document.createElement("script");
+    newScript.src = "joystick.js";
+    document.body.appendChild(newScript);
+
+    console.log('joystick loaded');
+
+    setTimeout(() => { loadJavascript(); }, 1000);
+    
+  }
+
+  function loadJavascript() {
+    var newScript = document.createElement("script");
+    newScript.src = "javascript.js";
+    document.body.appendChild(newScript);
+    console.log('javascript loaded');
+
+    setTimeout(() => { systemInit(); }, 500);
+  }
+        
 </script>
 
 <hr>
