@@ -32,9 +32,9 @@ public:
 
     bool automaticAnimations = true;
 
-    const char *leftEye = "blink";
-    const char *rightEye = "blink";
-    const char *allEyes = NULL;
+    uint16_t leftEye = 1;
+    uint16_t rightEye = 1;
+    uint16_t allEyes = 0;
 
     int16_t neckRotate = 0;
     int16_t neckTiltForward = 0;

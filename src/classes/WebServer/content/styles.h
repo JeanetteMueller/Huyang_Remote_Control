@@ -15,7 +15,9 @@ body {
 }
 
 a:link, a:visited, a:active { 
-	color: #fff; text-decoration: none; }
+	color: #fff; 
+  text-decoration: none;
+}
 
 .button { 
 	background-color: #333; 

@@ -11,12 +11,13 @@ class HuyangFace
 public:
 	enum EyeState
 	{
-		Open,
-		Closed,
-		Blink,
-		Focus,
-		Sad,
-		Angry
+		None = 0,
+		Open = 1,
+		Closed = 2,
+		Blink = 3,
+		Focus = 4,
+		Sad = 5,
+		Angry = 6
 	};
 
 	HuyangFace(Arduino_GFX *left, Arduino_GFX *right);
@@ -30,7 +31,7 @@ public:
 	void setLeftEyeTo(EyeState newState);
 	void setRightEyeTo(EyeState newState);
 
-	EyeState getStateFrom(const char * stateString);
+	EyeState getStateFrom(uint8_t state);
 
 private:
 	Arduino_GFX *_leftEye;

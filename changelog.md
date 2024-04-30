@@ -33,3 +33,4 @@
 ## 1.7
 * New Calibration File
 * Styling
+* Show current state of eyes

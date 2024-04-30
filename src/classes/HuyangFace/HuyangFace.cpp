@@ -2,34 +2,34 @@
 #include "HuyangFace.h"
 #include <Arduino_GFX_Library.h>
 
-HuyangFace::EyeState HuyangFace::getStateFrom(const char *stateString)
+HuyangFace::EyeState HuyangFace::getStateFrom(uint8_t state)
 {
-	if (stateString == "open")
+	if (state == 1)
 	{
 		return HuyangFace::EyeState::Open;
 	}
-	else if (stateString == "close")
+	else if (state == 2)
 	{
 		return HuyangFace::EyeState::Closed;
 	}
-	else if (stateString == "blink")
+	else if (state == 3)
 	{
 		return HuyangFace::EyeState::Blink;
 	}
-	else if (stateString == "focus")
+	else if (state == 4)
 	{
 		return HuyangFace::EyeState::Focus;
 	}
-	else if (stateString == "sad")
+	else if (state == 5)
 	{
 		return HuyangFace::EyeState::Sad;
 	}
-	else if (stateString == "angry")
+	else if (state == 6)
 	{
 		return HuyangFace::EyeState::Angry;
 	}
 
-	return HuyangFace::EyeState::Open;
+	return HuyangFace::EyeState::None;
 }
 
 void HuyangFace::setEyesTo(EyeState newState)

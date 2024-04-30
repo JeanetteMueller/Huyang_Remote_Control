@@ -40,22 +40,22 @@ void loop()
 
     huyangFace->automatic = webserver->automaticAnimations;
 
-    if (NULL != webserver->allEyes)
+    if (webserver->allEyes != 0)
     {
         Serial.println("update both eyes");
         HuyangFace::EyeState newState = huyangFace->getStateFrom(webserver->allEyes);
         huyangFace->setEyesTo(newState);
-        webserver->allEyes = NULL;
+        webserver->allEyes = 0;
     }
     else
     {
-        if (NULL != webserver->leftEye)
+        if (webserver->leftEye != 0)
         {
             HuyangFace::EyeState newLeftState = huyangFace->getStateFrom(webserver->leftEye);
             huyangFace->setLeftEyeTo(newLeftState);
         }
 
-        if (NULL != webserver->rightEye)
+        if (webserver->rightEye != 0)
         {
             HuyangFace::EyeState newRightState = huyangFace->getStateFrom(webserver->rightEye);
             huyangFace->setRightEyeTo(newRightState);
