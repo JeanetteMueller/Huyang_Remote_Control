@@ -1,7 +1,8 @@
 const char settingsHtml[] = R"====(
 
-Settings Page UNDER CONSTRUCTION
+Settings Page is UNDER CONSTRUCTION
 <br />
-<a href="/index.html">Back Home</a>
+<br />
+<a href="/index.html">&larr; Back Home</a>
 
 )====";

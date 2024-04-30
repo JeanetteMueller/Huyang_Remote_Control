@@ -29,3 +29,8 @@
 * Send All Eye Actions as Javascript Post
 * New Joystick to move the Head
 * New Slider for Head Sidways Tilt
+
+## 1.7
+* New Calibration File
+* Styling
+* Show current state of eyes

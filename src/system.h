@@ -2,7 +2,7 @@
 void setup()
 {
     Serial.begin(115200); // Used only for debugging on arduino serial monitor
-    Serial.println("Huyang! v1.6");
+    Serial.println("Huyang! v1.7 by Jeanette Müller");
 
     wifi->currentMode = WiFiDefaultMode;
 
@@ -40,33 +40,26 @@ void loop()
 
     huyangFace->automatic = webserver->automaticAnimations;
 
-    if (NULL != webserver->allEyes)
+    if (webserver->allEyes != 0)
     {
         Serial.println("update both eyes");
         HuyangFace::EyeState newState = huyangFace->getStateFrom(webserver->allEyes);
         huyangFace->setEyesTo(newState);
-        webserver->allEyes = NULL;
     }
     else
     {
-        if (NULL != webserver->leftEye)
+        if (webserver->leftEye != 0)
         {
-            Serial.println("update left eye");
-            HuyangFace::EyeState newState = huyangFace->getStateFrom(webserver->leftEye);
-            huyangFace->setLeftEyeTo(newState);
-            webserver->leftEye = NULL;
+            HuyangFace::EyeState newLeftState = huyangFace->getStateFrom(webserver->leftEye);
+            huyangFace->setLeftEyeTo(newLeftState);
         }
 
-        if (NULL != webserver->rightEye)
+        if (webserver->rightEye != 0)
         {
-            Serial.println("update right eye");
-            HuyangFace::EyeState newState = huyangFace->getStateFrom(webserver->rightEye);
-            huyangFace->setRightEyeTo(newState);
-            webserver->rightEye = NULL;
+            HuyangFace::EyeState newRightState = huyangFace->getStateFrom(webserver->rightEye);
+            huyangFace->setRightEyeTo(newRightState);
         }
     }
-
-    
 
     huyangFace->loop();
 

@@ -5,6 +5,8 @@
 
 #include "config.h"
 
+#include "calibration.h"
+
 #include "src/definitions.h"
 
 #include "src/system.h"

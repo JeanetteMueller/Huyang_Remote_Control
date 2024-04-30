@@ -2,9 +2,10 @@ const char styles[] = R"====(
 
 body { 
 	font-family: 'Helvetica', 'Arial', sans-serif; 
-	font-size: 16pt; 
+	font-size: 30pt; 
 	background-color: #000; 
 	color: #fff;
+  text-align:center;
 }
 
 #container { 
@@ -14,52 +15,66 @@ body {
 }
 
 a:link, a:visited, a:active { 
-	color: #fff; text-decoration: none; }
+	color: #fff; 
+  text-decoration: none;
+}
 
 .button { 
 	background-color: #333; 
 	display: inline-block; 
-	padding: 5px; 
-	margin: 5px; 
+	padding: 10px; 
+	margin: 10px; 
 	color: #fff; 
 	text-decoration: none; 
 	border-radius: 5px;
 }
 
-h5 { 
-	font-family: 'Helvetica', 'Arial', sans-serif; 
-	font-size: 22pt; 
-	display: flex; 
-	align-items: center; 
-	justify-content: center; 
-	width:100%;
-	text-align:center; 
-	color: #000;
+h4 {
+  margin: 0;
+} 
+
+.menuContainer {
+  style="display: block;
+  width:100%;
+  text-align:center;
 }
 
 .eyeContainer {
-  margin:auto;
-  min-width:30%;
+  width:50%;
   text-align:center;
-  background-color: #333;
-  border-radius: 10px;
-  border: 5px solid #000;
+  float:left;
 }
 
 .eye {
   display: block;
   margin:auto;
-  width:100px;height: 100px;
+  width:200px; height: 200px;
   text-align:center;
-  border-radius: 50px;
+  border-radius: 100px;
   background-color: #fd2;
 }
 
-
-//Slider
+.eye > h5 {
+  font-family: 'Helvetica', 'Arial', sans-serif; 
+	font-size: 40pt; 
+	display: flex; 
+	align-items: center; 
+	justify-content: center; 
+	width: 100%;
+	text-align:center; 
+  margin: 0;
+  padding: 70px 0 0 0;
+  color: black;
+}
 
 .slidecontainer {
-  width: 100%; /* Width of the outside container */
+  width: 100%;
+  text-align:center;
+  font-size: 12pt; 
+}
+
+.selected {
+  background-color: #f00 !important;
 }
 
 /* The slider itself */
@@ -67,12 +82,14 @@ h5 {
   -webkit-appearance: none;  /* Override default CSS styles */
   appearance: none;
   width: 100%; /* Full-width */
-  height: 25px; /* Specified height */
-  background: #d3d3d3; /* Grey background */
+  height: 50px; /* Specified height */
+  background: #333; /* Grey background */
   outline: none; /* Remove outline */
   opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
   -webkit-transition: .2s; /* 0.2 seconds transition on hover */
   transition: opacity .2s;
+  text-align: center;
+  border-radius: 25px; 
 }
 
 /* Mouse-over effects */
@@ -84,32 +101,32 @@ h5 {
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none; /* Override default look */
   appearance: none;
-  width: 25px; /* Set a specific slider handle width */
-  height: 25px; /* Slider handle height */
-  background: #04AA6D; /* Green background */
+  width: 50px; /* Set a specific slider handle width */
+  height: 50px; /* Slider handle height */
+  background: #fd2; /* Marker background */
   cursor: pointer; /* Cursor on hover */
+  border-radius: 25px; 
 }
 
 .slider::-moz-range-thumb {
-  width: 25px; /* Set a specific slider handle width */
-  height: 25px; /* Slider handle height */
-  background: #04AA6D; /* Green background */
+  width: 50px; /* Set a specific slider handle width */
+  height: 50px; /* Slider handle height */
+  background: #fd2; /* Marker background */
   cursor: pointer; /* Cursor on hover */
+  border-radius: 20px;
 }
 
 .joystickContainer {
-  min-width:30%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
 }
 .joystick {
   display: inline-block;
-  width:280px;
-  height:280px;
+  width:400px;
+  height:400px;
   margin:0px;
+  padding: 0;
+  cursor: pointer; /* Cursor on hover */
 }
 
 .hidden {
