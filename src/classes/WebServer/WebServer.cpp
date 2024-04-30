@@ -11,9 +11,6 @@ void WebServer::start()
         "/api/post.json", HTTP_POST, [&](AsyncWebServerRequest *request) {}, nullptr, [&](AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total)
         { apiPostAction(request, data, len, index, total); });
 
-    // _server->on("/", HTTP_POST, [&](AsyncWebServerRequest *request)
-    //             { postAction(request); });
-
     _server->on("/styles.css", HTTP_GET, [&](AsyncWebServerRequest *request)
                 { 
                     AsyncResponseStream *response = request->beginResponseStream("text/css");
@@ -60,6 +57,8 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
     JsonDocument json;
     deserializeJson(json, data, len);
 
+    JsonDocument r = JsonDocument();
+
     if (!json["automatic"].isNull())
     {
         automaticAnimations = json["automatic"];
@@ -68,11 +67,14 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
         Serial.println(json["automatic"] ? "true" : "false");
     }
 
-    if (!json["face"].isNull())
+    if (json["face"].isNull() == false)
     {
-        if (!json["face"]["all"].isNull())
+        if (json["face"]["all"].isNull() == false)
         {
             allEyes = json["face"]["all"];
+            leftEye = json["face"]["all"];
+            rightEye = json["face"]["all"];
+
             automaticAnimations = false;
             Serial.print("post: allEyes: ");
             Serial.println(allEyes);
@@ -94,6 +96,14 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
                 Serial.println(rightEye);
             }
         }
+
+        if (NULL != allEyes)
+        {
+            r["face"]["eyes"]["all"] = allEyes;
+        }
+
+        r["face"]["eyes"]["left"] = leftEye;
+        r["face"]["eyes"]["right"] = rightEye;
     }
 
     if (!json["neck"].isNull())
@@ -119,6 +129,10 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
             Serial.print("post: neckTiltSideways: ");
             Serial.println(neckTiltSideways);
         }
+
+        r["neck"]["rotate"] = neckRotate;
+        r["neck"]["tiltForward"] = neckTiltForward;
+        r["neck"]["tiltSideways"] = neckTiltSideways;
     }
 
     if (!json["body"].isNull())
@@ -144,53 +158,18 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
             Serial.print("post: bodyTiltSideways: ");
             Serial.println(bodyTiltSideways);
         }
+
+        r["body"]["rotate"] = bodyRotate;
+        r["body"]["tiltForward"] = bodyTiltForward;
+        r["body"]["tiltSideways"] = bodyTiltSideways;
     }
 
-    JsonDocument r = JsonDocument();
     r["automatic"] = automaticAnimations;
-
-    if (NULL != allEyes)
-    {
-        r["face"]["eyes"]["all"] = allEyes;
-    }
-    if (NULL != leftEye)
-    {
-        r["face"]["eyes"]["left"] = leftEye;
-    }
-    if (NULL != rightEye)
-    {
-        r["face"]["eyes"]["right"] = rightEye;
-    }
-
-    r["neck"]["rotate"] = neckRotate;
-    r["neck"]["tiltForward"] = neckTiltForward;
-    r["neck"]["tiltSideways"] = neckTiltSideways;
-
-    r["body"]["rotate"] = bodyRotate;
-    r["body"]["tiltForward"] = bodyTiltForward;
-    r["body"]["tiltSideways"] = bodyTiltSideways;
 
     String result;
     serializeJson(r, result);
 
     request->send(200, "application/json", result);
-}
-
-void WebServer::postAction(AsyncWebServerRequest *request)
-{
-    Serial.println("ACTION!");
-
-    int params = request->params();
-    for (int i = 0; i < params; i++)
-    {
-        AsyncWebParameter *p = request->getParam(i);
-        Serial.printf("POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
-
-        if (p->name() == "whatever")
-        {
-        }
-    }
-    request->send(200, "text/html", getPage(indexPage, request));
 }
 
 String WebServer::getPage(Page page, AsyncWebServerRequest *request)

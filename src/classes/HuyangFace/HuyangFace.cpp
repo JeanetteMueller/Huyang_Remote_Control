@@ -2,14 +2,39 @@
 #include "HuyangFace.h"
 #include <Arduino_GFX_Library.h>
 
-HuyangFace::EyeState HuyangFace::getStateFrom(String stateString)
+HuyangFace::EyeState HuyangFace::getStateFrom(const char *stateString)
 {
+	if (stateString == "open")
+	{
+		return HuyangFace::EyeState::Open;
+	}
+	else if (stateString == "close")
+	{
+		return HuyangFace::EyeState::Closed;
+	}
+	else if (stateString == "blink")
+	{
+		return HuyangFace::EyeState::Blink;
+	}
+	else if (stateString == "focus")
+	{
+		return HuyangFace::EyeState::Focus;
+	}
+	else if (stateString == "sad")
+	{
+		return HuyangFace::EyeState::Sad;
+	}
+	else if (stateString == "angry")
+	{
+		return HuyangFace::EyeState::Angry;
+	}
+
 	return HuyangFace::EyeState::Open;
 }
 
 void HuyangFace::setEyesTo(EyeState newState)
 {
-	if (_leftEyeLastSelectedState != newState && _rightEyeLastSelectedState != newState)
+	if (_leftEyeLastSelectedState != newState || _rightEyeLastSelectedState != newState)
 	{
 		_leftEyeLastSelectedState = newState;
 		_rightEyeLastSelectedState = newState;
@@ -31,7 +56,7 @@ void HuyangFace::setLeftEyeTo(EyeState newState)
 }
 void HuyangFace::setRightEyeTo(EyeState newState)
 {
-	if (_leftEyeLastSelectedState != newState)
+	if (_rightEyeLastSelectedState != newState)
 	{
 		_rightEyeLastSelectedState = newState;
 		_rightEyeTargetState = newState;

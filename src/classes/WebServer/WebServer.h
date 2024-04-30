@@ -31,10 +31,10 @@ public:
     };
 
     bool automaticAnimations = true;
-    
-    const char *leftEye;
-    const char *rightEye;
-    const char *allEyes;
+
+    const char *leftEye = "blink";
+    const char *rightEye = "blink";
+    const char *allEyes = NULL;
 
     int16_t neckRotate = 0;
     int16_t neckTiltForward = 0;
@@ -55,7 +55,6 @@ private:
     String getPage(Page page, AsyncWebServerRequest *request);
 
     void apiPostAction(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total);
-    void postAction(AsyncWebServerRequest *request);
 
     void notFound(AsyncWebServerRequest *request);
     std::string random_string(size_t length);

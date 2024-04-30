@@ -51,22 +51,16 @@ void loop()
     {
         if (NULL != webserver->leftEye)
         {
-            Serial.println("update left eye");
-            HuyangFace::EyeState newState = huyangFace->getStateFrom(webserver->leftEye);
-            huyangFace->setLeftEyeTo(newState);
-            webserver->leftEye = NULL;
+            HuyangFace::EyeState newLeftState = huyangFace->getStateFrom(webserver->leftEye);
+            huyangFace->setLeftEyeTo(newLeftState);
         }
 
         if (NULL != webserver->rightEye)
         {
-            Serial.println("update right eye");
-            HuyangFace::EyeState newState = huyangFace->getStateFrom(webserver->rightEye);
-            huyangFace->setRightEyeTo(newState);
-            webserver->rightEye = NULL;
+            HuyangFace::EyeState newRightState = huyangFace->getStateFrom(webserver->rightEye);
+            huyangFace->setRightEyeTo(newRightState);
         }
     }
-
-    
 
     huyangFace->loop();
 

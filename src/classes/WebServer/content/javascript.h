@@ -10,7 +10,10 @@ var JoyBodyY = 0;
 
 function sendEyeUpdate(position, action) {
     data = {
-        face: {}
+        face: {
+            left: face_eyes_left,
+            right: face_eyes_right
+        }
     };
 
     data["face"][position] = action;
@@ -66,9 +69,9 @@ async function postData(url = "", data = {}) {
 
 var automatic = true;
 
-var face_eyes_all = 'unknown';
-var face_eyes_left = 'unknown';
-var face_eyes_right = 'unknown';
+var face_eyes_all = null;
+var face_eyes_left = 'blink';
+var face_eyes_right = 'blink';
 
 var neck_rotate = 0;
 var neck_tiltForward = 0;
@@ -90,8 +93,8 @@ function sendData(data) {
         if (json.face != null) {
             if (json.face.eyes.all != null) {
                 face_eyes_all = json.face.eyes.all;
-                face_eyes_left = face_eyes_all;
-                face_eyes_right = face_eyes_all;
+                face_eyes_left = json.face.eyes.all;
+                face_eyes_right = json.face.eyes.all;
             }
             if (json.face.eyes.left != null) {
                 face_eyes_left = json.face.eyes.left;
@@ -176,13 +179,21 @@ function updateUserInterface() {
     console.log("neck_tiltForward " + neck_tiltForward);
     console.log("neck_tiltSideways " + neck_tiltSideways);
 
+    document.getElementById("slider_neckTiltSideways").value = neck_tiltSideways;
+
     console.log("body_rotate " + body_rotate);
     console.log("body_tiltForward " + body_tiltForward);
     console.log("body_tiltSideways " + body_tiltSideways);
+
+    document.getElementById("slider_bodyTiltSideways").value = body_tiltSideways;
 }
 
 function getServerData() {
-    const data = {};
+    const data = {
+        face: {},
+        neck: {},
+        body: {}
+    };
     sendData(data);
 }
 

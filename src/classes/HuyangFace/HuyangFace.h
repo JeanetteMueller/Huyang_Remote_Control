@@ -30,11 +30,12 @@ public:
 	void setLeftEyeTo(EyeState newState);
 	void setRightEyeTo(EyeState newState);
 
-	EyeState getStateFrom(String stateString);
+	EyeState getStateFrom(const char * stateString);
 
 private:
 	Arduino_GFX *_leftEye;
 	Arduino_GFX *_rightEye;
+
 	unsigned long _currentMillis = 0;
 	unsigned long _previousMillis = 0;
 	
