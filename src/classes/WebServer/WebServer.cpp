@@ -64,7 +64,14 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
         automaticAnimations = json["automatic"];
 
         Serial.print("post: automatic: ");
-        Serial.println(json["automatic"] ? "true" : "false");
+        Serial.println(automaticAnimations ? "true" : "false");
+
+        if (automaticAnimations) {
+            allEyes = 0;
+            leftEye = 3;
+            rightEye = 3;
+
+        }
     }
 
     if (json["face"].isNull() == false)
