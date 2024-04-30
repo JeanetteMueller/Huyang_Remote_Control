@@ -32,8 +32,8 @@ public:
 
     bool automaticAnimations = true;
 
-    uint16_t leftEye = 1;
-    uint16_t rightEye = 1;
+    uint16_t leftEye = 3;
+    uint16_t rightEye = 3;
     uint16_t allEyes = 0;
 
     int16_t neckRotate = 0;
