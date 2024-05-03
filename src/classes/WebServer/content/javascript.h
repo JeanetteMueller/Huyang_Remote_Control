@@ -24,6 +24,7 @@ var JoyBodyY = 0;
 
 function sendEyeUpdate(position, action) {
     data = {
+        automatic: false,
         face: {
             left: face_eyes_left,
             right: face_eyes_right
@@ -45,6 +46,7 @@ function changeAutomatic(newState) {
 
 function sendNeckUpdate() {
     const data = {
+        automatic: false,
         neck: {
             rotate: JoyNeck.GetX(),
             tiltForward: JoyNeck.GetY(),
@@ -57,6 +59,7 @@ function sendNeckUpdate() {
 
 function sendBodyUpdate() {
     const data = {
+        automatic: false,
         body: {
             rotate: JoyBody.GetX(),
             tiltForward: JoyBody.GetY(),
@@ -209,6 +212,8 @@ function systemInit() {
     console.log("systemInit started");
 
     getServerData();
+
+    setInterval(getServerData, 2000);
 
     JoyNeck = new JoyStick('joyNeck', {
         "autoReturnToCenter": true,

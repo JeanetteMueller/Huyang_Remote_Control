@@ -35,10 +35,10 @@ private:
     double _startTiltSideways = 0;
     double _tiltSidewaysPercentage = 1.0;
 
-    double _currentTiltForward = 0;
-    double _minTiltForward = 0;
+    double _currentTiltForward = 50;
+    double _minTiltForward = 00;
     double _maxTiltForward = 90;
-    double _startTiltForward = 0;
+    double _startTiltForward = 50;
     double _tiltForwardDuration = 0;
     unsigned long _tiltForwardStartMillis = 0;
 

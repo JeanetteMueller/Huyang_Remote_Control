@@ -34,7 +34,7 @@ HuyangFace::EyeState HuyangFace::getStateFrom(uint8_t state)
 
 void HuyangFace::setEyesTo(EyeState newState)
 {
-	if (_leftEyeLastSelectedState != newState || _rightEyeLastSelectedState != newState)
+	if (_leftEyeTargetState != newState || _rightEyeTargetState != newState)
 	{
 		_leftEyeLastSelectedState = newState;
 		_rightEyeLastSelectedState = newState;
@@ -46,7 +46,7 @@ void HuyangFace::setEyesTo(EyeState newState)
 }
 void HuyangFace::setLeftEyeTo(EyeState newState)
 {
-	if (_leftEyeLastSelectedState != newState)
+	if (_leftEyeTargetState != newState)
 	{
 		_leftEyeLastSelectedState = newState;
 		_leftEyeTargetState = newState;
@@ -56,7 +56,7 @@ void HuyangFace::setLeftEyeTo(EyeState newState)
 }
 void HuyangFace::setRightEyeTo(EyeState newState)
 {
-	if (_rightEyeLastSelectedState != newState)
+	if (_rightEyeTargetState != newState)
 	{
 		_rightEyeLastSelectedState = newState;
 		_rightEyeTargetState = newState;
