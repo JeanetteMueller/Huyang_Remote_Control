@@ -7,7 +7,7 @@ const char indexHtml_neck[] = R"====(
 </div>
 <div class="slidecontainer">
   Sideways tilt
-  <input id="slider_neckTiltSideways" type="range" min="-25" max="25" value="0" class="slider" onInput="sendNeckUpdate()">
+  <input id="slider_neckTiltSideways" type="range" min="-100" max="100" value="0" class="slider" onInput="sendNeckUpdate()">
 </div>
 
 )====";

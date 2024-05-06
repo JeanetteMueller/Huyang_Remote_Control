@@ -102,9 +102,9 @@ void HuyangNeck::updateNeckPosition()
 		_tiltSidewaysPercentage += 0.06;
 	}
 
-	uint16_t leftDegree = map(_currentTiltForward + _currentTiltSideways, 0, 100, 65, 10);
-	uint16_t rightDegree = map(_currentTiltForward - _currentTiltSideways, 0, 100, 35, 90);
-	uint16_t neckDegree = map(_currentTiltForward, 0, 90, 0, 100);
+	uint16_t leftDegree = map(_currentTiltForward + _currentTiltSideways, 0, 200, 65, 10);
+	uint16_t rightDegree = map(_currentTiltForward - _currentTiltSideways, 0, 200, 35, 90);
+	uint16_t neckDegree = map(_currentTiltForward, 0, 200, 100, 0);
 
 
 	leftDegree = constrain(leftDegree, uint16_t(10), uint16_t(65));
@@ -117,8 +117,9 @@ void HuyangNeck::updateNeckPosition()
 }
 void HuyangNeck::tiltSideways(double degree)
 {
-	degree = min(degree, _maxTiltSideways);
-	degree = max(degree, _minTiltSideways);
+	degree = constrain(degree, _minTiltSideways, _maxTiltSideways);
+
+	degree = map(degree, _minTiltSideways, _maxTiltSideways, -50, 50);
 
 	if (targetTiltSideways != degree)
 	{
@@ -129,7 +130,7 @@ void HuyangNeck::tiltSideways(double degree)
 }
 void HuyangNeck::tiltForward(double degree, double duration)
 {
-	degree = degree + 50;
+	degree = degree + 100;
 	degree = constrain(degree, _minTiltForward, _maxTiltForward);
 
 	if (targetTiltForward != degree)
@@ -214,11 +215,11 @@ void HuyangNeck::doRandomRotate()
 
 		if (_currentRotate > 0)
 		{
-			rotate(-(random(2, 35)), random(2, 6 + 1) * 1000);
+			rotate(-(random(10, 80+1)), random(2, 6 + 1) * 1000);
 		}
 		else
 		{
-			rotate(random(2, 35), random(2, 6 + 1) * 1000);
+			rotate(random(10, 80+1), random(2, 6 + 1) * 1000);
 		}
 	}
 }
@@ -234,12 +235,10 @@ void HuyangNeck::doRandomTiltForward()
 	{
 		_randomDoTiltForward = 0;
 
-		double workArea = (_maxTiltForward - 50) - (_minTiltForward + 0);
-		double center = workArea / 2;
+		double workArea = 60;
+		double center = -15;
 
-		double randomArea = workArea / 2;
-
-		tiltForward(random(center - randomArea, center + randomArea + 1), random(3, 6 + 1) * 1000);
+		tiltForward(random(center - workArea, center + workArea + 1), random(3, 6 + 1) * 1000);
 	}
 }
 

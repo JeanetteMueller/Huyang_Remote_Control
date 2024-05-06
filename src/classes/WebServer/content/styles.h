@@ -28,15 +28,18 @@ a:link, a:visited, a:active {
 	text-decoration: none; 
 	border-radius: 5px;
 }
-
+.clear {
+	clear: both;
+}
 h4 {
   margin: 0;
 } 
 
 .menuContainer {
-  style="display: block;
-  width:100%;
-  text-align:center;
+  width: 100%;
+  margin: 0 auto;
+  float: left;
+  display: block;
 }
 
 .eyeContainer {
@@ -131,6 +134,80 @@ h4 {
 
 .hidden {
   display: none;
+}
+
+/* Buttons */
+.eye_buttons {
+	margin: 0 auto;
+	width: 420px;
+}
+.menu_eye_buttons {
+	margin: 0 auto;
+	width: 504px;
+}
+.eye_button_headline {
+    float:left;
+    display: block;
+}
+.eye_button {
+  width: 60px;
+  height: 60px;
+  border-radius: 60px;
+  border: 2px solid #fd2;
+  float:left;
+  display: block;
+  padding: 0px;
+  margin: 10px;
+}
+.eye_open {
+  background-color: #fd2;
+  font-size: 15px;
+  line-height: 58px;
+  color: #000;
+}
+.eye_close {
+  background-color: #000;
+}
+
+.eye_focus {
+  background-color: #000;
+}
+.eye_focus > div {
+  width: 100%;
+  height: 20px;
+  position: relative;
+  top: 20px;
+  background-color: #fd2;
+}
+
+.eye_sad {
+	background-color: #fd2;
+}
+.eye_sad > div {
+  width: 100%;
+  height: 20px;
+  position: relative;
+  top: 0px;
+  background-color: #000;
+  
+}
+
+.eye_angry {
+	background-color: #fd2;
+}
+.eye_angry > div {
+  width: 100%;
+  height: 20px;
+  position: relative;
+  top: 0px;
+  background-color: #000;
+}
+
+.left {
+	transform: rotate(30deg);
+}
+.right {
+	transform: rotate(-30deg);
 }
 
 )====";

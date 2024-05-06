@@ -40,7 +40,7 @@ void HuyangBody::tiltForward(uint16_t degree){
 }
 void HuyangBody::rotate(uint16_t degree) {
 	//center = 35
-	uint16_t rotateDegree  = map(degree, -50, 50, 0, 70);
+	uint16_t rotateDegree  = map(degree, -100, 100, 0, 70);
 	rotateServo(pwm_pin_body_rotate, rotateDegree);
 }
 

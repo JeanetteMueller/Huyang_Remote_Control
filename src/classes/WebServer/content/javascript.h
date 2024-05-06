@@ -123,10 +123,6 @@ function updateUserInterface() {
         document.getElementById("button_automatic").innerHTML = "Auto is OFF";
     }
 
-    console.log("face_eyes_all " + face_eyes_all);
-    console.log("face_eyes_left " + face_eyes_left);
-    console.log("face_eyes_right " + face_eyes_right);
-
     document.getElementById("eye_all_open").classList.remove("selected");
     document.getElementById("eye_all_close").classList.remove("selected");
     document.getElementById("eye_all_blink").classList.remove("selected");
@@ -192,14 +188,6 @@ function updateUserInterface() {
 
     document.getElementById("slider_neckTiltSideways").value = neck_tiltSideways;
     document.getElementById("slider_bodyTiltSideways").value = body_tiltSideways;
-
-    console.log("neck_rotate " + neck_rotate);
-    console.log("neck_tiltForward " + neck_tiltForward);
-    console.log("neck_tiltSideways " + neck_tiltSideways);
-
-    console.log("body_rotate " + body_rotate);
-    console.log("body_tiltForward " + body_tiltForward);
-    console.log("body_tiltSideways " + body_tiltSideways);
 }
 
 function getServerData() {
@@ -225,8 +213,6 @@ function systemInit() {
     }, function (stickData) {
 
         if (JoyNeckX != stickData.x || JoyNeckY != stickData.y) {
-            console.log("joystick JoyNeck action");
-
             JoyNeckX = stickData.x;
             JoyNeckY = stickData.y;
 
@@ -244,8 +230,7 @@ function systemInit() {
     }, function (stickData) {
 
         if (JoyBodyX != stickData.x || JoyBodyY != stickData.y) {
-            console.log("joystick JoyBody action");
-
+            
             JoyBodyX = stickData.x;
             JoyBodyY = stickData.y;
 
