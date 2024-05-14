@@ -32,6 +32,7 @@
 
 // System Option
 // Here you can enable/disable some sub-sections of the software to match your build
+// To disable an option, change: true; to false;
 
 // the two TFT Displays as eyes
 bool enableEyes = true;
