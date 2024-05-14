@@ -30,6 +30,7 @@ void setup()
     huyangFace->setup();
     huyangBody->setup();
     huyangNeck->setup();
+    huyangAudio->setup();
 
     Serial.println("setup done");
 }
@@ -98,4 +99,6 @@ void loop()
         huyangBody->tiltSideways(webserver->bodyTiltSideways);
     }
     huyangBody->loop();
+
+    huyangAudio->loop();
 }

@@ -57,8 +57,6 @@ void HuyangBody::setup()
 
 void HuyangBody::loop()
 {
-	// Serial.println("HuyangBody loop");
-
 	_currentMillis = millis();
 
 }

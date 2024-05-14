@@ -40,3 +40,6 @@
 * new Wiring Diagram to enable Servos
 * Graphical buttons (beta)
 * Usage of the full range of Sliders and Joysticks
+
+## 1.9
+* New Audio System added (untested)

@@ -15,4 +15,6 @@ HuyangFace *huyangFace = new HuyangFace(leftEye, rightEye);
 HuyangBody *huyangBody = new HuyangBody(pwm); 
 HuyangNeck *huyangNeck = new HuyangNeck(pwm);
 
+HuyangAudio *huyangAudio = new HuyangAudio();
+
 WebServer *webserver = new WebServer(WebServerPort);
