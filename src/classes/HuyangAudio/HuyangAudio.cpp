@@ -1,7 +1,7 @@
 #include "HuyangAudio.h"
 
-#define MYPORT_TX 29
-#define MYPORT_RX 28
+#define MYPORT_TX 0
+#define MYPORT_RX 12
 
 HuyangAudio::HuyangAudio()
 {
