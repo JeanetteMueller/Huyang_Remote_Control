@@ -3,7 +3,7 @@ Software for ESP8266 and ESP32 to control Huyang from DroidDivision via Browser/
 This Software runs on mostly any ESP32 and ESP826 together with two GC9A01 TFT Displays. 
 Inside the Folder /Wiring Diagrams you can find some Instructions how to connect two GC9A01 Displays to common Boards. 
 
-![Preview of 1.6](img/1_7_preview1.png)
+![Preview of 1.8](img/1_8.png)
 
 # HOW TO Get this running!!!
 Open "config.h" and edit the configuration as you need it.

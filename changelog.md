@@ -34,3 +34,9 @@
 * New Calibration File
 * Styling
 * Show current state of eyes
+
+## 1.8
+* Interface update
+* new Wiring Diagram to enable Servos
+* Graphical buttons (beta)
+* Usage of the full range of Sliders and Joysticks
