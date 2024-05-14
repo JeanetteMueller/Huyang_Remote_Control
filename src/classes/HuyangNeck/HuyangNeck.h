@@ -11,8 +11,8 @@ public:
     void setup();
     void loop();
     void tiltSideways(double degree);
-    void tiltForward(double degree, double duration = 0);
-    void rotate(double degree, double duration = 0);
+    void tiltForward(double degree, double duration = 1000);
+    void rotate(double degree, double duration = 1000);
 
     bool automatic = true;
 
@@ -30,21 +30,21 @@ private:
     unsigned long _randomDoTiltForward = 0;
 
     double _currentTiltSideways = 0;
-    double _minTiltSideways = -25;
-    double _maxTiltSideways = 25;
+    double _minTiltSideways = -100;
+    double _maxTiltSideways = 100;
     double _startTiltSideways = 0;
     double _tiltSidewaysPercentage = 1.0;
 
-    double _currentTiltForward = 0;
+    double _currentTiltForward = 50;
     double _minTiltForward = 0;
-    double _maxTiltForward = 90;
-    double _startTiltForward = 0;
+    double _maxTiltForward = 200;
+    double _startTiltForward = 50;
     double _tiltForwardDuration = 0;
     unsigned long _tiltForwardStartMillis = 0;
 
     double _currentRotate = 0;
-    double _minRotation = -45;
-    double _maxRotation = 45;
+    double _minRotation = -100;
+    double _maxRotation = 100;
     double _startRotate = 0;
     double _rotationDuration = 0;
     unsigned long _rotationStartMillis = 0;

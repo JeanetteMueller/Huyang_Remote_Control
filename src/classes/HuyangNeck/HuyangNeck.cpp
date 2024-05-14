@@ -11,6 +11,7 @@
 #define pwm_pin_head_rotate (uint8_t)4
 #define pwm_pin_head_left (uint8_t)5
 #define pwm_pin_head_right (uint8_t)6
+#define pwm_pin_head_neck (uint8_t)7
 
 HuyangNeck::HuyangNeck(Adafruit_PWMServoDriver *pwm)
 {
@@ -101,22 +102,24 @@ void HuyangNeck::updateNeckPosition()
 		_tiltSidewaysPercentage += 0.06;
 	}
 
-	uint16_t leftDegree = map(_currentTiltForward + _currentTiltSideways, 0, 100, 65, 10);
-	uint16_t rightDegree = map(_currentTiltForward - _currentTiltSideways, 0, 100, 35, 90);
+	uint16_t leftDegree = map(_currentTiltForward + _currentTiltSideways, 0, 200, 65, 10);
+	uint16_t rightDegree = map(_currentTiltForward - _currentTiltSideways, 0, 200, 35, 90);
+	uint16_t neckDegree = map(_currentTiltForward, 0, 200, 100, 0);
 
-	leftDegree = min(leftDegree, uint16_t(65));
-	leftDegree = max(leftDegree, uint16_t(10));
 
-	rightDegree = min(rightDegree, uint16_t(90));
-	rightDegree = max(rightDegree, uint16_t(35));
+	leftDegree = constrain(leftDegree, uint16_t(10), uint16_t(65));
+	rightDegree = constrain(rightDegree, uint16_t(35), uint16_t(90));
+	neckDegree = constrain(neckDegree, uint16_t(0), uint16_t(100));
 
 	rotateServo(pwm_pin_head_left, leftDegree);
 	rotateServo(pwm_pin_head_right, rightDegree);
+	rotateServo(pwm_pin_head_neck, neckDegree);
 }
 void HuyangNeck::tiltSideways(double degree)
 {
-	degree = min(degree, _maxTiltSideways);
-	degree = max(degree, _minTiltSideways);
+	degree = constrain(degree, _minTiltSideways, _maxTiltSideways);
+
+	degree = map(degree, _minTiltSideways, _maxTiltSideways, -50, 50);
 
 	if (targetTiltSideways != degree)
 	{
@@ -127,8 +130,8 @@ void HuyangNeck::tiltSideways(double degree)
 }
 void HuyangNeck::tiltForward(double degree, double duration)
 {
-	degree = min(degree, _maxTiltForward);
-	degree = max(degree, _minTiltForward);
+	degree = degree + 100;
+	degree = constrain(degree, _minTiltForward, _maxTiltForward);
 
 	if (targetTiltForward != degree)
 	{
@@ -155,12 +158,10 @@ void HuyangNeck::tiltForward(double degree, double duration)
 }
 void HuyangNeck::rotate(double degree, double duration)
 {
-	degree = min(degree, _maxRotation);
-	degree = max(degree, _minRotation);
+	degree = constrain(degree, _minRotation, _maxRotation);
 
 	if (targetRotate != degree)
 	{
-
 		if (duration == 0)
 		{
 			double way = 0;
@@ -214,11 +215,11 @@ void HuyangNeck::doRandomRotate()
 
 		if (_currentRotate > 0)
 		{
-			rotate(-(random(2, 35)), random(2, 6 + 1) * 1000);
+			rotate(-(random(10, 80+1)), random(2, 6 + 1) * 1000);
 		}
 		else
 		{
-			rotate(random(2, 35), random(2, 6 + 1) * 1000);
+			rotate(random(10, 80+1), random(2, 6 + 1) * 1000);
 		}
 	}
 }
@@ -234,12 +235,10 @@ void HuyangNeck::doRandomTiltForward()
 	{
 		_randomDoTiltForward = 0;
 
-		double workArea = _maxTiltForward - _minTiltForward;
-		double center = workArea / 2;
+		double workArea = 60;
+		double center = -15;
 
-		double randomArea = workArea / 3;
-
-		tiltForward(random(center - randomArea, center + randomArea + 1), random(3, 6 + 1) * 1000);
+		tiltForward(random(center - workArea, center + workArea + 1), random(3, 6 + 1) * 1000);
 	}
 }
 

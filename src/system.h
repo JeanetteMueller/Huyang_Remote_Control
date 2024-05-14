@@ -40,38 +40,62 @@ void loop()
 
     huyangFace->automatic = webserver->automaticAnimations;
 
-    if (webserver->allEyes != 0)
+    if (huyangFace->automatic == false)
     {
-        Serial.println("update both eyes");
-        HuyangFace::EyeState newState = huyangFace->getStateFrom(webserver->allEyes);
-        huyangFace->setEyesTo(newState);
-    }
-    else
-    {
-        if (webserver->leftEye != 0)
+        if (webserver->allEyes != 0)
         {
-            HuyangFace::EyeState newLeftState = huyangFace->getStateFrom(webserver->leftEye);
-            huyangFace->setLeftEyeTo(newLeftState);
-        }
+            Serial.println("update both eyes");
+            HuyangFace::EyeState newState = huyangFace->getStateFrom(webserver->allEyes);
+            huyangFace->setEyesTo(newState);
 
-        if (webserver->rightEye != 0)
+            if (newState == HuyangFace::EyeState::Blink)
+            {
+                webserver->allEyes = HuyangFace::EyeState::Open;
+            }
+        }
+        else
         {
-            HuyangFace::EyeState newRightState = huyangFace->getStateFrom(webserver->rightEye);
-            huyangFace->setRightEyeTo(newRightState);
+            if (webserver->leftEye != 0)
+            {
+                HuyangFace::EyeState newState = huyangFace->getStateFrom(webserver->leftEye);
+                huyangFace->setLeftEyeTo(newState);
+
+                if (newState == HuyangFace::EyeState::Blink)
+                {
+                    webserver->leftEye = HuyangFace::EyeState::Open;
+                }
+            }
+
+            if (webserver->rightEye != 0)
+            {
+                HuyangFace::EyeState newState = huyangFace->getStateFrom(webserver->rightEye);
+                huyangFace->setRightEyeTo(newState);
+
+                if (newState == HuyangFace::EyeState::Blink)
+                {
+                    webserver->rightEye = HuyangFace::EyeState::Open;
+                }
+            }
         }
     }
 
     huyangFace->loop();
 
     huyangNeck->automatic = webserver->automaticAnimations;
-    huyangNeck->rotate(webserver->neckRotate);
-    huyangNeck->tiltForward(webserver->neckTiltForward);
-    huyangNeck->tiltSideways(webserver->neckTiltSideways);
+    if (huyangNeck->automatic == false)
+    {
+        huyangNeck->rotate(webserver->neckRotate);
+        huyangNeck->tiltForward(webserver->neckTiltForward);
+        huyangNeck->tiltSideways(webserver->neckTiltSideways);
+    }
     huyangNeck->loop();
 
     huyangBody->automatic = webserver->automaticAnimations;
-    huyangBody->rotate(webserver->bodyRotate);
-    huyangBody->tiltForward(webserver->bodyTiltForward);
-    huyangBody->tiltSideways(webserver->bodyTiltSideways);
+    if (huyangBody->automatic == false)
+    {
+        huyangBody->rotate(webserver->bodyRotate);
+        huyangBody->tiltForward(webserver->bodyTiltForward);
+        huyangBody->tiltSideways(webserver->bodyTiltSideways);
+    }
     huyangBody->loop();
 }
