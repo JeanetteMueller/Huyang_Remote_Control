@@ -25,12 +25,11 @@ void HuyangAudio::setup()
 	}
 	else
 	{
-		_isReady = true;
+		_isSerialReady = true;
 	}
 
-	if (_isReady)
+	if (_isSerialReady)
 	{
-
 		// if (!player.begin(mySerial, false)) {  //Use softwareSerial to communicate with mp3.
 		//     Serial.println(F("Unable to begin:"));
 		//     Serial.println(F("1.Please recheck the connection!"));
@@ -38,8 +37,16 @@ void HuyangAudio::setup()
 		// }
 
 		_previousMillis = millis() + 5000;
-		player.begin(audioSerial, false);
-		player.volume(30);
+		if (player.begin(audioSerial, false))
+		{
+			_isPlayerReady = true;
+
+			player.volume(30);
+		}
+		else
+		{
+			Serial.println(F("Please remove and insert the SD card again!"));
+		}
 
 		// if (!myDFPlayer.begin(mySoftwareSerial)) {  //Use softwareSerial to communicate with mp3.
 		//	Serial.println(F("Please remove and insert the SD card again!"));
@@ -56,75 +63,81 @@ void HuyangAudio::loop()
 {
 	// Serial.println("HuyangAudio loop");
 
-	_currentMillis = millis();
-
-	if (_currentMillis < _previousMillis)
+	if (_isSerialReady && _isPlayerReady)
 	{
-		_previousMillis = 0;
-	}
 
-	/*
-		if (audioVolumeValue != 1500)
+		_currentMillis = millis();
+
+		if (_currentMillis < _previousMillis)
 		{
-			uint16_t newVolume = map(audioVolumeValue, 1000, 2000, 30, 15);
-			player.volume(newVolume);
-		}
-		else
-		{
-			//----Set volume----
-			player.volume(30); // Set volume value (0~30).
+			_previousMillis = 0;
 		}
 
-		if (player.isPlaying())
-		{
-			Serial.println(F("player is playing"));
-			previousMillisAudio = currentMillis;
-		}
-	*/
-
-	if (_currentMillis - _previousMillis >= audioPause)
-	{
-		Serial.println("currentMillis right");
-		// player.printError();
-
-		if (!player.isPlaying())
-		{
-			Serial.println("player is NOT playing");
-
-			_previousMillis = _currentMillis;
-
-			if (audioItemCount == 0)
+		/*
+			if (audioVolumeValue != 1500)
 			{
-				int count = player.numSdTracks();
-				Serial.println(count);
-				if (count > 0)
-				{
-					audioItemCount = count;
-				}
-			}
-
-			if (audioItemCount > 0)
-			{
-				uint16_t randomItemNumber = random(1, audioItemCount + 1);
-
-				if (randomItemNumber == 8)
-				{
-					randomItemNumber = randomItemNumber + 1;
-				}
-
-				Serial.print("Play item Number ");
-				Serial.print(randomItemNumber);
-				Serial.print(" of ");
-				Serial.print(audioItemCount);
-				Serial.println(" Items ");
-
-				player.play(randomItemNumber);
-
-				audioPause = 2000 + (random(10, 50) * 100);
+				uint16_t newVolume = map(audioVolumeValue, 1000, 2000, 30, 15);
+				player.volume(newVolume);
 			}
 			else
 			{
-				Serial.println("no mp3s to play");
+				//----Set volume----
+				player.volume(30); // Set volume value (0~30).
+			}
+
+			if (player.isPlaying())
+			{
+				Serial.println(F("player is playing"));
+				previousMillisAudio = currentMillis;
+			}
+		*/
+
+		if (_currentMillis - _previousMillis >= audioPause)
+		{
+			//player.printError();
+
+			if (!player.isPlaying())
+			{
+				// Serial.println("player is NOT playing");
+
+				_previousMillis = _currentMillis;
+
+				if (audioItemCount == 0)
+				{
+					int count = player.numSdTracks();
+
+					if (count > 0)
+					{
+						audioItemCount = count;
+
+						Serial.print("Found Number of mp3 Files: ");
+						Serial.println(count);
+					}
+				}
+
+				if (audioItemCount > 0)
+				{
+					uint16_t randomItemNumber = random(1, audioItemCount + 1);
+
+					if (randomItemNumber == 8)
+					{
+						randomItemNumber = randomItemNumber + 1;
+					}
+
+					Serial.print("Play item Number ");
+					Serial.print(randomItemNumber);
+					Serial.print(" of ");
+					Serial.print(audioItemCount);
+					Serial.println(" Items ");
+
+					player.play(randomItemNumber);
+
+					audioPause = 2000 + (random(10, 50) * 100);
+				}
+				else
+				{
+					//Serial.println("no mp3s to play");
+				}
 			}
 		}
 	}

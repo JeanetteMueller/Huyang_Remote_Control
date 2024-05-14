@@ -43,3 +43,5 @@
 
 ## 1.9
 * New Audio System added (untested)
+* Buttons with Titles
+* Now using Config to show only needed Interface parts

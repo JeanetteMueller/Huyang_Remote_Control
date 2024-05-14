@@ -16,7 +16,8 @@ private:
     unsigned long _currentMillis = 0;
     unsigned long _previousMillis = 0;
 
-    bool _isReady = false;
+    bool _isSerialReady = false;
+    bool _isPlayerReady = false;
 
     DFPlayerMini_Fast player;
     EspSoftwareSerial::UART audioSerial;

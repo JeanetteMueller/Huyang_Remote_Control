@@ -52,6 +52,7 @@ private:
     void rotateServo(uint8_t servo, double degree);
     void updateNeckPosition();
     void updateCurrentRotate();
+    double easeInOutQuad(double t);
     double easeInAndOut(double start, double current, double target, double percentage);
     int16_t getMaxSpeedRange(int16_t speed, int16_t step);
 

@@ -1,6 +1,6 @@
 # Huyang Remote Control
-Software for ESP8266 and ESP32 to control Huyang from DroidDivision via Browser/Mobile Device.
-This Software runs on mostly any ESP32 and ESP826 together with two GC9A01 TFT Displays. 
+Software for ESP8266 to control Huyang from DroidDivision via Browser/Mobile Device.
+This Software runs on mostly any ESP8266 together with two GC9A01 TFT Displays. 
 Inside the Folder /Wiring Diagrams you can find some Instructions how to connect two GC9A01 Displays to common Boards. 
 
 ![Preview of 1.8](img/1_8.png)
@@ -23,8 +23,10 @@ You can configure Huyang to be accessible via his own Wifi or let him connect to
 # Install Software Libraries
 1. Open "Tools" -> "Manage Libraries"
 2. Search for following Names and install what you found
-3. "Arduino GFX Library" -> Install "GFX Library for Arduino by Moon On Our Nation"
-4. "ESPAsyncWebServer" -> Install "ESPAsyncWebServer by Iacamera"
+3. "AsyncTCP" -> Install "AsyncTCP by dvarrel"
+4. "Arduino GFX Library" -> Install "GFX Library for Arduino by Moon On Our Nation"
+5. "ESPAsyncWebServer" -> Install "ESPAsyncWebServer by Iacamera"
+6. "EspSoftwareSerial" -> Install "EspSoftwareSerial by Dirk Kaar, Peter Lerup"
 
 # Run
 * Build and Run with your Arduino IDE

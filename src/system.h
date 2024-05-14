@@ -21,6 +21,14 @@ void setup()
 
     wifi->setup();
 
+    webserver->setup(enableEyes,
+                     enableMonacle,
+                     enableNeckMovement,
+                     enableHeadRotation,
+                     enableBodyMovement,
+                     enableBodyRotation,
+                     enableTorsoLights);
+
     webserver->start();
 
     pwm->begin();

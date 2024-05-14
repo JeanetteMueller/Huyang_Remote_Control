@@ -1,8 +1,6 @@
 #include "HuyangNeck.h"
 #include <Adafruit_PWMServoDriver.h>
 
-#include "../easing.h"
-
 // Servo Parameters
 #define HuyangNeck_SERVOMIN 150	 // This is the 'minimum' pulse length count (out of 4096)
 #define HuyangNeck_SERVOMAX 595	 // This is the 'maximum' pulse length count (out of 4096)
@@ -37,6 +35,11 @@ void HuyangNeck::rotateServo(uint8_t servo, double degree)
 	// Serial.println("done");
 }
 
+double HuyangNeck::easeInOutQuad(double t)
+{
+	return t < 0.5 ? 2 * t * t : t * (4 - 2 * t) - 1;
+}
+
 double HuyangNeck::easeInAndOut(double start, double current, double target, double percentage)
 {
 	double result = target;
@@ -55,8 +58,7 @@ double HuyangNeck::easeInAndOut(double start, double current, double target, dou
 		// Serial.print(":  current ");
 		// Serial.print(current);
 
-		auto easingFunction = getEasingFunction(EaseInOutQuad);
-		double easeInOut = easingFunction(percentage);
+		double easeInOut = easeInOutQuad(percentage);
 
 		if (current < target)
 		{
@@ -105,7 +107,6 @@ void HuyangNeck::updateNeckPosition()
 	uint16_t leftDegree = map(_currentTiltForward + _currentTiltSideways, 0, 200, 65, 10);
 	uint16_t rightDegree = map(_currentTiltForward - _currentTiltSideways, 0, 200, 35, 90);
 	uint16_t neckDegree = map(_currentTiltForward, 0, 200, 100, 0);
-
 
 	leftDegree = constrain(leftDegree, uint16_t(10), uint16_t(65));
 	rightDegree = constrain(rightDegree, uint16_t(35), uint16_t(90));
@@ -215,11 +216,11 @@ void HuyangNeck::doRandomRotate()
 
 		if (_currentRotate > 0)
 		{
-			rotate(-(random(10, 80+1)), random(2, 6 + 1) * 1000);
+			rotate(-(random(10, 80 + 1)), random(2, 6 + 1) * 1000);
 		}
 		else
 		{
-			rotate(random(10, 80+1), random(2, 6 + 1) * 1000);
+			rotate(random(10, 80 + 1), random(2, 6 + 1) * 1000);
 		}
 	}
 }

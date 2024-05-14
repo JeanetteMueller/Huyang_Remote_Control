@@ -1,12 +1,15 @@
 const char indexHtml_body[] = R"====(
 
+<hr>
+
 <h4>Body</h4>
 
 <div class="joystickContainer">
     <div id="joyBody" class="joystick"></div>
 </div>
+
 <div class="slidecontainer">
-  Sideways tilt
+  Tilt
   <input id="slider_bodyTiltSideways" type="range" min="-100" max="100" value="0" class="slider" onInput="sendBodyUpdate()">
 </div>
 

@@ -3,12 +3,6 @@
 #define WebServer_h
 
 #include "Arduino.h"
-#ifdef ESP32
-#include <WiFi.h>
-#include <AsyncTCP.h>
-#elif defined(ESP8266)
-#include <ESPAsyncTCP.h>
-#endif
 
 #include <ESPAsyncWebServer.h>
 #include <ArduinoJson.h>
@@ -45,11 +39,26 @@ public:
     int16_t bodyTiltSideways = 0;
 
     WebServer(uint32_t port);
+    void setup(bool enableEyes,
+               bool enableMonacle,
+               bool enableNeckMovement,
+               bool enableHeadRotation,
+               bool enableBodyMovement,
+               bool enableBodyRotation,
+               bool enableTorsoLights);
     void start();
 
 private:
     AsyncWebServer *_server;
     String html;
+
+    bool _enableEyes;
+    bool _enableMonacle;
+    bool _enableNeckMovement;
+    bool _enableHeadRotation;
+    bool _enableBodyMovement;
+    bool _enableBodyRotation;
+    bool _enableTorsoLights;
 
     void getBaseHtml(const String &body, String &target);
     String getPage(Page page, AsyncWebServerRequest *request);

@@ -11,18 +11,9 @@ const char indexHtml[] = R"====(
   <a href="/settings.html" class="button">Settings</a>
 </div>
 
-<hr>
-
 ###FACE###
-
-<hr>
-
 ###NECK###
-
-<hr>
-
 ###BODY###
-
 
 <script language="javascript">
   window.onload = function(){

@@ -5,6 +5,23 @@ WebServer::WebServer(uint32_t port)
     _server = new AsyncWebServer(port);
 }
 
+void WebServer::setup(bool enableEyes,
+                      bool enableMonacle,
+                      bool enableNeckMovement,
+                      bool enableHeadRotation,
+                      bool enableBodyMovement,
+                      bool enableBodyRotation,
+                      bool enableTorsoLights)
+{
+    _enableEyes = enableEyes;
+    _enableMonacle = enableMonacle;
+    _enableNeckMovement = enableNeckMovement;
+    _enableHeadRotation = enableHeadRotation;
+    _enableBodyMovement = enableBodyMovement;
+    _enableBodyRotation = enableBodyRotation;
+    _enableTorsoLights = enableTorsoLights;
+}
+
 void WebServer::start()
 {
     _server->on(
@@ -66,11 +83,11 @@ void WebServer::apiPostAction(AsyncWebServerRequest *request, uint8_t *data, siz
         Serial.print("post: automatic: ");
         Serial.println(automaticAnimations ? "true" : "false");
 
-        if (automaticAnimations) {
+        if (automaticAnimations)
+        {
             allEyes = 0;
             leftEye = 3;
             rightEye = 3;
-
         }
     }
 
@@ -191,10 +208,32 @@ String WebServer::getPage(Page page, AsyncWebServerRequest *request)
     case indexPage:
         getBaseHtml(indexHtml, html);
 
-        html.replace("###FACE###", indexHtml_face);
-        html.replace("###NECK###", indexHtml_neck);
-        html.replace("###BODY###", indexHtml_body);
+        if (_enableEyes)
+        {
+            html.replace("###FACE###", indexHtml_face);
+        }
+        else
+        {
+            html.replace("###FACE###", "");
+        }
+        
+        if (_enableNeckMovement || _enableHeadRotation)
+        {
+            html.replace("###NECK###", indexHtml_neck);
+        }
+        else
+        {
+            html.replace("###NECK###", "");
+        }
 
+        if (_enableBodyMovement || _enableBodyRotation)
+        {
+            html.replace("###BODY###", indexHtml_body);
+        }
+        else
+        {
+            html.replace("###BODY###", "");
+        }
         break;
     case settingsPage:
         getBaseHtml(settingsHtml, html);
