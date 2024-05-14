@@ -13,11 +13,15 @@
 #define WifiSsidOfHotspot "HuyangWifiControl" // <- change if needed
 
 // set a custom passwort so not everyone can control your Huyang Droid
+// The password has a minimum length of 8 symbols or "" if you dont want a password. 
 #define WifiPasswordHotspot "<YOUR HOTSPOT PASSWORD>" // <- change if needed
 
 // Connect to your local Wifi. If not Accessible Huyang will create Hotspot
 #define WifiSsidConnectTo "<YOUR WIFI SSID>"         // <- change if needed
-#define WifiPasswordConnectTo "<YOUR WIFI PASSWORD>" // <- change if needed
+
+// The password has a minimum length of 8 symbols or "" if you dont want a password. 
+#define WifiPasswordConnectTo "<YOUR WIFI PASSWORD>" // <- change if needed 
+
 
 // ONLY if the Huyang Wifi Mode is Mode WifiModeNetwork:
 // Connect to your Wifi Router and check the connected Devices to get his IP Adress
