@@ -8,6 +8,7 @@ const char indexHtml[] = R"====(
 <div class="menuContainer">
   <a href="#" id="button_automatic" class="button" onClick="changeAutomatic(true);">LOADING</a>
    | 
+  <a href="/index.html" class="button">Start</a>
   <a href="/settings.html" class="button">Settings</a>
 </div>
 
@@ -42,8 +43,5 @@ const char indexHtml[] = R"====(
   }
         
 </script>
-
-<hr>
-Made with &#9829; by Jeanette M&uuml;ller
 
 )====";

@@ -45,7 +45,28 @@ void setup()
 
 void loop()
 {
+    currentMillis = millis();
+
     wifi->loop();
+
+    if (currentMillis - previousMillisIPAdress > 5000)
+    {
+        previousMillisIPAdress = currentMillis;
+
+        if (wifi->isConnected())
+        {
+            previousMillisIPAdress = currentMillis;
+            IPAddress currentAdress = wifi->getCurrentIPAdress();
+
+            Serial.print("Open Huyang Webinterface via Browser by opening http://");
+            Serial.println(currentAdress);
+            if (WebServerPort != 80)
+            {
+                Serial.println(":");
+                Serial.println(WebServerPort);
+            }
+        }
+    }
 
     huyangFace->automatic = webserver->automaticAnimations;
 

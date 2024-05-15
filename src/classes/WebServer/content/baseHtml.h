@@ -8,6 +8,9 @@ const char baseHtml[] = R"====(
 </head>
 <body>
 ###BODY###
+
+<hr>
+Made with &#9829; by Jeanette M&uuml;ller
 </body>
 </html>
 )===="; 

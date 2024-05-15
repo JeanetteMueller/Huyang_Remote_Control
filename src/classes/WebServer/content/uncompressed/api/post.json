@@ -1,0 +1,20 @@
+{
+    "automatic": false,
+    "face": {
+        "eyes": {
+            "all": 0,
+            "left": 4,
+            "right": 3
+        }
+    },
+    "neck": {
+        "rotate": 0,
+        "tiltForward": 0,
+        "tiltSideways": 0
+    },
+    "body": {
+        "rotate": 0,
+        "tiltForward": 0,
+        "tiltSideways": 0
+    }
+}

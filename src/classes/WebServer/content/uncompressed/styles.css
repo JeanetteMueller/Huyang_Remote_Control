@@ -1,30 +1,30 @@
 body { 
-	font-family: 'Helvetica', 'Arial', sans-serif; 
-	font-size: 30pt; 
-	background-color: #000; 
-	color: #fff;
+  font-family: 'Helvetica', 'Arial', sans-serif; 
+  font-size: 30pt; 
+  background-color: #000; 
+  color: #fff;
   text-align:center;
 }
 
 #container { 
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 a:link, a:visited, a:active { 
-	color: #fff; 
+  color: #fff; 
   text-decoration: none;
 }
 
 .button { 
-	background-color: #333; 
-	display: inline-block; 
-	padding: 10px; 
-	margin: 10px; 
-	color: #fff; 
-	text-decoration: none; 
-	border-radius: 5px;
+  background-color: #333; 
+  display: inline-block; 
+  padding: 10px; 
+  margin: 10px; 
+  color: #fff; 
+  text-decoration: none; 
+  border-radius: 5px;
 }
 .clear {
 	clear: both;
@@ -49,20 +49,22 @@ h4 {
 .eye {
   display: block;
   margin:auto;
-  width:200px; height: 200px;
+  width:200px; 
+  height: 200px;
   text-align:center;
   border-radius: 100px;
   background-color: #fd2;
+  border: 5px solid #fd2;
 }
 
 .eye > h5 {
   font-family: 'Helvetica', 'Arial', sans-serif; 
-	font-size: 40pt; 
-	display: flex; 
-	align-items: center; 
-	justify-content: center; 
-	width: 100%;
-	text-align:center; 
+  font-size: 40pt; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  width: 100%;
+  text-align:center; 
   margin: 0;
   padding: 70px 0 0 0;
   color: black;
@@ -74,9 +76,7 @@ h4 {
   font-size: 12pt; 
 }
 
-.selected {
-  background-color: #f00 !important;
-}
+
 
 /* The slider itself */
 .slider {
@@ -136,74 +136,76 @@ h4 {
 
 /* Buttons */
 .eye_buttons {
-	margin: 0 auto;
-	width: 420px;
+  margin: 0 auto;
+  width: 450px;
 }
 .menu_eye_buttons {
-	margin: 0 auto;
-	width: 504px;
+  margin: 0 auto;
+  width: 540px;
 }
 .eye_button_headline {
-    float:left;
-    display: block;
+  float:left;
+  display: block;
 }
 .eye_button {
   width: 60px;
   height: 60px;
   border-radius: 60px;
-  border: 2px solid #fd2;
-  float:left;
+  border: 5px solid #fd2;
+  float: left;
   display: block;
   padding: 0px;
   margin: 10px;
+  font-size: 15px;
+  color: #000;
+  line-height: 58px;
+  position: relative;
 }
 .eye_open {
   background-color: #fd2;
-  font-size: 15px;
-  line-height: 58px;
   color: #000;
 }
 .eye_close {
   background-color: #000;
+  color: #fd2;
 }
 
 .eye_focus {
   background-color: #000;
+  overflow: hidden;
 }
 .eye_focus > div {
   width: 100%;
-  height: 20px;
+  height: 24px;
   position: relative;
-  top: 20px;
+  top: 18px;
   background-color: #fd2;
+  line-height: 24px;
 }
 
-.eye_sad {
-	background-color: #fd2;
-}
-.eye_sad > div {
-  width: 120%;
-  height: 30px;
+.eye_sad, .eye_angry {
+  background-color: #fd2;
+  line-height: 80px;
   position: relative;
-  top: -10px;
-  background-color: #000;
-  
 }
 
-.eye_angry {
-	background-color: #fd2;
-}
-.eye_angry > div {
-  width: 120%;
-  height: 30px;
-  position: relative;
-  top: -10px;
+.eye_sad > div, .eye_angry > div {
+  width: calc(100% + 20px);
+  height: 40px;
+  position: absolute;
   background-color: #000;
 }
-
+.left, .right {
+  top: -20px;
+}
 .left {
-	transform: rotate(30deg);
+  left:0px;
+  transform: rotate(30deg);
 }
 .right {
-	transform: rotate(-30deg);
+  left:-20px;
+  transform: rotate(-30deg);
+}
+.selected {
+  border: 5px solid #f00 !important;
 }

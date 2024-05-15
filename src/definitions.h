@@ -1,5 +1,6 @@
 
-
+unsigned long currentMillis = 0;
+unsigned long previousMillisIPAdress = 0;
 
 JxWifiManager *wifi = new JxWifiManager();
 

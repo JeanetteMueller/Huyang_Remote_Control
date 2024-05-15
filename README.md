@@ -32,6 +32,10 @@ You can configure Huyang to be accessible via his own Wifi or let him connect to
 * Build and Run with your Arduino IDE
 * Huyang Communicate via Serial (USB) on Port 115200
 * On the Serial Monitor you can read the current IP Adress when in WifiMode Connect to your Wifi
+* Open a Browser of a Device connected to the same Wifi
+* Enter the IP Adress from the Serial Monitor into your Browser Adressbar 
+* This looks like http://192.168.10.1 of if WebServerPort is not 80, try http://192.168.10.1:80
+
 
 # Changelog
 

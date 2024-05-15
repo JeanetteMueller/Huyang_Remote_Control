@@ -86,7 +86,7 @@ async function postData(url = "", data = {}) {
 function sendData(data) {
     console.log(data);
 
-    postData('/api/post.json', data).then(json => {
+    postData('api/post.json', data).then(json => {
         console.log('Result from Server: ');
         console.log(json);
 
