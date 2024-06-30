@@ -50,9 +50,13 @@ void HuyangBody::centerAll() {
 	rotate(0);
 }
 
+void HuyangBody::startCheckstLights() {
+	
+}
+
 void HuyangBody::setup()
 {
-	
+	startCheckstLights();
 }
 
 void HuyangBody::loop()

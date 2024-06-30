@@ -19,6 +19,8 @@ public:
 
     void centerAll();
 
+    void startCheckstLights();
+
 private:
     Adafruit_PWMServoDriver *_pwm;
 
