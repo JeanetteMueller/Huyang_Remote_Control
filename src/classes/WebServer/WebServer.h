@@ -50,7 +50,7 @@ public:
 
 private:
     AsyncWebServer *_server;
-    String html;
+    String _html;
 
     bool _enableEyes;
     bool _enableMonacle;
@@ -66,7 +66,6 @@ private:
     void apiPostAction(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total);
 
     void notFound(AsyncWebServerRequest *request);
-    std::string random_string(size_t length);
 };
 
 #endif

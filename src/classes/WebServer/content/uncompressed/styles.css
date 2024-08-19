@@ -40,6 +40,29 @@ h4 {
   display: block;
 }
 
+.slidecontainer {
+  width: 100%;
+  text-align:center;
+  font-size: 12pt; 
+}
+
+.joystickContainer {
+  justify-content: center;
+  align-items: center;
+}
+.joystick {
+  display: inline-block;
+  width:400px;
+  height:400px;
+  margin:0px;
+  padding: 0;
+  cursor: pointer; /* Cursor on hover */
+}
+
+.hidden {
+  display: none;
+}
+
 .eyeContainer {
   width:50%;
   text-align:center;
@@ -48,6 +71,8 @@ h4 {
 
 .eye {
   display: block;
+  z-index: 1;
+  position: relative;
   margin:auto;
   width:200px; 
   height: 200px;
@@ -70,84 +95,17 @@ h4 {
   color: black;
 }
 
-.slidecontainer {
-  width: 100%;
-  text-align:center;
-  font-size: 12pt; 
-}
-
-
-
-/* The slider itself */
-.slider {
-  -webkit-appearance: none;  /* Override default CSS styles */
-  appearance: none;
-  width: 100%; /* Full-width */
-  height: 50px; /* Specified height */
-  background: #333; /* Grey background */
-  outline: none; /* Remove outline */
-  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
-  transition: opacity .2s;
-  text-align: center;
-  border-radius: 25px; 
-}
-
-/* Mouse-over effects */
-.slider:hover {
-  opacity: 1; /* Fully shown on mouse-over */
-}
-
-/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */ 
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none; /* Override default look */
-  appearance: none;
-  width: 50px; /* Set a specific slider handle width */
-  height: 50px; /* Slider handle height */
-  background: #fd2; /* Marker background */
-  cursor: pointer; /* Cursor on hover */
-  border-radius: 25px; 
-}
-
-.slider::-moz-range-thumb {
-  width: 50px; /* Set a specific slider handle width */
-  height: 50px; /* Slider handle height */
-  background: #fd2; /* Marker background */
-  cursor: pointer; /* Cursor on hover */
-  border-radius: 20px;
-}
-
-.joystickContainer {
-  justify-content: center;
-  align-items: center;
-}
-.joystick {
-  display: inline-block;
-  width:400px;
-  height:400px;
-  margin:0px;
-  padding: 0;
-  cursor: pointer; /* Cursor on hover */
-}
-
-.hidden {
-  display: none;
-}
-
-/* Buttons */
-.eye_buttons {
-  margin: 0 auto;
-  width: 450px;
-}
 .menu_eye_buttons {
   margin: 0 auto;
   width: 540px;
 }
+
 .eye_button_headline {
   float:left;
   display: block;
 }
-.eye_button {
+
+.menu_eye_buttons > div, .eye_buttons > div {
   width: 60px;
   height: 60px;
   border-radius: 60px;
@@ -208,4 +166,40 @@ h4 {
 }
 .selected {
   border: 5px solid #f00 !important;
+}
+
+.slider {
+  -webkit-appearance: none;  
+  appearance: none;
+  width: 100%; 
+  height: 50px; 
+  background: #333; 
+  outline: none; 
+  opacity: 0.7; 
+  -webkit-transition: .2s; 
+  transition: opacity .2s;
+  text-align: center;
+  border-radius: 25px; 
+}
+
+.slider:hover {
+  opacity: 1; 
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; 
+  appearance: none;
+  width: 50px; 
+  height: 50px; 
+  background: #fd2; 
+  cursor: pointer; 
+  border-radius: 25px; 
+}
+
+.slider::-moz-range-thumb {
+  width: 50px; 
+  height: 50px; 
+  background: #fd2; 
+  cursor: pointer; 
+  border-radius: 20px;
 }

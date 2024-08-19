@@ -1,5 +1,6 @@
 #include <Arduino.h>
 
+#include <Adafruit_PWMServoDriver.h>
 #include <Arduino_GFX_Library.h>
 #include "submodules/JxWifiManager/JxWifiManager.h"
 

@@ -18,30 +18,24 @@ const char indexHtml[] = R"====(
 
 <script language="javascript">
   window.onload = function(){
-
     loadJoystick();
   }
 
   function loadJoystick() {
     var newScript = document.createElement("script");
     newScript.src = "joystick.js";
-    document.body.appendChild(newScript);
-
-    console.log('joystick loaded');
+    document.head.appendChild(newScript);
 
     setTimeout(() => { loadJavascript(); }, 1000);
-    
   }
 
   function loadJavascript() {
     var newScript = document.createElement("script");
-    newScript.src = "javascript.js?random=###RANDOM###";
-    document.body.appendChild(newScript);
+    newScript.src = "javascript.js";
+    document.head.appendChild(newScript);
     console.log('javascript loaded');
 
     setTimeout(() => { systemInit(); }, 500);
-  }
-        
+  }   
 </script>
-
 )====";

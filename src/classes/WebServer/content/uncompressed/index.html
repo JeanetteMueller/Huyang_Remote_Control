@@ -21,12 +21,12 @@
 
 <div class="menuContainer">
 	<div class="menu_eye_buttons">
-  <div class="eye_button eye_open" onClick="sendEyeUpdate('all', 1);" id="eye_all_open">OPEN</div> 
-  <div class="eye_button eye_close" onClick="sendEyeUpdate('all', 2);" id="eye_all_close">CLOSE</div> 
-  <div class="eye_button eye_open" onClick="sendEyeUpdate('all', 3);" id="eye_all_blink">BLINK</div>
-  <div class="eye_button eye_focus" onClick="sendEyeUpdate('all', 4);" id="eye_all_focus"><div>FOCUS</div></div> 
-  <div class="eye_button eye_sad" onClick="sendEyeUpdate('all', 5);" id="eye_all_sad"><div class="right"></div>SAD</div> 
-  <div class="eye_button eye_angry" onClick="sendEyeUpdate('all', 6);" id="eye_all_angry"><div class="left"></div>ANGRY</div>
+  <div class="eye_open" onClick="sendEyeUpdate('all', 1);" id="eye_all_open">OPEN</div> 
+  <div class="eye_close" onClick="sendEyeUpdate('all', 2);" id="eye_all_close">CLOSE</div> 
+  <div class="eye_open" onClick="sendEyeUpdate('all', 3);" id="eye_all_blink">BLINK</div>
+  <div class="eye_focus" onClick="sendEyeUpdate('all', 4);" id="eye_all_focus"><div>FOCUS</div></div> 
+  <div class="eye_sad" onClick="sendEyeUpdate('all', 5);" id="eye_all_sad"><div class="right"></div>SAD</div> 
+  <div class="eye_angry" onClick="sendEyeUpdate('all', 6);" id="eye_all_angry"><div class="left"></div>ANGRY</div>
 </div>
 </div>
 <div class="clear"></div>
@@ -36,11 +36,11 @@
     <h5>BLINK</h5>
   </div>
   <div class="eye_buttons">
-  <div class="eye_button eye_open selected" onClick="sendEyeUpdate('left', 1);" id="eye_left_open">OPEN</div> 
-  <div class="eye_button eye_close selected" onClick="sendEyeUpdate('left', 2);" id="eye_left_close">CLOSE</div> 
-  <div class="eye_button eye_focus selected" onClick="sendEyeUpdate('left', 4);" id="eye_left_focus"><div>FOCUS</div></div> 
-  <div class="eye_button eye_sad selected" onClick="sendEyeUpdate('left', 5);" id="eye_left_sad"><div class="right"></div>SAD</div> 
-  <div class="eye_button eye_angry selected" onClick="sendEyeUpdate('left', 6);" id="eye_left_angry"><div class="left"></div>ANGRY</div>
+  <div class="eye_open selected" onClick="sendEyeUpdate('left', 1);" id="eye_left_open">OPEN</div> 
+  <div class="eye_close selected" onClick="sendEyeUpdate('left', 2);" id="eye_left_close">CLOSE</div> 
+  <div class="eye_focus selected" onClick="sendEyeUpdate('left', 4);" id="eye_left_focus"><div>FOCUS</div></div> 
+  <div class="eye_sad selected" onClick="sendEyeUpdate('left', 5);" id="eye_left_sad"><div class="right"></div>SAD</div> 
+  <div class="eye_angry selected" onClick="sendEyeUpdate('left', 6);" id="eye_left_angry"><div class="left"></div>ANGRY</div>
   </div>
 </div>
 <div class="eyeContainer">
@@ -49,16 +49,13 @@
     <h5>BLINK</h5>
   </div>
   <div class="eye_buttons">
-  <div class="eye_button eye_open" onClick="sendEyeUpdate('right', 1);" id="eye_right_open">OPEN</div> 
-  <div class="eye_button eye_close" onClick="sendEyeUpdate('right', 2);" id="eye_right_close">CLOSE</div> 
-  <div class="eye_button eye_focus selected" onClick="sendEyeUpdate('right', 4);" id="eye_right_focus"><div>FOCUS</div></div>
-  <div class="eye_button eye_sad" onClick="sendEyeUpdate('right', 5);" id="eye_right_sad"><div class="left"></div>SAD</div>
-  <div class="eye_button eye_angry" onClick="sendEyeUpdate('right', 6);" id="eye_right_angry"><div class="right"></div>ANGRY</div>
+  <div class="eye_open" onClick="sendEyeUpdate('right', 1);" id="eye_right_open">OPEN</div> 
+  <div class="eye_close" onClick="sendEyeUpdate('right', 2);" id="eye_right_close">CLOSE</div> 
+  <div class="eye_focus selected" onClick="sendEyeUpdate('right', 4);" id="eye_right_focus"><div>FOCUS</div></div>
+  <div class="eye_sad" onClick="sendEyeUpdate('right', 5);" id="eye_right_sad"><div class="left"></div>SAD</div>
+  <div class="eye_angry" onClick="sendEyeUpdate('right', 6);" id="eye_right_angry"><div class="right"></div>ANGRY</div>
   </div>
 </div>
-
-
-
 
 <hr>
 
@@ -73,34 +70,57 @@
   <input id="slider_neckTiltSideways" type="range" min="-100" max="100" value="0" class="slider" onInput="sendNeckUpdate()">
 </div>
 
-
-
-
 <script language="javascript">
   window.onload = function(){
+    loadCSS_1();
+  }
 
-    loadJoystick();
+  function loadCSS_1() {
+    var link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.type = "text/css";
+    link.href = "styles.css";
+    document.head.appendChild(link);
+
+    setTimeout(() => { loadCSS_2(); }, 500);
+  }
+  function loadCSS_2() {
+    var link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.type = "text/css";
+    link.href = "/eyestyles.css";
+    document.head.appendChild(link);
+
+    setTimeout(() => { loadCSS_3(); }, 500);
+  }
+  function loadCSS_3() {
+    var link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.type = "text/css";
+    link.href = "/slider.css";
+    document.head.appendChild(link);
+
+    document.body.innerHTML = document.body.innerHTML;
+
+    setTimeout(() => { loadJoystick(); }, 500);
   }
 
   function loadJoystick() {
     var newScript = document.createElement("script");
-    newScript.src = "joystick.js?bla=777";
-    document.body.appendChild(newScript);
-
-    console.log('joystick loaded');
+    newScript.src = "joystick.js";
+    document.head.appendChild(newScript);
 
     setTimeout(() => { loadJavascript(); }, 1000);
-    
   }
 
   function loadJavascript() {
     var newScript = document.createElement("script");
-    newScript.src = "javascript.js?bla=888";
-    document.body.appendChild(newScript);
+    newScript.src = "javascript.js";
+    document.head.appendChild(newScript);
     console.log('javascript loaded');
 
     setTimeout(() => { systemInit(); }, 500);
-  }
+  }   
         
 </script>
 

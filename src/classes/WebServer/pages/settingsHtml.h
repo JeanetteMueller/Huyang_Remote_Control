@@ -7,8 +7,4 @@ const char settingsHtml[] = R"====(
 
 <hr>
 
-<br />
-<br />
-<a href="/index.html">&larr; Back Home</a>
-
 )====";

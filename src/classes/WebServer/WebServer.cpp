@@ -206,40 +206,40 @@ String WebServer::getPage(Page page, AsyncWebServerRequest *request)
     switch (page)
     {
     case indexPage:
-        getBaseHtml(indexHtml, html);
+        getBaseHtml(indexHtml, _html);
 
         if (_enableEyes)
         {
-            html.replace("###FACE###", indexHtml_face);
+            _html.replace("###FACE###", indexHtml_face);
         }
         else
         {
-            html.replace("###FACE###", "");
+            _html.replace("###FACE###", "");
         }
         
         if (_enableNeckMovement || _enableHeadRotation)
         {
-            html.replace("###NECK###", indexHtml_neck);
+            _html.replace("###NECK###", indexHtml_neck);
         }
         else
         {
-            html.replace("###NECK###", "");
+            _html.replace("###NECK###", "");
         }
 
         if (_enableBodyMovement || _enableBodyRotation)
         {
-            html.replace("###BODY###", indexHtml_body);
+            _html.replace("###BODY###", indexHtml_body);
         }
         else
         {
-            html.replace("###BODY###", "");
+            _html.replace("###BODY###", "");
         }
         break;
     case settingsPage:
-        getBaseHtml(settingsHtml, html);
+        getBaseHtml(settingsHtml, _html);
         break;
     }
-    return html;
+    return _html;
 }
 
 void WebServer::notFound(AsyncWebServerRequest *request)
@@ -251,21 +251,4 @@ void WebServer::getBaseHtml(const String &body, String &target)
 {
     target = baseHtml;
     target.replace("###BODY###", body);
-    target.replace("###RANDOM###", random_string(10).c_str());
-}
-
-std::string WebServer::random_string(size_t length)
-{
-    auto randchar = []() -> char
-    {
-        const char charset[] =
-            "0123456789"
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-            "abcdefghijklmnopqrstuvwxyz";
-        const size_t max_index = (sizeof(charset) - 1);
-        return charset[rand() % max_index];
-    };
-    std::string str(length, 0);
-    std::generate_n(str.begin(), length, randchar);
-    return str;
 }
