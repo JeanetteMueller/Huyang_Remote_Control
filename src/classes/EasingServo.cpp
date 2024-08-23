@@ -14,7 +14,7 @@ void EasingServo::rotateServo(double degree)
 {
     // Serial.println("HuyangNeck rotateServo create pulselength");
 
-    uint16_t pulselength = map(degree, 0, 180, _min, _max); //  Calibrate the positive range (see below)
+    uint16_t pulselength = map(degree, 0, 180, 150, 595); //  Calibrate the positive range (see below)
 
     // Serial.print("rotateServoToDegree Servo: ");
     // Serial.print(servo);

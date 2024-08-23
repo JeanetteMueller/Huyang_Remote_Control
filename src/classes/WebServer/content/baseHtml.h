@@ -10,7 +10,8 @@ const char baseHtml[] = R"====(
 ###BODY###
 
 <hr>
-Made with &#9829; by Jeanette M&uuml;ller
+<footer>
+Made with &#9829; by Jeanette M&uuml;ller</footer>
 </body>
 </html>
 )===="; 

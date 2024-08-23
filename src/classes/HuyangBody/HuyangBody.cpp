@@ -24,29 +24,34 @@ HuyangBody::HuyangBody(Adafruit_PWMServoDriver *pwm)
 void HuyangBody::rotateServo(uint8_t servo, uint16_t degree)
 {
 	uint16_t pulselength = map(degree, 0, 180, HuyangBody_SERVOMIN, HuyangBody_SERVOMAX); //  Calibrate the positive range (see below)
-	/*
-	Serial.print("rotateServoToDegree Servo: ");
-	Serial.print(servo);
-	Serial.print(" to Degree: ");
-	Serial.print(degree);
-	Serial.print(" with Pulselength: ");
-	Serial.println(pulselength);
-	*/
+	
+	// Serial.print("HuyangBody rotateServo: ");
+	// Serial.print(servo);
+	// Serial.print(" to Degree: ");
+	// Serial.print(degree);
+	// Serial.print(" with Pulselength: ");
+	// Serial.println(pulselength);
+	
 	_pwm->setPWM(servo, 0, pulselength);
 	// Serial.println("done");
 }
 
-void HuyangBody::tiltBodySideways(uint16_t degree)
+void HuyangBody::tiltBodySideways(int16_t degree)
 {
-	rotateServo(pwm_pin_sideway_left, _centerTiltSideways + degree);
-	rotateServo(pwm_pin_sideway_right, _centerTiltSideways + degree);
+
+	uint16_t rotateDegree = map(degree, -100, 100, 0, 180);
+
+	rotateServo(pwm_pin_sideway_left, rotateDegree);
+	rotateServo(pwm_pin_sideway_right, rotateDegree);
 }
-void HuyangBody::tiltBodyForward(uint16_t degree)
+void HuyangBody::tiltBodyForward(int16_t degree)
 {
-	rotateServo(pwm_pin_forward_left, _centerTiltFront_left + degree);
-	rotateServo(pwm_pin_forward_right, _centerTiltFront_right - degree);
+	uint16_t rotateDegree = map(degree, -100, 100, 0, 180);
+
+	rotateServo(pwm_pin_forward_left, rotateDegree);
+	rotateServo(pwm_pin_forward_right, 180 - rotateDegree);
 }
-void HuyangBody::rotateBody(uint16_t degree)
+void HuyangBody::rotateBody(int16_t degree)
 {
 	// center = 35
 	uint16_t rotateDegree = map(degree, -100, 100, 0, 70);

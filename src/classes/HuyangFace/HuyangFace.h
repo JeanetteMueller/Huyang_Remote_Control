@@ -39,6 +39,7 @@ private:
 
 	unsigned long _currentMillis = 0;
 	unsigned long _previousMillis = 0;
+	unsigned long _previousRandomMillis = 0;
 	
 	uint16_t _tftDisplayWidth = 240;
 	uint16_t _tftDisplayHeight = 240;
