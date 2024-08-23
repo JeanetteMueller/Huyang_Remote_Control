@@ -18,54 +18,54 @@
 class WebServer
 {
 public:
-    enum Page
-    {
-        indexPage,
-        settingsPage
-    };
+	enum Page
+	{
+		indexPage,
+		settingsPage
+	};
 
-    bool automaticAnimations = true;
+	bool automaticAnimations = true;
 
-    uint16_t leftEye = 3;
-    uint16_t rightEye = 3;
-    uint16_t allEyes = 0;
+	uint16_t leftEye = 3;
+	uint16_t rightEye = 3;
+	uint16_t allEyes = 0;
 
-    int16_t neckRotate = 0;
-    int16_t neckTiltForward = 0;
-    int16_t neckTiltSideways = 0;
+	int16_t neckRotate = 0;
+	int16_t neckTiltForward = 0;
+	int16_t neckTiltSideways = 0;
 
-    int16_t bodyRotate = 0;
-    int16_t bodyTiltForward = 0;
-    int16_t bodyTiltSideways = 0;
+	int16_t bodyRotate = 0;
+	int16_t bodyTiltForward = 0;
+	int16_t bodyTiltSideways = 0;
 
-    WebServer(uint32_t port);
-    void setup(bool enableEyes,
-               bool enableMonacle,
-               bool enableNeckMovement,
-               bool enableHeadRotation,
-               bool enableBodyMovement,
-               bool enableBodyRotation,
-               bool enableTorsoLights);
-    void start();
+	WebServer(uint32_t port);
+	void setup(bool enableEyes,
+			   bool enableMonacle,
+			   bool enableNeckMovement,
+			   bool enableHeadRotation,
+			   bool enableBodyMovement,
+			   bool enableBodyRotation,
+			   bool enableTorsoLights);
+	void start();
 
 private:
-    AsyncWebServer *_server;
-    String _html;
+	AsyncWebServer *_server;
+	String _html;
 
-    bool _enableEyes;
-    bool _enableMonacle;
-    bool _enableNeckMovement;
-    bool _enableHeadRotation;
-    bool _enableBodyMovement;
-    bool _enableBodyRotation;
-    bool _enableTorsoLights;
+	bool _enableEyes;
+	bool _enableMonacle;
+	bool _enableNeckMovement;
+	bool _enableHeadRotation;
+	bool _enableBodyMovement;
+	bool _enableBodyRotation;
+	bool _enableTorsoLights;
 
-    void getBaseHtml(const String &body, String &target);
-    String getPage(Page page, AsyncWebServerRequest *request);
+	void getBaseHtml(const String &body, String &target);
+	String getPage(Page page, AsyncWebServerRequest *request);
 
-    void apiPostAction(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total);
+	void apiPostAction(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total);
 
-    void notFound(AsyncWebServerRequest *request);
+	void notFound(AsyncWebServerRequest *request);
 };
 
 #endif
