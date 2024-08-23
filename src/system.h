@@ -38,7 +38,7 @@ void setup()
     huyangFace->setup();
     huyangBody->setup();
     huyangNeck->setup();
-    huyangAudio->setup();
+    // huyangAudio->setup();
 
     Serial.println("setup done");
 }
@@ -114,20 +114,20 @@ void loop()
     huyangNeck->automatic = webserver->automaticAnimations;
     if (huyangNeck->automatic == false)
     {
-        huyangNeck->rotate(webserver->neckRotate);
-        huyangNeck->tiltForward(webserver->neckTiltForward);
-        huyangNeck->tiltSideways(webserver->neckTiltSideways);
+        huyangNeck->rotateHead(webserver->neckRotate);
+        huyangNeck->tiltNeckForward(webserver->neckTiltForward);
+        huyangNeck->tiltNeckSideways(webserver->neckTiltSideways);
     }
     huyangNeck->loop();
 
     huyangBody->automatic = webserver->automaticAnimations;
     if (huyangBody->automatic == false)
     {
-        huyangBody->rotate(webserver->bodyRotate);
-        huyangBody->tiltForward(webserver->bodyTiltForward);
-        huyangBody->tiltSideways(webserver->bodyTiltSideways);
+        huyangBody->rotateBody(webserver->bodyRotate);
+        huyangBody->tiltBodyForward(webserver->bodyTiltForward);
+        huyangBody->tiltBodySideways(webserver->bodyTiltSideways);
     }
     huyangBody->loop();
 
-    huyangAudio->loop();
+    // huyangAudio->loop();
 }

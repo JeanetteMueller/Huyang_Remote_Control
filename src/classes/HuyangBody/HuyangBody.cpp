@@ -36,17 +36,17 @@ void HuyangBody::rotateServo(uint8_t servo, uint16_t degree)
 	// Serial.println("done");
 }
 
-void HuyangBody::tiltSideways(uint16_t degree)
+void HuyangBody::tiltBodySideways(uint16_t degree)
 {
 	rotateServo(pwm_pin_sideway_left, _centerTiltSideways + degree);
 	rotateServo(pwm_pin_sideway_right, _centerTiltSideways + degree);
 }
-void HuyangBody::tiltForward(uint16_t degree)
+void HuyangBody::tiltBodyForward(uint16_t degree)
 {
 	rotateServo(pwm_pin_forward_left, _centerTiltFront_left + degree);
 	rotateServo(pwm_pin_forward_right, _centerTiltFront_right - degree);
 }
-void HuyangBody::rotate(uint16_t degree)
+void HuyangBody::rotateBody(uint16_t degree)
 {
 	// center = 35
 	uint16_t rotateDegree = map(degree, -100, 100, 0, 70);
@@ -55,9 +55,9 @@ void HuyangBody::rotate(uint16_t degree)
 
 void HuyangBody::centerAll()
 {
-	tiltSideways(0);
-	tiltForward(0);
-	rotate(0);
+	tiltBodySideways(0);
+	tiltBodyForward(0);
+	rotateBody(0);
 }
 
 void HuyangBody::updateChestLights()
