@@ -38,23 +38,25 @@ void HuyangBody::rotateServo(uint8_t servo, uint16_t degree)
 
 void HuyangBody::tiltBodySideways(int16_t degree)
 {
+	int16_t calibrationShift = -22;  // max 0 to -60
+	int16_t calibratedDegree = map(degree, -100, 100, -60 + calibrationShift, 60 + calibrationShift);
+	uint16_t rotateDegree = map(calibratedDegree, -100, 100, 0, 170);
 
-	uint16_t rotateDegree = map(degree, -100, 100, 0, 180);
-
-	rotateServo(pwm_pin_sideway_left, rotateDegree);
-	rotateServo(pwm_pin_sideway_right, rotateDegree);
+	rotateServo(pwm_pin_sideway_left, rotateDegree + 0);
+	rotateServo(pwm_pin_sideway_right, rotateDegree + 15);
 }
 void HuyangBody::tiltBodyForward(int16_t degree)
 {
-	uint16_t rotateDegree = map(degree, -100, 100, 0, 180);
+	int16_t calibrationShift = 40; // max 0 to 40
+	uint16_t rotateDegree = map(degree, -100, 100, 30 + calibrationShift, 140 + calibrationShift);
 
 	rotateServo(pwm_pin_forward_left, rotateDegree);
 	rotateServo(pwm_pin_forward_right, 180 - rotateDegree);
 }
 void HuyangBody::rotateBody(int16_t degree)
 {
-	// center = 35
-	uint16_t rotateDegree = map(degree, -100, 100, 0, 70);
+	int16_t calibrationShift = 0; // max 0 to 20
+	uint16_t rotateDegree = map(degree, -100, 100, 0 + calibrationShift, 70 + calibrationShift);
 	rotateServo(pwm_pin_body_rotate, rotateDegree);
 }
 

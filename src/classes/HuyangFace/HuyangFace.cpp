@@ -120,7 +120,7 @@ void HuyangFace::loop()
 			_leftEyeTargetState = Closed;
 			_rightEyeTargetState = Closed;
 
-			_randomDuration = 300;
+			_randomDuration = 250;
 			return;
 		}
 

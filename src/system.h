@@ -78,7 +78,6 @@ void loop()
     {
         if (webserver->allEyes != 0)
         {
-            Serial.println("update both eyes");
             HuyangFace::EyeState newState = huyangFace->getStateFrom(webserver->allEyes);
             huyangFace->setEyesTo(newState);
 
