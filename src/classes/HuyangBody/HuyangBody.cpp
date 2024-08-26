@@ -63,8 +63,13 @@ void HuyangBody::rotateBody(int16_t degree)
 void HuyangBody::centerAll()
 {
 	tiltBodySideways(0);
+	delay(500);
+
 	tiltBodyForward(0);
+	delay(500);
+
 	rotateBody(0);
+	delay(500);
 }
 
 void HuyangBody::updateChestLights()
@@ -79,6 +84,8 @@ void HuyangBody::updateChestLights()
 
 void HuyangBody::setup()
 {
+    centerAll();
+
 }
 
 void HuyangBody::loop()

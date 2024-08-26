@@ -40,10 +40,6 @@ void setup()
     huyangNeck->setup();
     // huyangAudio->setup();
 
-    delay(500);
-
-    huyangBody->centerAll();
-
     Serial.println("setup done");
 }
 
