@@ -2,8 +2,7 @@
 #include "indexHtml_neck.h"
 #include "indexHtml_body.h"
 
-
-const char indexHtml[] PROGMEM = R"=====(
+const char indexHtml[] = R"=====(
 
 <div class="menuContainer">
   <a href="#" id="button_automatic" class="button" onClick="changeAutomatic(true);">LOADING</a>
@@ -19,6 +18,21 @@ const char indexHtml[] PROGMEM = R"=====(
 <script language="javascript">
   window.onload = function(){
     loadJoystick();
+  }
+  async function getHtml(url = "") {
+    return await fetch(url);
+  }
+  function loadContainer(url, elementId) {
+    getHtml(url)
+      .then(response => {
+        return response.text()
+      })
+      .then(html => {
+        document.getElementById(elementId).innerHTML = html;
+        document.getElementById(elementId).removeAttribute("onclick");
+
+        initJoystick();
+      });
   }
 
   function loadJoystick() {

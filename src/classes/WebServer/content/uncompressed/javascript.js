@@ -68,7 +68,7 @@ function sendBodyUpdate() {
     sendData(data);
 }
 
-async function postData(url = "", data = {}) {
+async function postDataJson(url = "", data = {}) {
     const response = await fetch(url, {
         method: 'POST',
         mode: 'no-cors', // no-cors, *cors, same-origin
@@ -86,7 +86,7 @@ async function postData(url = "", data = {}) {
 function sendData(data) {
     console.log(data);
 
-    postData('api/post.json', data).then(json => {
+    postDataJson('api/post.json', data).then(json => {
         console.log('Result from Server: ');
         console.log(json);
 
@@ -231,12 +231,39 @@ function getServerData() {
 function systemInit() {
     console.log('systemInit started');
 
-    fillColor = '#fd2';
-    strokeColor = '#b90';
-
     getServerData();
 
     setInterval(getServerData, 2000);
+
+    timeToWait = 0;
+    timeToPause = 200;
+
+    if (document.getElementById('container_face') != null) {
+        setTimeout(function(){
+            loadContainer('index.face.html', 'container_face');
+        }, timeToWait);
+        timeToWait += timeToPause;
+    }
+
+    if (document.getElementById('container_neck') != null) {
+        setTimeout(function(){
+            loadContainer('index.neck.html', 'container_neck');
+        }, timeToWait);
+        timeToWait += timeToPause;
+    }
+
+    if (document.getElementById('container_body') != null) {
+        setTimeout(function(){
+            loadContainer('index.body.html', 'container_body');
+        }, timeToWait);
+        timeToWait += timeToPause;
+    }
+}
+
+function initJoystick() {
+
+    fillColor = '#fd2';
+    strokeColor = '#b90';
 
     joystickSettings = {
         autoReturnToCenter: true,
@@ -247,19 +274,20 @@ function systemInit() {
         externalStrokeColor: strokeColor
     };
 
-    if (document.getElementById('joyNeck') != null) {
+    if (JoyNeck == null && document.getElementById('joyNeck') != null) {
         JoyNeck = new JoyStick('joyNeck', joystickSettings, function (stickData) {
 
             if (JoyNeckX != stickData.x || JoyNeckY != stickData.y) {
+
                 JoyNeckX = stickData.x;
                 JoyNeckY = stickData.y;
 
-                sendNeckUpdate();
+                sendBodyUpdate();
             }
         });
     }
 
-    if (document.getElementById('joyBody') != null) {
+    if (JoyBody == null && document.getElementById('joyBody') != null) {
         JoyBody = new JoyStick('joyBody', joystickSettings, function (stickData) {
 
             if (JoyBodyX != stickData.x || JoyBodyY != stickData.y) {

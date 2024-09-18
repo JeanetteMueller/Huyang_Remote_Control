@@ -58,6 +58,24 @@ void WebServer::start()
                     response->print(getPage(indexPage, request));
                     request->send(response); });
 
+	_server->on("/index.face.html", HTTP_GET, [&](AsyncWebServerRequest *request)
+				{
+                    AsyncResponseStream *response = request->beginResponseStream("text/html");
+                    response->print(indexHtml_face);
+                    request->send(response); });
+
+	_server->on("/index.neck.html", HTTP_GET, [&](AsyncWebServerRequest *request)
+				{
+                    AsyncResponseStream *response = request->beginResponseStream("text/html");
+                    response->print(indexHtml_neck);
+                    request->send(response); });
+
+	_server->on("/index.body.html", HTTP_GET, [&](AsyncWebServerRequest *request)
+				{
+                    AsyncResponseStream *response = request->beginResponseStream("text/html");
+                    response->print(indexHtml_body);
+                    request->send(response); });
+
 	_server->on("/settings.html", HTTP_GET, [&](AsyncWebServerRequest *request)
 				{ request->send(200, "text/html", getPage(settingsPage, request)); });
 
@@ -210,7 +228,7 @@ String WebServer::getPage(Page page, AsyncWebServerRequest *request)
 
 		if (_enableEyes)
 		{
-			_html.replace("###FACE###", indexHtml_face);
+			_html.replace("###FACE###", "<div id=\"container_face\" onclick=\"loadContainer('/index.face.html', 'container_face')\">Activate Face Interface</div>");
 		}
 		else
 		{
@@ -219,7 +237,7 @@ String WebServer::getPage(Page page, AsyncWebServerRequest *request)
 
 		if (_enableNeckMovement || _enableHeadRotation)
 		{
-			_html.replace("###NECK###", indexHtml_neck);
+			_html.replace("###NECK###", "<div id=\"container_neck\" onclick=\"loadContainer('/index.neck.html', 'container_neck')\">Activate Neck Interface</div>");
 		}
 		else
 		{
@@ -228,7 +246,7 @@ String WebServer::getPage(Page page, AsyncWebServerRequest *request)
 
 		if (_enableBodyMovement || _enableBodyRotation)
 		{
-			_html.replace("###BODY###", indexHtml_body);
+			_html.replace("###BODY###", "<div id=\"container_body\" onclick=\"loadContainer('/index.body.html', 'container_body')\">Activate Body Interface</div>");
 		}
 		else
 		{

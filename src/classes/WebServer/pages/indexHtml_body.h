@@ -1,4 +1,4 @@
-const char indexHtml_body[] PROGMEM = R"=====(
+const char indexHtml_body[] = R"=====(
 
 <hr>
 

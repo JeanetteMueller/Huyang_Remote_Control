@@ -1,4 +1,4 @@
-const char indexHtml_neck[] PROGMEM = R"=====(
+const char indexHtml_neck[]  = R"=====(
 
 <hr>
 

@@ -1,4 +1,4 @@
-const char baseHtml[] PROGMEM = R"=====(
+const char baseHtml[] = R"=====(
 <!DOCTYPE HTML><html>
 <head>
 <title>Huyang Control</title>

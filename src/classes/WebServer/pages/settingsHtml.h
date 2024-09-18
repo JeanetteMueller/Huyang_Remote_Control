@@ -1,4 +1,4 @@
-const char settingsHtml[] PROGMEM = R"=====(
+const char settingsHtml[]  = R"=====(
 
 <div class="menuContainer">
   <a href="/index.html" class="button">Start</a>
