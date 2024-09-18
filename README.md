@@ -21,12 +21,21 @@ You can configure Huyang to be accessible via his own Wifi or let him connect to
 9. Select "Tools" -> "Board" -> ... whatever you have. Maybe "Generic ESP8266 Module", or "ESP32 Dev Modul"
 
 # Install Software Libraries
+For all installations, if there are some dependencies to install, install them!
+
 1. Open "Tools" -> "Manage Libraries"
 2. Search for following Names and install what you found
-3. "AsyncTCP" -> Install "AsyncTCP by dvarrel"
-4. "Arduino GFX Library" -> Install "GFX Library for Arduino by Moon On Our Nation"
-5. "ESPAsyncWebServer" -> Install "ESPAsyncWebServer by Iacamera"
+3. "ESPAsyncWebServer" -> Install "ESPAsyncWebServer by Iacamera"
+4. "PWM Servo Driver" -> Install "Adafruit PWM Servo Driver Library by Adafruit"
+5. "Adafruit NeoPixel" -> Install "Adafruit NeoPixel by Adafruit"
+6. "Arduino GFX Library" -> Install "GFX Library for Arduino by Moon On Our Nation"
+7. "DFRobotDFPlayerMini" -> Install "DFRobotDFPlayerMini by DFRobot"
+8. "ArduinoJson" -> Install "ArduinoJson by Bernoit Blanchon"
+
+/////3. "AsyncTCP" -> Install "AsyncTCP by dvarrel"
+
 6. "EspSoftwareSerial" -> Install "EspSoftwareSerial by Dirk Kaar, Peter Lerup"
+
 
 # Run
 * Build and Run with your Arduino IDE
