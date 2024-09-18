@@ -2,28 +2,28 @@
 #define HuyangAudio_h
 
 #include "Arduino.h"
-#include <SoftwareSerial.h>
-#include <DFPlayerMini_Fast.h>
+#include "SoftwareSerial.h"
+#include "DFRobotDFPlayerMini.h"
 
 class HuyangAudio
 {
 public:
-    HuyangAudio();
-    void setup();
-    void loop();
+	HuyangAudio();
+	void setup();
+	void loop();
 
 private:
-    unsigned long _currentMillis = 0;
-    unsigned long _previousMillis = 0;
+	unsigned long _currentMillis = 0;
+	unsigned long _previousMillis = 0;
 
-    bool _isSerialReady = false;
-    bool _isPlayerReady = false;
+	bool _isSerialReady = false;
+	bool _isPlayerReady = false;
 
-    DFPlayerMini_Fast player;
-    EspSoftwareSerial::UART audioSerial;
+	DFRobotDFPlayerMini _player;
+	EspSoftwareSerial::UART _audioSerial;
 
-    uint16_t audioPause = 2000;
-    uint16_t audioItemCount = 0;
+	uint16_t _audioPause = 2000;
+	uint16_t _audioItemCount = 0;
 };
 
 #endif

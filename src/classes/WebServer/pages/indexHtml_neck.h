@@ -1,4 +1,4 @@
-const char indexHtml_neck[] = R"====(
+const char indexHtml_neck[] PROGMEM = R"=====(
 
 <hr>
 
@@ -13,4 +13,4 @@ const char indexHtml_neck[] = R"====(
   <input id="slider_neckTiltSideways" type="range" min="-100" max="100" value="0" class="slider" onInput="sendNeckUpdate()">
 </div>
 
-)====";
+)=====";

@@ -1,4 +1,4 @@
-const char baseHtml[] = R"====(
+const char baseHtml[] PROGMEM = R"=====(
 <!DOCTYPE HTML><html>
 <head>
 <title>Huyang Control</title>
@@ -14,4 +14,4 @@ const char baseHtml[] = R"====(
 Made with &#9829; by Jeanette M&uuml;ller</footer>
 </body>
 </html>
-)===="; 
+)====="; 

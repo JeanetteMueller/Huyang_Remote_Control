@@ -1,4 +1,4 @@
-const char indexHtml_body[] = R"====(
+const char indexHtml_body[] PROGMEM = R"=====(
 
 <hr>
 
@@ -13,4 +13,4 @@ const char indexHtml_body[] = R"====(
   <input id="slider_bodyTiltSideways" type="range" min="-100" max="100" value="0" class="slider" onInput="sendBodyUpdate()">
 </div>
 
-)====";
+)=====";

@@ -1,4 +1,4 @@
-const char indexHtml_face[] = R"====(
+const char indexHtml_face[] PROGMEM = R"=====(
 
 <hr>
 
@@ -42,4 +42,4 @@ const char indexHtml_face[] = R"====(
   </div>
 </div>
 
-)====";
+)=====";

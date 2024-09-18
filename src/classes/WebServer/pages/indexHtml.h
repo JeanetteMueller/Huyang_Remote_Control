@@ -3,7 +3,7 @@
 #include "indexHtml_body.h"
 
 
-const char indexHtml[] = R"====(
+const char indexHtml[] PROGMEM = R"=====(
 
 <div class="menuContainer">
   <a href="#" id="button_automatic" class="button" onClick="changeAutomatic(true);">LOADING</a>
@@ -38,4 +38,4 @@ const char indexHtml[] = R"====(
     setTimeout(() => { systemInit(); }, 500);
   }   
 </script>
-)====";
+)=====";
