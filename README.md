@@ -3,7 +3,7 @@ Software for ESP8266 to control Huyang from DroidDivision via Browser/Mobile Dev
 This Software runs on mostly any ESP8266 together with two GC9A01 TFT Displays. 
 Inside the Folder /Wiring Diagrams you can find some Instructions how to connect two GC9A01 Displays to common Boards. 
 
-![Preview of 1.8](img/1_8.png)
+![Preview of 1.9](img/1_9.png)
 
 # HOW TO Get this running!!!
 Open "config.h" and edit the configuration as you need it.
@@ -31,11 +31,6 @@ For all installations, if there are some dependencies to install, install them!
 6. "Arduino GFX Library" -> Install "GFX Library for Arduino by Moon On Our Nation"
 7. "DFRobotDFPlayerMini" -> Install "DFRobotDFPlayerMini by DFRobot"
 8. "ArduinoJson" -> Install "ArduinoJson by Bernoit Blanchon"
-
-/////3. "AsyncTCP" -> Install "AsyncTCP by dvarrel"
-
-6. "EspSoftwareSerial" -> Install "EspSoftwareSerial by Dirk Kaar, Peter Lerup"
-
 
 # Run
 * Build and Run with your Arduino IDE
