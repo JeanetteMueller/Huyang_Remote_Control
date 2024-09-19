@@ -7,4 +7,6 @@ const char settingsHtml[]  = R"=====(
 
 <hr>
 
+<a href="/calibration.html">Start Calibration</a>
+
 )=====";

@@ -79,6 +79,9 @@ void WebServer::start()
 	_server->on("/settings.html", HTTP_GET, [&](AsyncWebServerRequest *request)
 				{ request->send(200, "text/html", getPage(settingsPage, request)); });
 
+	_server->on("/calibration.html", HTTP_GET, [&](AsyncWebServerRequest *request)
+				{ request->send(200, "text/html", getPage(calibrationPage, request)); });
+
 	_server->onNotFound([&](AsyncWebServerRequest *request)
 						{ notFound(request); });
 
@@ -255,6 +258,9 @@ String WebServer::getPage(Page page, AsyncWebServerRequest *request)
 		break;
 	case settingsPage:
 		getBaseHtml(settingsHtml, _html);
+		break;
+	case calibrationPage:
+		getBaseHtml(calibrationHtml, _html);
 		break;
 	}
 	return _html;

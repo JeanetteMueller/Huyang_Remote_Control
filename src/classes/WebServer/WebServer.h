@@ -21,7 +21,8 @@ public:
 	enum Page
 	{
 		indexPage,
-		settingsPage
+		settingsPage,
+		calibrationPage
 	};
 
 	bool automaticAnimations = true;
