@@ -17,8 +17,10 @@ You can configure Huyang to be accessible via his own Wifi or let him connect to
 5. Restart Arduino IDE
 6. Open "Tools" -> "Board ..." -> "Board Manager"
 7. Search for "esp"
-8. Install "esp32 by Espressif" OR "ESP8266 Boards (x.x.x)" to make your Board available
+8. Install "esp32 by Espressif" OR "ESP8266 Boards (3.1.0)" to make your Board available
 9. Select "Tools" -> "Board" -> ... whatever you have. Maybe "Generic ESP8266 Module", or "ESP32 Dev Modul"
+
+
 
 # Install Software Libraries
 For all installations, if there are some dependencies to install, install them!
@@ -31,6 +33,9 @@ For all installations, if there are some dependencies to install, install them!
 6. "Arduino GFX Library" -> Install "GFX Library for Arduino by Moon On Our Nation"
 7. "DFRobotDFPlayerMini" -> Install "DFRobotDFPlayerMini by DFRobot"
 8. "ArduinoJson" -> Install "ArduinoJson by Bernoit Blanchon"
+
+# Install Arduino IDE 2 Plugin
+1. Please install "arduino-littlefs-upload-1.5.0.vsix" by following the Instructions of https://randomnerdtutorials.com/arduino-ide-2-install-esp8266-littlefs/#installing
 
 # Run
 * Build and Run with your Arduino IDE

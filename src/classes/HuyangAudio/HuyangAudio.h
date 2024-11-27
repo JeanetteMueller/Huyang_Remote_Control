@@ -1,7 +1,6 @@
 #ifndef HuyangAudio_h
 #define HuyangAudio_h
 
-#include "Arduino.h"
 #include "SoftwareSerial.h"
 #include "DFRobotDFPlayerMini.h"
 
@@ -20,7 +19,7 @@ private:
 	bool _isPlayerReady = false;
 
 	DFRobotDFPlayerMini _player;
-	EspSoftwareSerial::UART _audioSerial;
+	SoftwareSerial _audioSerial;
 
 	uint16_t _audioPause = 2000;
 	uint16_t _audioItemCount = 0;

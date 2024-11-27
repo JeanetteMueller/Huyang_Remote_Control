@@ -1,0 +1,31 @@
+<div class="menuContainer">
+    <a href="#" id="button_automatic" class="button" onClick="changeAutomatic(true);">LOADING</a>
+     | 
+    <a href="/index.html" class="button">Start</a>
+    <!-- <a href="/settings.html" class="button">Settings</a>-->
+  </div>
+  
+  ###FACE###
+  ###NECK###
+  ###BODY###
+  
+  <script language="javascript">
+    window.onload = function(){
+        systemInit();
+    }
+    async function getHtml(url = "") {
+      return await fetch(url);
+    }
+    function loadContainer(url, elementId) {
+      getHtml(url)
+        .then(response => {
+          return response.text()
+        })
+        .then(html => {
+          document.getElementById(elementId).innerHTML = html;
+          document.getElementById(elementId).removeAttribute("onclick");
+  
+          initJoystick();
+        });
+    }  
+  </script>

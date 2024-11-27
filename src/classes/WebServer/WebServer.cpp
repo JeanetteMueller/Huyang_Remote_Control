@@ -1,5 +1,7 @@
 #include "WebServer.h"
 
+#define FORMAT_LITTLEFS_IF_FAILED true
+
 WebServer::WebServer(uint32_t port)
 {
 	_server = new AsyncWebServer(port);
@@ -20,6 +22,57 @@ void WebServer::setup(bool enableEyes,
 	_enableBodyMovement = enableBodyMovement;
 	_enableBodyRotation = enableBodyRotation;
 	_enableTorsoLights = enableTorsoLights;
+
+	if (!LittleFS.begin())
+	{
+		Serial.println("LittleFS Mount Failed");
+		return;
+	}
+}
+
+String WebServer::readFile(const char *path)
+{
+	String result = "";
+
+	Serial.printf("Reading file: %s\r\n", path);
+
+	File file = LittleFS.open(path, "r");
+	if (!file || file.isDirectory())
+	{
+		Serial.println("- failed to open file for reading");
+
+		return result;
+	}
+
+	Serial.println("- read from file:");
+
+	result = file.readString();
+
+	file.close();
+
+	return result;
+}
+
+void WebServer::writeFile(const char *path, const char *message)
+{
+	Serial.printf("Writing file: %s\r\n", path);
+
+	File file = LittleFS.open(path, "w");
+	if (!file)
+	{
+		Serial.println("- failed to open file for writing");
+		return;
+	}
+	if (file.print(message))
+	{
+		Serial.println("- file written");
+	}
+	else
+	{
+		Serial.println("- write failed");
+	}
+	delay(200);
+	file.close();
 }
 
 void WebServer::start()
@@ -30,51 +83,64 @@ void WebServer::start()
 
 	_server->on("/styles.css", HTTP_GET, [&](AsyncWebServerRequest *request)
 				{ 
-                    AsyncResponseStream *response = request->beginResponseStream("text/css");
-                    response->print(styles);
-                    request->send(response); });
+                    // AsyncResponseStream *response = request->beginResponseStream("text/css");
+                    // response->print(styles);
+                    // request->send(response); });
 
+					request->send(LittleFS, "/styles.css", "text/css"); });
 	_server->on("/javascript.js", HTTP_GET, [&](AsyncWebServerRequest *request)
 				{
-                    AsyncResponseStream *response = request->beginResponseStream("text/javascript");
-                    response->print(javascript);
+                    // AsyncResponseStream *response = request->beginResponseStream("text/javascript");
+                    // response->print(javascript);
 
-                    request->send(response); });
+                    // request->send(response); });
+
+					request->send(LittleFS, "/javascript.js", "text/javascript"); });
 
 	_server->on("/joystick.js", HTTP_GET, [&](AsyncWebServerRequest *request)
 				{
-                    AsyncResponseStream *response = request->beginResponseStream("text/javascript");
-                    response->print(javascript_joystick);
-                    request->send(response); });
+                    // AsyncResponseStream *response = request->beginResponseStream("text/javascript");
+                    // response->print(javascript_joystick);
+                    // request->send(response); });
 
+					request->send(LittleFS, "/joystick.js", "text/javascript"); });
 	_server->on("/", HTTP_GET, [&](AsyncWebServerRequest *request)
 				{
-                    AsyncResponseStream *response = request->beginResponseStream("text/html");
-                    response->print(getPage(indexPage, request));
-                    request->send(response); });
+                    // AsyncResponseStream *response = request->beginResponseStream("text/html");
+                    // response->print(getPage(indexPage, request));
+                    // request->send(response); 
+
+					request->send(200, "text/html", getPage(indexPage, request)); });
 	_server->on("/index.html", HTTP_GET, [&](AsyncWebServerRequest *request)
 				{
-                    AsyncResponseStream *response = request->beginResponseStream("text/html");
-                    response->print(getPage(indexPage, request));
-                    request->send(response); });
+                    // AsyncResponseStream *response = request->beginResponseStream("text/html");
+                    // response->print(getPage(indexPage, request));
+                    // request->send(response); });
+					request->send(200, "text/html", getPage(indexPage, request)); });
 
 	_server->on("/index.face.html", HTTP_GET, [&](AsyncWebServerRequest *request)
 				{
-                    AsyncResponseStream *response = request->beginResponseStream("text/html");
-                    response->print(indexHtml_face);
-                    request->send(response); });
+					// AsyncResponseStream *response = request->beginResponseStream("text/html");
+					// response->print(indexHtml_face);
+					// request->send(response);
+
+		
+					request->send(LittleFS, "/index.face.html", "text/html"); });
 
 	_server->on("/index.neck.html", HTTP_GET, [&](AsyncWebServerRequest *request)
 				{
-                    AsyncResponseStream *response = request->beginResponseStream("text/html");
-                    response->print(indexHtml_neck);
-                    request->send(response); });
+                    // AsyncResponseStream *response = request->beginResponseStream("text/html");
+                    // response->print(indexHtml_neck);
+                    // request->send(response); 
+					
+					request->send(LittleFS, "/index.neck.html", "text/html"); });
 
 	_server->on("/index.body.html", HTTP_GET, [&](AsyncWebServerRequest *request)
 				{
-                    AsyncResponseStream *response = request->beginResponseStream("text/html");
-                    response->print(indexHtml_body);
-                    request->send(response); });
+                    // AsyncResponseStream *response = request->beginResponseStream("text/html");
+                    // response->print(indexHtml_body);
+                    // request->send(response); 
+					request->send(LittleFS, "/index.body.html", "text/html"); });
 
 	_server->on("/settings.html", HTTP_GET, [&](AsyncWebServerRequest *request)
 				{ request->send(200, "text/html", getPage(settingsPage, request)); });
@@ -227,7 +293,10 @@ String WebServer::getPage(Page page, AsyncWebServerRequest *request)
 	switch (page)
 	{
 	case indexPage:
-		getBaseHtml(indexHtml, _html);
+	{
+		String index = readFile("/index.html");
+
+		getBaseHtml(index, _html);
 
 		if (_enableEyes)
 		{
@@ -255,13 +324,20 @@ String WebServer::getPage(Page page, AsyncWebServerRequest *request)
 		{
 			_html.replace("###BODY###", "");
 		}
-		break;
+	}
+	break;
 	case settingsPage:
-		getBaseHtml(settingsHtml, _html);
-		break;
+	{
+		String settings = readFile("/settings.html");
+		getBaseHtml(settings, _html);
+	}
+	break;
 	case calibrationPage:
-		getBaseHtml(calibrationHtml, _html);
-		break;
+	{
+		String calibration = readFile("/calibration.html");
+		getBaseHtml(calibration, _html);
+	}
+	break;
 	}
 	return _html;
 }
@@ -273,6 +349,6 @@ void WebServer::notFound(AsyncWebServerRequest *request)
 
 void WebServer::getBaseHtml(const String &body, String &target)
 {
-	target = baseHtml;
+	target = readFile("/base.html");
 	target.replace("###BODY###", body);
 }

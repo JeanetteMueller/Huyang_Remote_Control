@@ -2,18 +2,31 @@
 #ifndef WebServer_h
 #define WebServer_h
 
-#include "Arduino.h"
-
+#ifdef ESP32
+#include <WiFi.h>
 #include <ESPAsyncWebServer.h>
+#else
+#include <Arduino.h>
+#include <ESP8266WiFi.h>
+#include <Hash.h>
+#include <ESPAsyncTCP.h>
+#include <ESPAsyncWebServer.h>
+#endif
+
+#include "FS.h"
+#include "LittleFS.h"
+
+
 #include <ArduinoJson.h>
 
-#include "content/styles.h"
-#include "content/javascript.h"
-#include "content/joystick.h"
-#include "content/baseHtml.h"
+// #include "content/styles.h"
+// #include "content/javascript.h"
+// #include "content/joystick.h"
+// #include "content/baseHtml.h"
 
-#include "pages/indexHtml.h"
-#include "pages/settingsHtml.h"
+// #include "pages/indexHtml.h"
+// #include "pages/settingsHtml.h"
+// #include "pages/calibrationHtml.h"
 
 class WebServer
 {
@@ -60,6 +73,9 @@ private:
 	bool _enableBodyMovement;
 	bool _enableBodyRotation;
 	bool _enableTorsoLights;
+
+	String readFile(const char * path);
+	void writeFile(const char * path, const char * message);
 
 	void getBaseHtml(const String &body, String &target);
 	String getPage(Page page, AsyncWebServerRequest *request);
