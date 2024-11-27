@@ -17,10 +17,10 @@
 #define WifiPasswordHotspot "<YOUR HOTSPOT PASSWORD>" // <- change if needed
 
 // Connect to your local Wifi. If not Accessible Huyang will create Hotspot
-#define WifiSsidConnectTo "<YOUR WIFI SSID>"         // <- change if needed
+#define WifiSsidConnectTo "Yavin4"         // <- change if needed
 
 // The password has a minimum length of 8 symbols or "" if you dont want a password. 
-#define WifiPasswordConnectTo "<YOUR WIFI PASSWORD>" // <- change if needed 
+#define WifiPasswordConnectTo "29833170985536833475" // <- change if needed 
 
 
 // ONLY if the Huyang Wifi Mode is Mode WifiModeNetwork:

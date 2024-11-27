@@ -2,7 +2,7 @@
 void setup()
 {
     Serial.begin(115200); // Used only for debugging on arduino serial monitor
-    Serial.println("Huyang! v1.7 by Jeanette Müller");
+    Serial.println("Huyang! v1.9 by Jeanette Müller");
 
     wifi->currentMode = WiFiDefaultMode;
 
@@ -21,6 +21,14 @@ void setup()
 
     wifi->setup();
 
+    webserver->setup(enableEyes,
+                     enableMonacle,
+                     enableNeckMovement,
+                     enableHeadRotation,
+                     enableBodyMovement,
+                     enableBodyRotation,
+                     enableTorsoLights);
+
     webserver->start();
 
     pwm->begin();
@@ -30,13 +38,35 @@ void setup()
     huyangFace->setup();
     huyangBody->setup();
     huyangNeck->setup();
+    // huyangAudio->setup();
 
     Serial.println("setup done");
 }
 
 void loop()
 {
+    currentMillis = millis();
+
     wifi->loop();
+
+    if (currentMillis - previousMillisIPAdress > 5000)
+    {
+        previousMillisIPAdress = currentMillis;
+
+        if (wifi->isConnected())
+        {
+            previousMillisIPAdress = currentMillis;
+            IPAddress currentAdress = wifi->getCurrentIPAdress();
+
+            Serial.print("Open Huyang Webinterface via Browser by opening http://");
+            Serial.println(currentAdress);
+            if (WebServerPort != 80)
+            {
+                Serial.println(":");
+                Serial.println(WebServerPort);
+            }
+        }
+    }
 
     huyangFace->automatic = webserver->automaticAnimations;
 
@@ -44,7 +74,6 @@ void loop()
     {
         if (webserver->allEyes != 0)
         {
-            Serial.println("update both eyes");
             HuyangFace::EyeState newState = huyangFace->getStateFrom(webserver->allEyes);
             huyangFace->setEyesTo(newState);
 
@@ -84,18 +113,20 @@ void loop()
     huyangNeck->automatic = webserver->automaticAnimations;
     if (huyangNeck->automatic == false)
     {
-        huyangNeck->rotate(webserver->neckRotate);
-        huyangNeck->tiltForward(webserver->neckTiltForward);
-        huyangNeck->tiltSideways(webserver->neckTiltSideways);
+        huyangNeck->rotateHead(webserver->neckRotate);
+        huyangNeck->tiltNeckForward(webserver->neckTiltForward);
+        huyangNeck->tiltNeckSideways(webserver->neckTiltSideways);
     }
     huyangNeck->loop();
 
     huyangBody->automatic = webserver->automaticAnimations;
     if (huyangBody->automatic == false)
     {
-        huyangBody->rotate(webserver->bodyRotate);
-        huyangBody->tiltForward(webserver->bodyTiltForward);
-        huyangBody->tiltSideways(webserver->bodyTiltSideways);
+        huyangBody->rotateBody(webserver->bodyRotate);
+        huyangBody->tiltBodyForward(webserver->bodyTiltForward);
+        huyangBody->tiltBodySideways(webserver->bodyTiltSideways);
     }
     huyangBody->loop();
+
+    // huyangAudio->loop();
 }

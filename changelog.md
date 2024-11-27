@@ -40,3 +40,9 @@
 * new Wiring Diagram to enable Servos
 * Graphical buttons (beta)
 * Usage of the full range of Sliders and Joysticks
+
+## 1.9
+* Changed Pins to match the Custom made PCB from https://shop.printed-droid.com/produkt/huyang-boards/
+* New Audio System prepared (untested)
+* Buttons with Titles
+* Now using Config to show only needed Interface parts
