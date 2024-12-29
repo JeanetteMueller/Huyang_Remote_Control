@@ -282,7 +282,7 @@ function initJoystick() {
                 JoyNeckX = stickData.x;
                 JoyNeckY = stickData.y;
 
-                sendBodyUpdate();
+                sendNeckUpdate();
             }
         });
     }
