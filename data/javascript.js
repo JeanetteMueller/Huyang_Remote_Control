@@ -46,8 +46,8 @@ function sendNeckUpdate() {
     const data = {
         automatic: false,
         neck: {
-            rotate: JoyNeck.GetX(),
-            tiltForward: JoyNeck.GetY(),
+            rotate: JoyNeckX,
+            tiltForward: JoyNeckY,
             tiltSideways: document.getElementById('slider_neckTiltSideways').value
         }
     };
@@ -59,8 +59,8 @@ function sendBodyUpdate() {
     const data = {
         automatic: false,
         body: {
-            rotate: JoyBody.GetX(),
-            tiltForward: JoyBody.GetY(),
+            rotate: JoyBodyX,
+            tiltForward: JoyBodyY,
             tiltSideways: document.getElementById('slider_bodyTiltSideways').value
         }
     };
